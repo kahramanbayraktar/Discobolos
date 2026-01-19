@@ -1,0 +1,38 @@
+{
+    "nav": {
+        "home": "Anasayfa",
+        "roster": "Kadro",
+        "events": "Etkinlikler",
+        "news": "Haberler",
+        "rules": "Kurallar & Ruh",
+        "gallery": "Galeri",
+        "join": "Bize Katıl"
+    },
+    "hero": {
+        "badge": "Oyunun Ruhu Şampiyonları",
+        "title_part1": "Ruhunla Oyna.",
+        "title_part2": "Tutkuyla At.",
+        "description": "Discobolos, antik atletizm ruhundan ilham alan bir Ultimate Frisbee topluluğudur. Oyuna olan sevgimiz, adil oyun ve rekabetin zamansız değerleriyle birleşiyoruz.",
+        "cta_join": "Takıma Katıl",
+        "cta_schedule": "Takvimi Gör",
+        "stats": {
+            "team_number": "Takım No",
+            "active_players": "Aktif Oyuncu",
+            "championships": "Şampiyonluk"
+        }
+    },
+    "cta": {
+        "title": "Sahaya Çıkmaya Hazır mısın?",
+        "description": "İster deneyimli bir profesyonel ol, ister diski ilk kez eline al, kadromuzda sana göre bir yer var.",
+        "button": "Discobolos'a Katıl"
+    },
+    "events": {
+        "title": "Yaklaşan Etkinlikler",
+        "view_all": "Tüm Etkinlikleri Gör",
+        "empty": "Yaklaşan etkinlik bulunamadı."
+    },
+    "news": {
+        "title": "Son Haberler",
+        "view_all": "Tüm Haberleri Gör"
+    }
+}

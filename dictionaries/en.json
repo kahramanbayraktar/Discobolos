@@ -1,0 +1,38 @@
+{
+    "nav": {
+        "home": "Home",
+        "roster": "Roster",
+        "events": "Events",
+        "news": "News",
+        "rules": "Rules & Spirit",
+        "gallery": "Gallery",
+        "join": "Join Us"
+    },
+    "hero": {
+        "badge": "Spirit of the Game Champions",
+        "title_part1": "Play with Spirit.",
+        "title_part2": "Throw with Passion.",
+        "description": "Discobolos is an Ultimate Frisbee community inspired by the ancient spirit of athletics. We're united by our love for the game and the timeless values of fair play and competition.",
+        "cta_join": "Join Our Team",
+        "cta_schedule": "View Schedule",
+        "stats": {
+            "team_number": "Team Number",
+            "active_players": "Active Players",
+            "championships": "Championships"
+        }
+    },
+    "cta": {
+        "title": "Ready to Hit the Field?",
+        "description": "Whether you're a seasoned pro or picking up a disc for the first time, there's a spot for you on our roster.",
+        "button": "Join Discobolos Now"
+    },
+    "events": {
+        "title": "Upcoming Events",
+        "view_all": "View All Events",
+        "empty": "No upcoming events found."
+    },
+    "news": {
+        "title": "Latest News",
+        "view_all": "View All News"
+    }
+}

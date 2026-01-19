@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
+import type { Locale } from "@/i18n-config";
 import { ArrowRight, Trophy } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export function HeroSection() {
+export function HeroSection({ dict, lang }: { dict: any, lang: Locale }) {
   return (
     <section className="relative overflow-hidden bg-secondary min-h-[90vh] flex items-center">
       {/* Diagonal geometric pattern inspired by jersey */}
@@ -57,24 +58,22 @@ export function HeroSection() {
             <div className="space-y-4">
               <p className="inline-flex items-center gap-2 rounded-full bg-secondary px-4 py-1.5 text-sm font-medium text-secondary-foreground shadow-lg">
                 <Trophy className="h-4 w-4 text-primary" />
-                Spirit of the Game Champions
+                {dict.badge}
               </p>
               <h1 className="font-[family-name:var(--font-display)] text-4xl font-bold tracking-tight text-secondary sm:text-5xl lg:text-6xl text-balance">
-                Play with Spirit.
+                {dict.title_part1}
                 <br />
-                <span className="text-accent">Throw with Passion.</span>
+                <span className="text-accent">{dict.title_part2}</span>
               </h1>
               <p className="text-lg text-secondary/80 max-w-xl leading-relaxed">
-                Discobolos is an Ultimate Frisbee community inspired by the
-                ancient spirit of athletics. We're united by our love for the
-                game and the timeless values of fair play and competition.
+                {dict.description}
               </p>
             </div>
 
             <div className="flex flex-wrap gap-4">
               <Button asChild size="lg" className="gap-2 bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg">
-                <Link href="/contact">
-                  Join Our Team
+                <Link href={`/${lang}/contact`}>
+                  {dict.cta_join}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
@@ -84,7 +83,7 @@ export function HeroSection() {
                 size="lg"
                 className="bg-secondary/90 border-secondary-foreground/20 text-secondary-foreground hover:bg-secondary shadow-lg"
               >
-                <Link href="/events">View Schedule</Link>
+                <Link href={`/${lang}/events`}>{dict.cta_schedule}</Link>
               </Button>
             </div>
 
@@ -95,7 +94,7 @@ export function HeroSection() {
                   77
                 </p>
                 <p className="text-sm text-secondary-foreground/70">
-                  Team Number
+                  {dict.stats.team_number}
                 </p>
               </div>
               <div>
@@ -103,7 +102,7 @@ export function HeroSection() {
                   45+
                 </p>
                 <p className="text-sm text-secondary-foreground/70">
-                  Active Players
+                  {dict.stats.active_players}
                 </p>
               </div>
               <div>
@@ -111,7 +110,7 @@ export function HeroSection() {
                   12
                 </p>
                 <p className="text-sm text-secondary-foreground/70">
-                  Championships
+                  {dict.stats.championships}
                 </p>
               </div>
             </div>

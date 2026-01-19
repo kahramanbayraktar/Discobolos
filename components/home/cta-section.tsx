@@ -1,26 +1,48 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import type { Locale } from "@/i18n-config";
 import { ArrowRight, Heart, Users, Zap } from "lucide-react";
+import Link from "next/link";
 
-const features = [
-  {
-    icon: Users,
-    title: "All Skill Levels",
-    description: "From complete beginners to experienced players",
-  },
-  {
-    icon: Heart,
-    title: "Spirit of the Game",
-    description: "Fair play and respect are at our core",
-  },
-  {
-    icon: Zap,
-    title: "Competitive Play",
-    description: "League matches and tournament opportunities",
-  },
-];
+const features = {
+  en: [
+    {
+      icon: Users,
+      title: "All Skill Levels",
+      description: "From complete beginners to experienced players",
+    },
+    {
+      icon: Heart,
+      title: "Spirit of the Game",
+      description: "Fair play and respect are at our core",
+    },
+    {
+      icon: Zap,
+      title: "Competitive Play",
+      description: "League matches and tournament opportunities",
+    },
+  ],
+  tr: [
+    {
+      icon: Users,
+      title: "Her Seviye",
+      description: "Yeni başlayanlardan deneyimli oyunculara kadar",
+    },
+    {
+      icon: Heart,
+      title: "Oyunun Ruhu",
+      description: "Adil oyun ve saygı temelimizdir",
+    },
+    {
+      icon: Zap,
+      title: "Rekabetçi Oyun",
+      description: "Lig maçları ve turnuva fırsatları",
+    },
+  ]
+};
 
-export function CTASection() {
+export function CTASection({ dict, lang }: { dict: any, lang: Locale }) {
+  const currentFeatures = features[lang];
+
   return (
     <section className="py-16 md:py-24">
       <div className="container mx-auto px-4">
@@ -38,12 +60,10 @@ export function CTASection() {
           <div className="relative">
             <div className="mx-auto max-w-2xl text-center">
               <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight text-primary-foreground md:text-4xl lg:text-5xl text-balance">
-                Ready to Join the Dynasty?
+                {dict.title}
               </h2>
               <p className="mt-4 text-lg text-primary-foreground/80 leading-relaxed">
-                Whether you've never touched a disc or you're a seasoned player
-                looking for a new team, we'd love to meet you. Come try a
-                practice - no commitment required!
+                {dict.description}
               </p>
 
               <div className="mt-8 flex flex-wrap justify-center gap-4">
@@ -53,8 +73,8 @@ export function CTASection() {
                   variant="secondary"
                   className="gap-2"
                 >
-                  <Link href="/contact">
-                    Sign Up Now
+                  <Link href={`/${lang}/contact`}>
+                    {dict.button}
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
@@ -64,14 +84,14 @@ export function CTASection() {
                   variant="outline"
                   className="bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
                 >
-                  <Link href="/rules">Learn the Rules</Link>
+                  <Link href={`/${lang}/rules`}>{lang === 'tr' ? 'Kuralları Öğren' : 'Learn the Rules'}</Link>
                 </Button>
               </div>
             </div>
 
             {/* Features */}
             <div className="mt-12 grid gap-6 md:grid-cols-3">
-              {features.map((feature) => (
+              {currentFeatures.map((feature) => (
                 <div
                   key={feature.title}
                   className="flex flex-col items-center text-center p-4 rounded-xl bg-primary-foreground/5"

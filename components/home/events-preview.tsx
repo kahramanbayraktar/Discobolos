@@ -1,10 +1,11 @@
-import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Calendar, MapPin, Clock, ArrowRight } from "lucide-react";
+import type { Locale } from "@/i18n-config";
 import { events } from "@/lib/data";
 import type { Event } from "@/lib/types";
+import { ArrowRight, Clock, MapPin } from "lucide-react";
+import Link from "next/link";
 
 const eventTypeColors: Record<Event["type"], string> = {
   practice: "bg-primary/10 text-primary border-primary/20",
@@ -13,16 +14,16 @@ const eventTypeColors: Record<Event["type"], string> = {
   tournament: "bg-chart-5/10 text-chart-5 border-chart-5/20",
 };
 
-function formatDate(dateString: string) {
+function formatDate(dateString: string, locale: Locale) {
   const date = new Date(dateString);
   return {
-    day: date.toLocaleDateString("en-US", { day: "numeric" }),
-    month: date.toLocaleDateString("en-US", { month: "short" }),
-    weekday: date.toLocaleDateString("en-US", { weekday: "short" }),
+    day: date.toLocaleDateString(locale, { day: "numeric" }),
+    month: date.toLocaleDateString(locale, { month: "short" }),
+    weekday: date.toLocaleDateString(locale, { weekday: "short" }),
   };
 }
 
-export function EventsPreview() {
+export function EventsPreview({ dict, lang }: { dict: any, lang: Locale }) {
   const upcomingEvents = events.slice(0, 3);
 
   return (
@@ -31,15 +32,15 @@ export function EventsPreview() {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
           <div>
             <p className="text-sm font-medium text-primary mb-2">
-              Upcoming Events
+              {dict.title}
             </p>
             <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight md:text-4xl">
               Join Us on the Field
             </h2>
           </div>
           <Button asChild variant="outline" className="gap-2 w-fit bg-transparent">
-            <Link href="/events">
-              View Full Calendar
+            <Link href={`/${lang}/events`}>
+              {dict.view_all}
               <ArrowRight className="h-4 w-4" />
             </Link>
           </Button>
@@ -47,7 +48,7 @@ export function EventsPreview() {
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {upcomingEvents.map((event) => {
-            const date = formatDate(event.date);
+            const date = formatDate(event.date, lang);
             return (
               <Card
                 key={event.id}

@@ -1,10 +1,11 @@
-import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Newspaper } from "lucide-react";
+import type { Locale } from "@/i18n-config";
 import { newsPosts } from "@/lib/data";
 import type { NewsPost } from "@/lib/types";
+import { ArrowRight, Newspaper } from "lucide-react";
+import Link from "next/link";
 
 const categoryLabels: Record<NewsPost["category"], string> = {
   "match-report": "Match Report",
@@ -12,23 +13,24 @@ const categoryLabels: Record<NewsPost["category"], string> = {
   feature: "Feature",
 };
 
-export function NewsPreview() {
+export function NewsPreview({ dict, lang }: { dict: any, lang: Locale }) {
   const latestPosts = newsPosts.slice(0, 3);
-  const [featuredPost, ...otherPosts] = latestPosts;
+  const featuredPost = latestPosts[0];
+  const otherPosts = latestPosts.slice(1);
 
   return (
     <section className="py-16 md:py-24 bg-muted/50">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
           <div>
-            <p className="text-sm font-medium text-primary mb-2">Latest News</p>
+            <p className="text-sm font-medium text-primary mb-2">{dict.title}</p>
             <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight md:text-4xl">
               Team Updates
             </h2>
           </div>
           <Button asChild variant="outline" className="gap-2 w-fit bg-transparent">
-            <Link href="/news">
-              All News
+            <Link href={`/${lang}/news`}>
+              {dict.view_all}
               <ArrowRight className="h-4 w-4" />
             </Link>
           </Button>
@@ -36,6 +38,7 @@ export function NewsPreview() {
 
         <div className="grid gap-6 lg:grid-cols-2">
           {/* Featured Post */}
+          {featuredPost && (
           <Card className="group overflow-hidden">
             <CardContent className="p-0">
               <div className="aspect-video bg-secondary relative overflow-hidden">
@@ -48,7 +51,7 @@ export function NewsPreview() {
                     {categoryLabels[featuredPost.category]}
                   </Badge>
                   <h3 className="font-[family-name:var(--font-display)] text-xl font-bold text-secondary-foreground group-hover:text-primary transition-colors">
-                    <Link href={`/news/${featuredPost.slug}`}>
+                    <Link href={`/${lang}/news/${featuredPost.slug}`}>
                       {featuredPost.title}
                     </Link>
                   </h3>
@@ -63,7 +66,7 @@ export function NewsPreview() {
                     {featuredPost.author}
                   </span>
                   <time className="text-muted-foreground">
-                    {new Date(featuredPost.date).toLocaleDateString("en-US", {
+                    {new Date(featuredPost.date).toLocaleDateString(lang, {
                       month: "long",
                       day: "numeric",
                       year: "numeric",
@@ -73,6 +76,7 @@ export function NewsPreview() {
               </div>
             </CardContent>
           </Card>
+          )}
 
           {/* Other Posts */}
           <div className="flex flex-col gap-4">
@@ -88,13 +92,13 @@ export function NewsPreview() {
                         {categoryLabels[post.category]}
                       </Badge>
                       <h3 className="font-semibold leading-tight group-hover:text-primary transition-colors">
-                        <Link href={`/news/${post.slug}`}>{post.title}</Link>
+                        <Link href={`/${lang}/news/${post.slug}`}>{post.title}</Link>
                       </h3>
                       <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
                         {post.excerpt}
                       </p>
                       <time className="text-xs text-muted-foreground mt-2 block">
-                        {new Date(post.date).toLocaleDateString("en-US", {
+                        {new Date(post.date).toLocaleDateString(lang, {
                           month: "long",
                           day: "numeric",
                         })}

@@ -8,19 +8,11 @@ import {
     navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import type { Locale } from "@/i18n-config";
 import { Menu } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
-
-const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/roster", label: "Roster" },
-  { href: "/events", label: "Events" },
-  { href: "/news", label: "News" },
-  { href: "/rules", label: "Rules & Spirit" },
-  { href: "/gallery", label: "Gallery" },
-  { href: "/contact", label: "Join Us" },
-];
 
 function DiscobolosLogo({ className }: { className?: string }) {
   return (
@@ -49,13 +41,31 @@ function DiscobolosLogo({ className }: { className?: string }) {
   );
 }
 
-export function Header() {
+export function Header({ dict, lang }: { dict: any, lang: Locale }) {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+
+  const navItems = [
+    { href: `/${lang}`, label: dict.nav.home },
+    { href: `/${lang}/roster`, label: dict.nav.roster },
+    { href: `/${lang}/events`, label: dict.nav.events },
+    { href: `/${lang}/news`, label: dict.nav.news },
+    { href: `/${lang}/rules`, label: dict.nav.rules },
+    { href: `/${lang}/gallery`, label: dict.nav.gallery },
+    // { href: `/${lang}/contact`, label: dict.nav.join }, // Contact is CTA button
+  ];
+
+  const redirectedPathName = (locale: string) => {
+    if (!pathname) return "/";
+    const segments = pathname.split("/");
+    segments[1] = locale;
+    return segments.join("/");
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2 group">
+        <Link href={`/${lang}`} className="flex items-center gap-2 group">
           <div className="relative flex h-10 w-10 items-center justify-center rounded-full overflow-hidden transition-transform group-hover:scale-105">
             <DiscobolosLogo className="h-10 w-10" />
           </div>
@@ -77,9 +87,26 @@ export function Header() {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <div className="hidden lg:flex">
+        <div className="hidden lg:flex items-center gap-4">
+            {/* Language Switcher */}
+            <div className="flex items-center gap-2 text-sm font-medium">
+                <Link 
+                    href={redirectedPathName("tr")} 
+                    className={`hover:text-primary transition-colors ${lang === 'tr' ? 'text-primary' : 'text-muted-foreground'}`}
+                >
+                    TR
+                </Link>
+                <span className="text-muted-foreground">/</span>
+                <Link 
+                    href={redirectedPathName("en")} 
+                    className={`hover:text-primary transition-colors ${lang === 'en' ? 'text-primary' : 'text-muted-foreground'}`}
+                >
+                    EN
+                </Link>
+            </div>
+
           <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-            <Link href="/contact">Join the Team</Link>
+            <Link href={`/${lang}/contact`}>{dict.nav.join}</Link>
           </Button>
         </div>
 
@@ -103,9 +130,25 @@ export function Header() {
                   {item.label}
                 </Link>
               ))}
+               <div className="flex items-center gap-4 py-2">
+                    <Link 
+                        href={redirectedPathName("tr")} 
+                        className={`text-lg font-medium hover:text-primary ${lang === 'tr' ? 'text-primary' : 'text-muted-foreground'}`}
+                    >
+                        TR
+                    </Link>
+                    <span className="text-muted-foreground">/</span>
+                    <Link 
+                        href={redirectedPathName("en")} 
+                        className={`text-lg font-medium hover:text-primary ${lang === 'en' ? 'text-primary' : 'text-muted-foreground'}`}
+                    >
+                        EN
+                    </Link>
+               </div>
+
               <Button asChild className="mt-4 bg-accent text-accent-foreground hover:bg-accent/90">
-                <Link href="/contact" onClick={() => setIsOpen(false)}>
-                  Join the Team
+                <Link href={`/${lang}/contact`} onClick={() => setIsOpen(false)}>
+                  {dict.nav.join}
                 </Link>
               </Button>
             </nav>
