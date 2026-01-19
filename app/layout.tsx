@@ -1,10 +1,10 @@
-import React from "react"
+import { Footer } from "@/components/layout/footer";
+import { Header } from "@/components/layout/header";
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
+import React from "react";
 import "./globals.css";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const spaceGrotesk = Space_Grotesk({
@@ -65,7 +65,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
-      <body className="font-sans antialiased min-h-screen flex flex-col">
+      <body className="font-sans antialiased min-h-screen flex flex-col" suppressHydrationWarning>
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
