@@ -1,7 +1,7 @@
-import Link from "next/link";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Trophy } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 export function HeroSection() {
   return (
@@ -121,7 +121,7 @@ export function HeroSection() {
           <div className="relative hidden lg:flex items-center justify-center">
             <div className="relative w-[400px] h-[480px]">
               <Image
-                src="/images/jersey-main.jpg"
+                src="/images/jersey-main.png"
                 alt="Discobolos team jersey featuring the iconic discus thrower design"
                 fill
                 className="object-contain drop-shadow-2xl"
