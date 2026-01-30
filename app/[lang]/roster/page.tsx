@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
 import { PlayerCard } from "@/components/roster/player-card";
-import { players } from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
+import { getPlayers } from "@/lib/supabase";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Our Roster",
@@ -9,11 +9,11 @@ export const metadata: Metadata = {
     "Meet the players of Disc Dynasty - handlers, cutters, and hybrids who make up our Ultimate Frisbee family.",
 };
 
-export default function RosterPage() {
+export default async function RosterPage() {
+  const players = await getPlayers();
+  
   const captains = players.filter((p) => p.isCaptain);
-  const handlers = players.filter((p) => p.position === "Handler" && !p.isCaptain);
-  const cutters = players.filter((p) => p.position === "Cutter" && !p.isCaptain);
-  const hybrids = players.filter((p) => p.position === "Hybrid" && !p.isCaptain);
+  const others = players.filter((p) => !p.isCaptain);
 
   return (
     <div className="py-12 md:py-20">
@@ -40,7 +40,7 @@ export default function RosterPage() {
             <span className="text-sm text-muted-foreground">Primary throwers</span>
           </div>
           <div className="flex items-center gap-2">
-            <Badge variant="outline" className="bg-accent/10 text-accent-foreground border-accent/20">
+            <Badge variant="outline" className="bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800">
               Cutter
             </Badge>
             <span className="text-sm text-muted-foreground">Deep threats & receivers</span>
@@ -53,61 +53,69 @@ export default function RosterPage() {
           </div>
         </div>
 
-        {/* Captains Section */}
-        {captains.length > 0 && (
-          <section className="mb-12">
-            <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold mb-6 flex items-center gap-3">
-              <span className="h-1 w-8 bg-accent rounded" />
-              Team Captains
-            </h2>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {captains.map((player) => (
-                <PlayerCard key={player.id} player={player} />
-              ))}
-            </div>
-          </section>
+        {players.length === 0 ? (
+          <div className="text-center py-20 border rounded-2xl bg-muted/30">
+            <p className="text-muted-foreground">No players are currently listed in the roster.</p>
+          </div>
+        ) : (
+          <>
+            {/* Captains Section */}
+            {captains.length > 0 && (
+              <section className="mb-12">
+                <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold mb-6 flex items-center gap-3">
+                  <span className="h-1 w-8 bg-accent rounded" />
+                  Team Captains
+                </h2>
+                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  {captains.map((player) => (
+                    <PlayerCard key={player.id} player={player} />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* All Players */}
+            <section>
+              <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold mb-6 flex items-center gap-3">
+                <span className="h-1 w-8 bg-primary rounded" />
+                Full Roster
+              </h2>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {others.map((player) => (
+                  <PlayerCard key={player.id} player={player} />
+                ))}
+              </div>
+            </section>
+
+            {/* Stats */}
+            <section className="mt-16 grid gap-6 md:grid-cols-4">
+              <div className="text-center p-6 rounded-xl bg-muted">
+                <p className="font-[family-name:var(--font-display)] text-4xl font-bold text-primary">
+                  {players.length}
+                </p>
+                <p className="text-sm text-muted-foreground mt-1">Active Players</p>
+              </div>
+              <div className="text-center p-6 rounded-xl bg-muted">
+                <p className="font-[family-name:var(--font-display)] text-4xl font-bold text-primary">
+                  {players.filter((p) => p.position === "Handler").length}
+                </p>
+                <p className="text-sm text-muted-foreground mt-1">Handlers</p>
+              </div>
+              <div className="text-center p-6 rounded-xl bg-muted">
+                <p className="font-[family-name:var(--font-display)] text-4xl font-bold text-primary">
+                  {players.filter((p) => p.position === "Cutter").length}
+                </p>
+                <p className="text-sm text-muted-foreground mt-1">Cutters</p>
+              </div>
+              <div className="text-center p-6 rounded-xl bg-muted">
+                <p className="font-[family-name:var(--font-display)] text-4xl font-bold text-primary">
+                  {players.filter((p) => p.position === "Hybrid").length}
+                </p>
+                <p className="text-sm text-muted-foreground mt-1">Hybrids</p>
+              </div>
+            </section>
+          </>
         )}
-
-        {/* All Players */}
-        <section>
-          <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold mb-6 flex items-center gap-3">
-            <span className="h-1 w-8 bg-primary rounded" />
-            Full Roster
-          </h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {[...handlers, ...cutters, ...hybrids].map((player) => (
-              <PlayerCard key={player.id} player={player} />
-            ))}
-          </div>
-        </section>
-
-        {/* Stats */}
-        <section className="mt-16 grid gap-6 md:grid-cols-4">
-          <div className="text-center p-6 rounded-xl bg-muted">
-            <p className="font-[family-name:var(--font-display)] text-4xl font-bold text-primary">
-              {players.length}
-            </p>
-            <p className="text-sm text-muted-foreground mt-1">Active Players</p>
-          </div>
-          <div className="text-center p-6 rounded-xl bg-muted">
-            <p className="font-[family-name:var(--font-display)] text-4xl font-bold text-primary">
-              {players.filter((p) => p.position === "Handler").length}
-            </p>
-            <p className="text-sm text-muted-foreground mt-1">Handlers</p>
-          </div>
-          <div className="text-center p-6 rounded-xl bg-muted">
-            <p className="font-[family-name:var(--font-display)] text-4xl font-bold text-primary">
-              {players.filter((p) => p.position === "Cutter").length}
-            </p>
-            <p className="text-sm text-muted-foreground mt-1">Cutters</p>
-          </div>
-          <div className="text-center p-6 rounded-xl bg-muted">
-            <p className="font-[family-name:var(--font-display)] text-4xl font-bold text-primary">
-              {players.filter((p) => p.position === "Hybrid").length}
-            </p>
-            <p className="text-sm text-muted-foreground mt-1">Hybrids</p>
-          </div>
-        </section>
       </div>
     </div>
   );

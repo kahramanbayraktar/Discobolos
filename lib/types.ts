@@ -1,6 +1,7 @@
 export interface Player {
   id: string;
   name: string;
+  nickname?: string;
   position: "Handler" | "Cutter" | "Hybrid";
   number: number;
   image: string;

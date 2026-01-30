@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { Event } from './types';
+import { Event, Player } from './types';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -99,6 +99,102 @@ export async function updateEvent(id: string, event: Partial<Omit<Event, 'id'>>)
 export async function deleteEvent(id: string) {
   const { error } = await supabase
     .from('events')
+    .delete()
+    .eq('id', id);
+
+  if (error) throw error;
+}
+
+// --- Players (Roster) Functions ---
+
+export async function getPlayers(): Promise<Player[]> {
+  const { data, error } = await supabase
+    .from('players')
+    .select('*')
+    .order('number', { ascending: true });
+
+  if (error) {
+    console.error('Error fetching players:', error);
+    return [];
+  }
+
+  return (data || []).map((row: any) => ({
+    id: row.id,
+    name: row.name,
+    nickname: row.nickname || '',
+    number: row.number,
+    position: row.position,
+    image: row.image,
+    funFact: row.fun_fact || '',
+    yearJoined: row.year_joined,
+    isCaptain: row.is_captain,
+  }));
+}
+
+export async function getPlayerById(id: string): Promise<Player | null> {
+  const { data, error } = await supabase
+    .from('players')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error || !data) return null;
+
+  return {
+    id: data.id,
+    name: data.name,
+    nickname: data.nickname || '',
+    number: data.number,
+    position: data.position,
+    image: data.image,
+    funFact: data.fun_fact || '',
+    yearJoined: data.year_joined,
+    isCaptain: data.is_captain,
+  };
+}
+
+export async function createPlayer(player: Omit<Player, 'id'>) {
+  const { data, error } = await supabase
+    .from('players')
+    .insert([{
+      name: player.name,
+      nickname: player.nickname,
+      number: player.number,
+      position: player.position,
+      image: player.image,
+      fun_fact: player.funFact,
+      year_joined: player.yearJoined,
+      is_captain: player.isCaptain
+    }])
+    .select();
+
+  if (error) throw error;
+  return data[0];
+}
+
+export async function updatePlayer(id: string, player: Partial<Omit<Player, 'id'>>) {
+  const { data, error } = await supabase
+    .from('players')
+    .update({
+      name: player.name,
+      nickname: player.nickname,
+      number: player.number,
+      position: player.position,
+      image: player.image,
+      fun_fact: player.funFact,
+      year_joined: player.yearJoined,
+      is_captain: player.isCaptain
+    })
+    .eq('id', id)
+    .select();
+
+  if (error) throw error;
+  return data[0];
+}
+
+export async function deletePlayer(id: string) {
+  const { error } = await supabase
+    .from('players')
     .delete()
     .eq('id', id);
 

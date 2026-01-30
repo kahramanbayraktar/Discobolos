@@ -1,7 +1,8 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { User, Star } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 import type { Player } from "@/lib/types";
+import { Star, User } from "lucide-react";
+import Image from "next/image";
 
 interface PlayerCardProps {
   player: Player;
@@ -9,7 +10,7 @@ interface PlayerCardProps {
 
 const positionColors: Record<Player["position"], string> = {
   Handler: "bg-primary/10 text-primary border-primary/20",
-  Cutter: "bg-accent/10 text-accent-foreground border-accent/20",
+  Cutter: "bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800",
   Hybrid: "bg-chart-4/10 text-chart-4 border-chart-4/20",
 };
 
@@ -17,11 +18,20 @@ export function PlayerCard({ player }: PlayerCardProps) {
   return (
     <Card className="group overflow-hidden hover:shadow-lg transition-all duration-300">
       <CardContent className="p-0">
-        {/* Image/Avatar Area */}
+        {/* Image Area */}
         <div className="relative aspect-[4/3] bg-secondary overflow-hidden">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <User className="h-20 w-20 text-secondary-foreground/20" />
-          </div>
+          {player.image ? (
+            <Image
+              src={player.image}
+              alt={player.name}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <User className="h-20 w-20 text-secondary-foreground/20" />
+            </div>
+          )}
           
           {/* Number Overlay */}
           <div className="absolute top-3 right-3">
@@ -50,6 +60,11 @@ export function PlayerCard({ player }: PlayerCardProps) {
             <div>
               <h3 className="font-[family-name:var(--font-display)] font-semibold text-lg group-hover:text-primary transition-colors">
                 {player.name}
+                {player.nickname && (
+                  <span className="block text-primary text-sm font-medium italic">
+                    "{player.nickname}"
+                  </span>
+                )}
               </h3>
               <p className="text-sm text-muted-foreground">
                 Since {player.yearJoined}
