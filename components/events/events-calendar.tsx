@@ -1,32 +1,44 @@
 "use client";
 
-import { useState } from "react";
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar, CalendarDayButton } from "@/components/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { EventCard } from "./event-card";
 import type { Event } from "@/lib/types";
+import { useState } from "react";
+import { EventCard } from "./event-card";
 
 interface EventsCalendarProps {
   events: Event[];
+  dict: any;
+  lang: string;
 }
 
-const eventTypeColors: Record<Event["type"], string> = {
+const getEventTypeColors = (dict: any): Record<Event["type"], string> => ({
   practice: "bg-primary",
   match: "bg-accent",
   social: "bg-chart-4",
   tournament: "bg-chart-5",
-};
+});
 
-export function EventsCalendar({ events }: EventsCalendarProps) {
+export function EventsCalendar({ events, dict, lang }: EventsCalendarProps) {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
     new Date()
   );
 
+  const eventTypeColors = getEventTypeColors(dict);
+
   // Get events for selected date
-  const selectedDateStr = selectedDate?.toISOString().split("T")[0];
-  const eventsOnSelectedDate = events.filter(
-    (event) => event.date === selectedDateStr
+  // Fixed date comparison to avoid timezone issues
+  const isSameDay = (d1: Date, d2: string) => {
+    const date = new Date(d2);
+    return (
+      d1.getDate() === date.getDate() &&
+      d1.getMonth() === date.getMonth() &&
+      d1.getFullYear() === date.getFullYear()
+    );
+  };
+
+  const eventsOnSelectedDate = events.filter((event) =>
+    selectedDate ? isSameDay(selectedDate, event.date) : false
   );
 
   // Get all dates with events
@@ -34,8 +46,7 @@ export function EventsCalendar({ events }: EventsCalendarProps) {
 
   // Custom day content to show event indicators
   const getDayContent = (day: Date) => {
-    const dayStr = day.toISOString().split("T")[0];
-    const dayEvents = events.filter((event) => event.date === dayStr);
+    const dayEvents = events.filter((event) => isSameDay(day, event.date));
 
     if (dayEvents.length === 0) return null;
 
@@ -56,13 +67,14 @@ export function EventsCalendar({ events }: EventsCalendarProps) {
       {/* Calendar */}
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-lg">Select a Date</CardTitle>
+          <CardTitle className="text-lg">{dict.events_page.select_date}</CardTitle>
         </CardHeader>
         <CardContent>
           <Calendar
             mode="single"
             selected={selectedDate}
             onSelect={setSelectedDate}
+            locale={lang === "tr" ? undefined : undefined} // Add actual locale if needed from date-fns
             modifiers={{
               hasEvent: eventDates,
             }}
@@ -72,11 +84,18 @@ export function EventsCalendar({ events }: EventsCalendarProps) {
               },
             }}
             components={{
-              DayContent: ({ date }) => (
-                <div className="relative w-full h-full flex items-center justify-center">
-                  {date.getDate()}
-                  {getDayContent(date)}
-                </div>
+              DayButton: ({ day, modifiers, ...props }) => (
+                <CalendarDayButton
+                  day={day}
+                  modifiers={modifiers}
+                  className="relative overflow-visible"
+                  {...props}
+                >
+                  <div className="flex flex-col items-center">
+                    <span>{day.date.getDate()}</span>
+                    {getDayContent(day.date)}
+                  </div>
+                </CalendarDayButton>
               ),
             }}
             className="rounded-md"
@@ -84,13 +103,13 @@ export function EventsCalendar({ events }: EventsCalendarProps) {
 
           {/* Legend */}
           <div className="mt-4 pt-4 border-t border-border">
-            <p className="text-sm font-medium mb-2">Event Types</p>
+            <p className="text-sm font-medium mb-2">{dict.events_page.event_types}</p>
             <div className="grid grid-cols-2 gap-2">
               {Object.entries(eventTypeColors).map(([type, color]) => (
                 <div key={type} className="flex items-center gap-2">
                   <span className={`h-2 w-2 rounded-full ${color}`} />
                   <span className="text-xs text-muted-foreground capitalize">
-                    {type}
+                    {dict.events_page.types[type as Event["type"]]}
                   </span>
                 </div>
               ))}
@@ -102,7 +121,7 @@ export function EventsCalendar({ events }: EventsCalendarProps) {
       {/* Selected Date Events */}
       <div>
         <h3 className="font-[family-name:var(--font-display)] text-xl font-semibold mb-4">
-          {selectedDate?.toLocaleDateString("en-US", {
+          {selectedDate?.toLocaleDateString(lang === "tr" ? "tr-TR" : "en-US", {
             weekday: "long",
             month: "long",
             day: "numeric",
@@ -113,17 +132,17 @@ export function EventsCalendar({ events }: EventsCalendarProps) {
         {eventsOnSelectedDate.length > 0 ? (
           <div className="space-y-4">
             {eventsOnSelectedDate.map((event) => (
-              <EventCard key={event.id} event={event} />
+              <EventCard key={event.id} event={event} dict={dict} lang={lang} />
             ))}
           </div>
         ) : (
           <Card>
             <CardContent className="py-12 text-center">
               <p className="text-muted-foreground">
-                No events scheduled for this date.
+                {dict.events_page.no_events_date}
               </p>
               <p className="text-sm text-muted-foreground mt-2">
-                Select a date with an indicator to see events.
+                {dict.events_page.select_indicator}
               </p>
             </CardContent>
           </Card>

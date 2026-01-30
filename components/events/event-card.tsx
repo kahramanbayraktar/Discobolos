@@ -1,11 +1,13 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MapPin, Clock, ExternalLink } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 import type { Event } from "@/lib/types";
+import { Clock, ExternalLink, MapPin } from "lucide-react";
 
 interface EventCardProps {
   event: Event;
+  dict: any;
+  lang: string;
   variant?: "default" | "compact";
 }
 
@@ -16,20 +18,14 @@ const eventTypeColors: Record<Event["type"], string> = {
   tournament: "bg-chart-5/10 text-chart-5 border-chart-5/20",
 };
 
-const eventTypeLabels: Record<Event["type"], string> = {
-  practice: "Practice",
-  match: "Match",
-  social: "Social",
-  tournament: "Tournament",
-};
-
-function formatDate(dateString: string) {
+function formatDate(dateString: string, lang: string) {
   const date = new Date(dateString);
+  const locale = lang === "tr" ? "tr-TR" : "en-US";
   return {
-    day: date.toLocaleDateString("en-US", { day: "numeric" }),
-    month: date.toLocaleDateString("en-US", { month: "short" }),
-    weekday: date.toLocaleDateString("en-US", { weekday: "long" }),
-    full: date.toLocaleDateString("en-US", {
+    day: date.toLocaleDateString(locale, { day: "numeric" }),
+    month: date.toLocaleDateString(locale, { month: "short" }),
+    weekday: date.toLocaleDateString(locale, { weekday: "long" }),
+    full: date.toLocaleDateString(locale, {
       weekday: "long",
       month: "long",
       day: "numeric",
@@ -38,8 +34,39 @@ function formatDate(dateString: string) {
   };
 }
 
-export function EventCard({ event, variant = "default" }: EventCardProps) {
-  const date = formatDate(event.date);
+const getLocalizedContent = (event: Event, dict: any) => {
+  // Map event IDs or titles to dictionary keys if they exist, otherwise use original
+  // In a real app, this would come from a CMS. For this demo, we use a mapping.
+  const mapping: Record<string, string> = {
+    "1": "weekly_practice",
+    "2": "league_match",
+    "3": "weekly_practice_zone",
+    "4": "pizza_night",
+    "5": "winter_classic",
+    "6": "friendly_match",
+  };
+
+  const key = mapping[event.id];
+  if (!key) return { title: event.title, description: event.description };
+
+  // Some descriptions have specialized keys (like weekly_practice vs weekly_practice_zone)
+  const descKey = key === "weekly_practice_zone" ? "weekly_practice_zone" : key;
+  const titleKey = key === "weekly_practice_zone" ? "weekly_practice" : key;
+
+  let title = dict.events_page.titles[titleKey] || event.title;
+  let description = dict.events_page.descriptions[descKey] || event.description;
+
+  if (event.opponent) {
+    title = title.replace("%opponent%", event.opponent);
+  }
+
+  return { title, description };
+};
+
+export function EventCard({ event, dict, lang, variant = "default" }: EventCardProps) {
+  const date = formatDate(event.date, lang);
+  const { title, description } = getLocalizedContent(event, dict);
+  const typeLabel = dict.events_page.types[event.type];
 
   if (variant === "compact") {
     return (
@@ -57,13 +84,13 @@ export function EventCard({ event, variant = "default" }: EventCardProps) {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
                 <h3 className="font-semibold truncate group-hover:text-primary transition-colors">
-                  {event.title}
+                  {title}
                 </h3>
                 <Badge
                   variant="outline"
                   className={`shrink-0 text-xs ${eventTypeColors[event.type]}`}
                 >
-                  {eventTypeLabels[event.type]}
+                  {typeLabel}
                 </Badge>
               </div>
               <p className="text-sm text-muted-foreground truncate">
@@ -99,21 +126,21 @@ export function EventCard({ event, variant = "default" }: EventCardProps) {
                   variant="outline"
                   className={`mb-2 ${eventTypeColors[event.type]}`}
                 >
-                  {eventTypeLabels[event.type]}
+                  {typeLabel}
                 </Badge>
                 <h3 className="font-[family-name:var(--font-display)] text-xl font-bold group-hover:text-primary transition-colors">
-                  {event.title}
+                  {title}
                 </h3>
                 {event.opponent && (
                   <p className="text-sm font-medium text-accent mt-1">
-                    vs. {event.opponent}
+                    {dict.events_page.vs} {event.opponent}
                   </p>
                 )}
               </div>
             </div>
 
             <p className="text-muted-foreground mb-4 leading-relaxed">
-              {event.description}
+              {description}
             </p>
 
             <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
@@ -138,7 +165,7 @@ export function EventCard({ event, variant = "default" }: EventCardProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    View on Map
+                    {dict.events_page.view_on_map}
                     <ExternalLink className="h-3 w-3" />
                   </a>
                 </Button>

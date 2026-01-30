@@ -34,5 +34,41 @@
     "news": {
         "title": "Latest News",
         "view_all": "View All News"
+    },
+    "events_page": {
+        "badge": "Schedule",
+        "title": "Events & Calendar",
+        "description": "Stay up to date with all our practices, matches, tournaments, and social gatherings. We'd love to see you on the field!",
+        "list_view": "List View",
+        "calendar_view": "Calendar",
+        "select_date": "Select a Date",
+        "event_types": "Event Types",
+        "no_events_date": "No events scheduled for this date.",
+        "select_indicator": "Select a date with an indicator to see events.",
+        "no_events_scheduled": "No %type% events scheduled.",
+        "view_on_map": "View on Map",
+        "vs": "vs.",
+        "types": {
+            "all": "All Events",
+            "practice": "Practice",
+            "match": "Matches",
+            "social": "Social",
+            "tournament": "Tournaments"
+        },
+        "titles": {
+            "weekly_practice": "Weekly Practice",
+            "league_match": "League Match vs. %opponent%",
+            "pizza_night": "Team Social - Pizza Night",
+            "winter_classic": "SF Winter Classic Tournament",
+            "friendly_match": "Friendly Match vs. %opponent%"
+        },
+        "descriptions": {
+            "weekly_practice": "Regular team practice session. All skill levels welcome. Bring water and cleats!",
+            "weekly_practice_zone": "Regular team practice. Focus on zone offense this week. New players welcome!",
+            "league_match": "Important league match against our cross-town rivals. Arrive 30 minutes early for warm-up.",
+            "pizza_night": "Monthly team bonding event. Good food, great company, and maybe some disc golf!",
+            "winter_classic": "Two-day tournament featuring teams from across California. Our biggest event of the season!",
+            "friendly_match": "Casual scrimmage with our friends from across the bay."
+        }
     }
 }

@@ -34,5 +34,41 @@
     "news": {
         "title": "Son Haberler",
         "view_all": "Tüm Haberleri Gör"
+    },
+    "events_page": {
+        "badge": "Takvim",
+        "title": "Etkinlikler & Takvim",
+        "description": "Tüm antrenmanlarımız, maçlarımız, turnuvalarımız ve sosyal etkinliklerimizden haberdar olun. Sizi sahada görmeyi çok isteriz!",
+        "list_view": "Liste Görünümü",
+        "calendar_view": "Takvim",
+        "select_date": "Tarih Seçin",
+        "event_types": "Etkinlik Türleri",
+        "no_events_date": "Bu tarihte planlanmış etkinlik bulunmuyor.",
+        "select_indicator": "Etkinlikleri görmek için işaretli bir tarih seçin.",
+        "no_events_scheduled": "Planlanmış %type% etkinliği bulunamadı.",
+        "view_on_map": "Haritada Gör",
+        "vs": "vs.",
+        "types": {
+            "all": "Tüm Etkinlikler",
+            "practice": "Antrenman",
+            "match": "Maç",
+            "social": "Sosyal",
+            "tournament": "Turnuva"
+        },
+        "titles": {
+            "weekly_practice": "Haftalık Antrenman",
+            "league_match": "Lig Maçı: %opponent%",
+            "pizza_night": "Takım Sosyali - Pizza Gecesi",
+            "winter_classic": "SF Winter Classic Turnuvası",
+            "friendly_match": "Hazırlık Maçı: %opponent%"
+        },
+        "descriptions": {
+            "weekly_practice": "Düzenli takım antrenmanı. Her seviyeden oyuncu katılabilir. Su ve kramponlarınızı getirmeyi unutmayın!",
+            "weekly_practice_zone": "Düzenli takım antrenmanı. Bu hafta alan savunmasına odaklanacağız. Yeni oyunculara kapımız açık!",
+            "league_match": "Şehirdeki ezeli rakibimize karşı önemli lig maçı. Isınma için 30 dakika erken gelin.",
+            "pizza_night": "Aylık takım kaynaşma etkinliği. İyi yemek, harika dostluk ve belki biraz disk golf!",
+            "winter_classic": "California genelinden takımların katıldığı iki günlük turnuva. Sezonun en büyük etkinliği!",
+            "friendly_match": "Körfezin diğer yakasındaki dostlarımızla hazırlık maçı."
+        }
     }
 }

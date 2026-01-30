@@ -1,25 +1,27 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import type { Event } from "@/lib/types";
 import { useState } from "react";
 import { EventCard } from "./event-card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import type { Event } from "@/lib/types";
 
 interface EventsListProps {
   events: Event[];
+  dict: any;
+  lang: string;
 }
 
-const eventTypes = [
-  { value: "all", label: "All Events" },
-  { value: "practice", label: "Practice" },
-  { value: "match", label: "Matches" },
-  { value: "social", label: "Social" },
-  { value: "tournament", label: "Tournaments" },
-] as const;
-
-export function EventsList({ events }: EventsListProps) {
+export function EventsList({ events, dict, lang }: EventsListProps) {
   const [filter, setFilter] = useState<string>("all");
+
+  const eventTypes = [
+    { value: "all", label: dict.events_page.types.all },
+    { value: "practice", label: dict.events_page.types.practice },
+    { value: "match", label: dict.events_page.types.match },
+    { value: "social", label: dict.events_page.types.social },
+    { value: "tournament", label: dict.events_page.types.tournament },
+  ] as const;
 
   const filteredEvents =
     filter === "all" ? events : events.filter((e) => e.type === filter);
@@ -28,7 +30,7 @@ export function EventsList({ events }: EventsListProps) {
   const groupedEvents = filteredEvents.reduce(
     (acc, event) => {
       const date = new Date(event.date);
-      const monthYear = date.toLocaleDateString("en-US", {
+      const monthYear = date.toLocaleDateString(lang === "tr" ? "tr-TR" : "en-US", {
         month: "long",
         year: "numeric",
       });
@@ -73,7 +75,7 @@ export function EventsList({ events }: EventsListProps) {
               </h3>
               <div className="space-y-4">
                 {monthEvents.map((event) => (
-                  <EventCard key={event.id} event={event} />
+                  <EventCard key={event.id} event={event} dict={dict} lang={lang} />
                 ))}
               </div>
             </section>
@@ -82,7 +84,10 @@ export function EventsList({ events }: EventsListProps) {
       ) : (
         <div className="text-center py-12">
           <p className="text-muted-foreground">
-            No {filter === "all" ? "" : filter} events scheduled.
+            {dict.events_page.no_events_scheduled.replace(
+              "%type%",
+              filter === "all" ? "" : dict.events_page.types[filter]
+            )}
           </p>
         </div>
       )}
