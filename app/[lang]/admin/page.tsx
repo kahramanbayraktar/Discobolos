@@ -50,7 +50,6 @@ export default async function AdminDashboardPage({
       description: "Upload photos and manage match albums",
       icon: ImageIcon,
       href: `/${lang}/admin/gallery`,
-      disabled: true,
       color: "text-purple-500",
       bgColor: "bg-purple-500/10",
     },

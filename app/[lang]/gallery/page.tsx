@@ -1,15 +1,25 @@
-import type { Metadata } from "next";
 import { AlbumCard } from "@/components/gallery/album-card";
-import { galleryAlbums } from "@/lib/data";
+import { getDictionary } from "@/get-dictionary";
+import { Locale } from "@/i18n-config";
+import { getGalleryAlbums } from "@/lib/supabase";
 import { Camera } from "lucide-react";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Photo Gallery",
   description:
-    "Browse photos and videos from Disc Dynasty matches, tournaments, practices, and team events.",
+    "Browse photos and videos from Discobolos matches, tournaments, practices, and team events.",
 };
 
-export default function GalleryPage() {
+export default async function GalleryPage({
+  params,
+}: {
+  params: Promise<{ lang: Locale }>;
+}) {
+  const { lang } = await params;
+  const dict = (await getDictionary(lang)).gallery || {};
+  const albums = await getGalleryAlbums();
+
   return (
     <div className="py-12 md:py-20">
       <div className="container mx-auto px-4">
@@ -17,7 +27,7 @@ export default function GalleryPage() {
         <div className="max-w-2xl mx-auto text-center mb-12">
           <p className="text-sm font-medium text-primary mb-2">Media</p>
           <h1 className="font-[family-name:var(--font-display)] text-4xl font-bold tracking-tight md:text-5xl">
-            Photo Gallery
+            {dict.title || "Photo Gallery"}
           </h1>
           <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
             Relive our best moments - from championship victories to team
@@ -45,8 +55,8 @@ export default function GalleryPage() {
 
         {/* Albums Grid */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {galleryAlbums.map((album) => (
-            <AlbumCard key={album.id} album={album} />
+          {albums.map((album) => (
+            <AlbumCard key={album.id} album={album} lang={lang} />
           ))}
         </div>
 
@@ -54,19 +64,19 @@ export default function GalleryPage() {
         <div className="mt-16 grid gap-6 md:grid-cols-3 max-w-3xl mx-auto">
           <div className="text-center p-6 rounded-xl bg-muted">
             <p className="font-[family-name:var(--font-display)] text-4xl font-bold text-primary">
-              {galleryAlbums.length}
+              {albums.length}
             </p>
             <p className="text-sm text-muted-foreground mt-1">Albums</p>
           </div>
           <div className="text-center p-6 rounded-xl bg-muted">
             <p className="font-[family-name:var(--font-display)] text-4xl font-bold text-primary">
-              {galleryAlbums.reduce((sum, album) => sum + album.photoCount, 0)}
+              {albums.reduce((sum, album) => sum + album.photoCount, 0)}
             </p>
             <p className="text-sm text-muted-foreground mt-1">Total Photos</p>
           </div>
           <div className="text-center p-6 rounded-xl bg-muted">
             <p className="font-[family-name:var(--font-display)] text-4xl font-bold text-primary">
-              {new Date().getFullYear() - 2018}+
+              {new Date().getFullYear() - 2024}+
             </p>
             <p className="text-sm text-muted-foreground mt-1">Years of Memories</p>
           </div>

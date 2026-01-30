@@ -43,6 +43,7 @@ export interface GalleryAlbum {
   googlePhotosUrl: string;
   date: string;
   photoCount: number;
+  previewImages?: string[];
 }
 
 export interface Comment {

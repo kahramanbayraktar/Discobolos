@@ -1,22 +1,32 @@
-import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Camera, ExternalLink, ImageIcon } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Locale } from "@/i18n-config";
 import type { GalleryAlbum } from "@/lib/types";
+import { Camera, ExternalLink, ImageIcon } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 interface AlbumCardProps {
   album: GalleryAlbum;
+  lang: Locale;
 }
 
-export function AlbumCard({ album }: AlbumCardProps) {
+export function AlbumCard({ album, lang }: AlbumCardProps) {
   return (
     <Card className="group overflow-hidden hover:shadow-lg transition-all duration-300">
       <CardContent className="p-0">
         {/* Cover Image */}
-        <div className="relative aspect-[4/3] bg-secondary overflow-hidden">
-          <div className="absolute inset-0 flex items-center justify-center">
+        <div className="relative aspect-[4/3] bg-secondary overflow-hidden flex items-center justify-center">
+          {album.coverImage && !album.coverImage.includes('photos.app.goo.gl') && !album.coverImage.includes('goo.gl') ? (
+            <Image
+              src={album.coverImage}
+              alt={album.title}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+          ) : (
             <Camera className="h-16 w-16 text-secondary-foreground/20" />
-          </div>
+          )}
 
           {/* Overlay on Hover */}
           <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors flex items-center justify-center">
@@ -40,7 +50,7 @@ export function AlbumCard({ album }: AlbumCardProps) {
         {/* Content */}
         <div className="p-5">
           <Link
-            href={`/gallery/${album.id}`}
+            href={`/${lang}/gallery/${album.id}`}
             className="block group-hover:text-primary transition-colors"
           >
             <h3 className="font-[family-name:var(--font-display)] font-semibold text-lg">
@@ -51,7 +61,7 @@ export function AlbumCard({ album }: AlbumCardProps) {
             {album.description}
           </p>
           <time className="text-xs text-muted-foreground mt-3 block">
-            {new Date(album.date).toLocaleDateString("en-US", {
+            {new Date(album.date).toLocaleDateString(lang === 'tr' ? 'tr-TR' : 'en-US', {
               month: "long",
               day: "numeric",
               year: "numeric",

@@ -1,29 +1,31 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import { notFound } from "next/navigation";
+import { CommentSection } from "@/components/gallery/comment-section";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Locale } from "@/i18n-config";
+import { getGalleryAlbumById, getGalleryAlbums } from "@/lib/supabase";
 import {
-  ArrowLeft,
-  ExternalLink,
-  Camera,
-  ImageIcon,
-  Calendar,
-  MessageSquare,
+    ArrowLeft,
+    Calendar,
+    Camera,
+    ExternalLink,
+    ImageIcon,
+    MessageSquare,
 } from "lucide-react";
-import { galleryAlbums } from "@/lib/data";
-import { CommentSection } from "@/components/gallery/comment-section";
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
 interface AlbumPageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; lang: Locale }>;
 }
 
 export async function generateMetadata({
   params,
 }: AlbumPageProps): Promise<Metadata> {
   const { id } = await params;
-  const album = galleryAlbums.find((a) => a.id === id);
+  const album = await getGalleryAlbumById(id);
 
   if (!album) {
     return {
@@ -38,14 +40,15 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  return galleryAlbums.map((album) => ({
+  const albums = await getGalleryAlbums();
+  return albums.map((album) => ({
     id: album.id,
   }));
 }
 
 export default async function AlbumPage({ params }: AlbumPageProps) {
-  const { id } = await params;
-  const album = galleryAlbums.find((a) => a.id === id);
+  const { id, lang } = await params;
+  const album = await getGalleryAlbumById(id);
 
   if (!album) {
     notFound();
@@ -57,7 +60,7 @@ export default async function AlbumPage({ params }: AlbumPageProps) {
         {/* Back Link */}
         <div className="mb-8">
           <Button asChild variant="ghost" size="sm" className="gap-2">
-            <Link href="/gallery">
+            <Link href={`/${lang}/gallery`}>
               <ArrowLeft className="h-4 w-4" />
               Back to Gallery
             </Link>
@@ -75,7 +78,7 @@ export default async function AlbumPage({ params }: AlbumPageProps) {
             <div className="flex items-center gap-4 mt-4 text-sm text-muted-foreground">
               <div className="flex items-center gap-1">
                 <Calendar className="h-4 w-4" />
-                {new Date(album.date).toLocaleDateString("en-US", {
+                {new Date(album.date).toLocaleDateString(lang === 'tr' ? 'tr-TR' : 'en-US', {
                   month: "long",
                   day: "numeric",
                   year: "numeric",
@@ -119,31 +122,38 @@ export default async function AlbumPage({ params }: AlbumPageProps) {
             </CardContent>
           </Card>
 
-          {/* Preview Grid - Placeholder */}
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <ImageIcon className="h-5 w-5" />
-                Preview
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="aspect-square bg-muted rounded-lg flex items-center justify-center"
-                  >
-                    <Camera className="h-8 w-8 text-muted-foreground/30" />
-                  </div>
-                ))}
-              </div>
-              <p className="text-center text-sm text-muted-foreground mt-4">
-                Open the Google Photos album to see all {album.photoCount}{" "}
-                photos
-              </p>
-            </CardContent>
-          </Card>
+          {/* Preview Grid */}
+          {(album.previewImages && album.previewImages.length > 0) && (
+            <Card className="mb-8">
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <ImageIcon className="h-5 w-5" />
+                  Highlights Preview
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  {album.previewImages.map((url, i) => (
+                    <div
+                      key={i}
+                      className="group relative aspect-square bg-muted rounded-lg overflow-hidden border border-border"
+                    >
+                      <Image
+                        src={url}
+                        alt={`Preview ${i + 1}`}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        sizes="(max-width: 768px) 50vw, 33vw"
+                      />
+                    </div>
+                  ))}
+                </div>
+                <p className="text-center text-sm text-muted-foreground mt-6">
+                  This is just a highlight reel. Open the full album to see all {album.photoCount} photos and videos.
+                </p>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Comments Section */}
           <Card>

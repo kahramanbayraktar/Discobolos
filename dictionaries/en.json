@@ -26,6 +26,9 @@
         "description": "Whether you're a seasoned pro or picking up a disc for the first time, there's a spot for you on our roster.",
         "button": "Join Discobolos Now"
     },
+    "gallery": {
+        "title": "Photo Gallery"
+    },
     "events": {
         "title": "Upcoming Events",
         "view_all": "View All Events",

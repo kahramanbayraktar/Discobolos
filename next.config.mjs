@@ -25,6 +25,18 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'hebbkx1anhila5yf.public.blob.vercel-storage.com', // Common v0 placeholder storage
+      },
+      {
+        protocol: 'https',
+        hostname: 'tyrsfajrhsnhtaaiaahy.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'photos.app.goo.gl',
+      },
+      {
+        protocol: 'https',
+        hostname: 'goo.gl',
       }
     ],
   },

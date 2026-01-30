@@ -26,6 +26,9 @@
         "description": "İster deneyimli bir profesyonel ol, ister diski ilk kez eline al, kadromuzda sana göre bir yer var.",
         "button": "Discobolos'a Katıl"
     },
+    "gallery": {
+        "title": "Fotoğraf Galerisi"
+    },
     "events": {
         "title": "Yaklaşan Etkinlikler",
         "view_all": "Tüm Etkinlikleri Gör",

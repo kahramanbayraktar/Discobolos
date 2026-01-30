@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { Event, Player } from './types';
+import { Event, GalleryAlbum, Player } from './types';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -195,6 +195,97 @@ export async function updatePlayer(id: string, player: Partial<Omit<Player, 'id'
 export async function deletePlayer(id: string) {
   const { error } = await supabase
     .from('players')
+    .delete()
+    .eq('id', id);
+
+  if (error) throw error;
+}
+// --- Gallery Functions ---
+
+export async function getGalleryAlbums(): Promise<GalleryAlbum[]> {
+  const { data, error } = await supabase
+    .from('gallery')
+    .select('*')
+    .order('date', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching gallery albums:', error);
+    return [];
+  }
+
+  return (data || []).map((row: any) => ({
+    id: row.id,
+    title: row.title,
+    description: row.description || '',
+    coverImage: row.cover_image,
+    googlePhotosUrl: row.google_photos_url,
+    date: row.date,
+    photoCount: row.photo_count || 0,
+    previewImages: row.preview_images || [],
+  }));
+}
+
+export async function getGalleryAlbumById(id: string): Promise<GalleryAlbum | null> {
+  const { data, error } = await supabase
+    .from('gallery')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error || !data) return null;
+
+  return {
+    id: data.id,
+    title: data.title,
+    description: data.description || '',
+    coverImage: data.cover_image,
+    googlePhotosUrl: data.google_photos_url,
+    date: data.date,
+    photoCount: data.photo_count || 0,
+    previewImages: data.preview_images || [],
+  };
+}
+
+export async function createGalleryAlbum(album: Omit<GalleryAlbum, 'id'>) {
+  const { data, error } = await supabase
+    .from('gallery')
+    .insert([{
+      title: album.title,
+      description: album.description,
+      cover_image: album.coverImage,
+      google_photos_url: album.googlePhotosUrl,
+      date: album.date,
+      photo_count: album.photoCount,
+      preview_images: album.previewImages || []
+    }])
+    .select();
+
+  if (error) throw error;
+  return data[0];
+}
+
+export async function updateGalleryAlbum(id: string, album: Partial<Omit<GalleryAlbum, 'id'>>) {
+  const { data, error } = await supabase
+    .from('gallery')
+    .update({
+      title: album.title,
+      description: album.description,
+      cover_image: album.coverImage,
+      google_photos_url: album.googlePhotosUrl,
+      date: album.date,
+      photo_count: album.photoCount,
+      preview_images: album.previewImages
+    })
+    .eq('id', id)
+    .select();
+
+  if (error) throw error;
+  return data[0];
+}
+
+export async function deleteGalleryAlbum(id: string) {
+  const { error } = await supabase
+    .from('gallery')
     .delete()
     .eq('id', id);
 
