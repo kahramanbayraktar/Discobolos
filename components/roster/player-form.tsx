@@ -40,6 +40,7 @@ const playerSchema = z.object({
   funFact: z.string().optional(),
   yearJoined: z.coerce.number().min(2000).max(new Date().getFullYear()),
   isCaptain: z.boolean().default(false),
+  email: z.string().email("Invalid email address.").optional().or(z.literal("")),
 });
 
 type PlayerFormValues = z.infer<typeof playerSchema>;
@@ -67,6 +68,7 @@ export function PlayerForm({ initialData }: PlayerFormProps) {
           funFact: initialData.funFact,
           yearJoined: initialData.yearJoined,
           isCaptain: initialData.isCaptain || false,
+          email: initialData.email || "",
         }
       : {
           name: "",
@@ -77,6 +79,7 @@ export function PlayerForm({ initialData }: PlayerFormProps) {
           funFact: "",
           yearJoined: new Date().getFullYear(),
           isCaptain: false,
+          email: "",
         },
   });
 
@@ -92,6 +95,7 @@ export function PlayerForm({ initialData }: PlayerFormProps) {
         fun_fact: data.funFact,
         year_joined: data.yearJoined,
         is_captain: data.isCaptain,
+        email: data.email,
       };
 
       if (initialData) {
@@ -158,6 +162,22 @@ export function PlayerForm({ initialData }: PlayerFormProps) {
                 <FormControl>
                   <Input type="number" {...field} />
                 </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Player Email</FormLabel>
+                <FormControl>
+                  <Input type="email" placeholder="player@example.com" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This will be used for player login.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}

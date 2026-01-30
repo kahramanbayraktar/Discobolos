@@ -6,7 +6,9 @@
         "news": "News",
         "rules": "Rules & Spirit",
         "gallery": "Gallery",
-        "join": "Join Us"
+        "join": "Join Us",
+        "profile": "Profile",
+        "logout": "Logout"
     },
     "hero": {
         "badge": "Spirit of the Game Champions",
@@ -103,6 +105,45 @@
             "pizza_night": "Monthly team bonding event. Good food, great company, and maybe some disc golf!",
             "winter_classic": "Two-day tournament featuring teams from across California. Our biggest event of the season!",
             "friendly_match": "Casual scrimmage with our friends from across the bay."
+        }
+    },
+    "attendance": {
+        "badge": "Leaderboard",
+        "title": "Hall of Fame",
+        "description": "Rewarding discipline and passion on the field. Who embodies the Discobolos spirit best?",
+        "table": {
+            "rank": "Rank",
+            "player": "Player",
+            "points": "Ego Points",
+            "badges": "Badges",
+            "presence": "Honored with Presence",
+            "early": "Dawn Operation",
+            "on_time": "Second Precision",
+            "double_jersey": "Chameleon Mode",
+            "actions": "Actions"
+        },
+        "badges": {
+            "early_bird": {
+                "name": "Early Bird",
+                "description": "Waking up the sun on the field"
+            },
+            "chameleon": {
+                "name": "Chameleon",
+                "description": "Never forgets the double jersey"
+            },
+            "reliable": {
+                "name": "Reliable",
+                "description": "Always on field on time"
+            },
+            "iron_man": {
+                "name": "Iron Man/Woman",
+                "description": "Attends every single practice"
+            }
+        },
+        "admin": {
+            "title": "Attendance Record",
+            "save_success": "Attendance recorded successfully.",
+            "save_error": "An error occurred while saving."
         }
     }
 }

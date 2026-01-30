@@ -7,7 +7,7 @@ import { getDictionary } from "@/get-dictionary";
 import { Locale } from "@/i18n-config";
 import { getEvents } from "@/lib/supabase";
 import { createClient } from "@/lib/supabase/server";
-import { Edit, Plus } from "lucide-react";
+import { ClipboardList, Edit, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -78,6 +78,11 @@ export default async function AdminEventsListPage({
                     <TableCell className="truncate max-w-[150px]">{event.location}</TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
+                        <Button asChild variant="outline" size="icon" className="text-blue-500 hover:text-blue-600">
+                          <Link href={`/${lang}/admin/events/${event.id}/attendance`}>
+                            <ClipboardList className="h-4 w-4" />
+                          </Link>
+                        </Button>
                         <Button asChild variant="ghost" size="icon">
                           <Link href={`/${lang}/admin/events/${event.id}`}>
                             <Edit className="h-4 w-4" />

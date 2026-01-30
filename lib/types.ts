@@ -8,6 +8,7 @@ export interface Player {
   funFact: string;
   yearJoined: number;
   isCaptain?: boolean;
+  email?: string;
 }
 
 export interface Event {
@@ -65,9 +66,23 @@ export interface GallerySubmission {
   createdAt: string;
 }
 
-export interface ContactFormData {
-  name: string;
-  email: string;
-  experienceLevel: "beginner" | "intermediate" | "advanced" | "competitive";
-  message: string;
+export interface AttendanceRecord {
+  id: string;
+  playerId: string;
+  eventId: string;
+  isPresent: boolean;
+  isEarly: boolean;
+  isOnTime: boolean;
+  hasDoubleJersey: boolean;
+  notes?: string;
+  createdAt: string;
+}
+
+export interface PlayerStats extends Player {
+  attendanceCount: number;
+  earlyArrivalCount: number;
+  onTimeCount: number;
+  doubleJerseyCount: number;
+  totalPoints: number;
+  rank?: number;
 }

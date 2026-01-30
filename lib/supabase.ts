@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { Event, GalleryAlbum, GallerySubmission, Player } from './types';
+import { AttendanceRecord, Event, GalleryAlbum, GallerySubmission, Player, PlayerStats } from './types';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -128,6 +128,7 @@ export async function getPlayers(): Promise<Player[]> {
     funFact: row.fun_fact || '',
     yearJoined: row.year_joined,
     isCaptain: row.is_captain,
+    email: row.email || '',
   }));
 }
 
@@ -150,6 +151,7 @@ export async function getPlayerById(id: string): Promise<Player | null> {
     funFact: data.fun_fact || '',
     yearJoined: data.year_joined,
     isCaptain: data.is_captain,
+    email: data.email || '',
   };
 }
 
@@ -164,7 +166,8 @@ export async function createPlayer(player: Omit<Player, 'id'>) {
       image: player.image,
       fun_fact: player.funFact,
       year_joined: player.yearJoined,
-      is_captain: player.isCaptain
+      is_captain: player.isCaptain,
+      email: player.email
     }])
     .select();
 
@@ -183,7 +186,8 @@ export async function updatePlayer(id: string, player: Partial<Omit<Player, 'id'
       image: player.image,
       fun_fact: player.funFact,
       year_joined: player.yearJoined,
-      is_captain: player.isCaptain
+      is_captain: player.isCaptain,
+      email: player.email
     })
     .eq('id', id)
     .select();
@@ -342,4 +346,95 @@ export async function updateGallerySubmissionStatus(id: string, status: "approve
     .eq('id', id);
 
   if (error) throw error;
+}
+
+// --- Attendance Functions ---
+
+export async function getAttendance(eventId?: string): Promise<AttendanceRecord[]> {
+  let query = supabase.from('attendance').select('*');
+  
+  if (eventId) {
+    query = query.eq('event_id', eventId);
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error('Error fetching attendance:', error);
+    return [];
+  }
+
+  return (data || []).map((row: any) => ({
+    id: row.id,
+    playerId: row.player_id,
+    eventId: row.event_id,
+    isPresent: row.is_present,
+    isEarly: row.is_early,
+    isOnTime: row.is_on_time,
+    hasDoubleJersey: row.has_double_jersey,
+    notes: row.notes,
+    createdAt: row.created_at,
+  }));
+}
+
+export async function upsertAttendance(records: Omit<AttendanceRecord, 'id' | 'createdAt'>[]) {
+  const formattedRecords = records.map(r => ({
+    player_id: r.playerId,
+    event_id: r.eventId,
+    is_present: r.isPresent,
+    is_early: r.isEarly,
+    is_on_time: r.isOnTime,
+    has_double_jersey: r.hasDoubleJersey,
+    notes: r.notes
+  }));
+
+  const { data, error } = await supabase
+    .from('attendance')
+    .upsert(formattedRecords, { onConflict: 'player_id,event_id' })
+    .select();
+
+  if (error) throw error;
+  return data;
+}
+
+export async function getPlayerStats(): Promise<PlayerStats[]> {
+  const players = await getPlayers();
+  const attendance = await getAttendance();
+
+  return players.map(player => {
+    const playerAttendance = attendance.filter(a => a.playerId === player.id && a.isPresent);
+    const earlyArrivalCount = playerAttendance.filter(a => a.isEarly).length;
+    const onTimeCount = playerAttendance.filter(a => a.isOnTime).length;
+    const doubleJerseyCount = playerAttendance.filter(a => a.hasDoubleJersey).length;
+    
+    // Points calculation: Presence (1) + Early (2) + On Time (1) + Double Jersey (1)
+    const totalPoints = playerAttendance.reduce((sum, a) => {
+      let pts = 1; // Presence
+      if (a.isEarly) pts += 2;
+      if (a.isOnTime) pts += 1;
+      if (a.hasDoubleJersey) pts += 1;
+      return sum + pts;
+    }, 0);
+
+    return {
+      ...player,
+      attendanceCount: playerAttendance.length,
+      earlyArrivalCount,
+      onTimeCount,
+      doubleJerseyCount,
+      totalPoints
+    };
+  }).sort((a, b) => b.totalPoints - a.totalPoints)
+    .map((p, index) => ({ ...p, rank: index + 1 }));
+}
+
+export async function getCurrentPlayer(): Promise<PlayerStats | null> {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user || !user.email) return null;
+
+  const stats = await getPlayerStats();
+  // Match by email
+  const playerStats = stats.find(p => p.email?.toLowerCase() === user.email?.toLowerCase());
+  
+  return playerStats || null;
 }
