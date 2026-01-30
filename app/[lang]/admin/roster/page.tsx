@@ -27,7 +27,7 @@ export default async function AdminRosterListPage({
   const players = await getPlayers();
 
   return (
-    <div className="container mx-auto py-12 px-4">
+    <>
       <div className="flex items-center justify-between mb-8">
         <h1 className="font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight">
           Admin: Roster Management
@@ -114,6 +114,6 @@ export default async function AdminRosterListPage({
           </Table>
         </CardContent>
       </Card>
-    </div>
+    </>
   );
 }

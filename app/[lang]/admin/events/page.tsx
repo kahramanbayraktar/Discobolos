@@ -26,7 +26,7 @@ export default async function AdminEventsListPage({
   const events = await getEvents();
 
   return (
-    <div className="container mx-auto py-12 px-4">
+    <>
       <div className="flex items-center justify-between mb-8">
         <h1 className="font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight">
           Admin: Events Management
@@ -93,6 +93,6 @@ export default async function AdminEventsListPage({
           </Table>
         </CardContent>
       </Card>
-    </div>
+    </>
   );
 }

@@ -27,27 +27,25 @@ export default async function EditPlayerPage({
   }
 
   return (
-    <div className="container mx-auto py-12 px-4">
-      <div className="max-w-2xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight">
-            Admin: Edit Player
-          </h1>
-          <LogoutButton />
-        </div>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Update {player.name}</CardTitle>
-            <CardDescription>
-              Modify the info for jersey number #{player.number}.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <PlayerForm initialData={player} />
-          </CardContent>
-        </Card>
+    <div className="max-w-2xl mx-auto">
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight">
+          Admin: Edit Player
+        </h1>
+        <LogoutButton />
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Update {player.name}</CardTitle>
+          <CardDescription>
+            Modify the info for jersey number #{player.number}.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <PlayerForm initialData={player} />
+        </CardContent>
+      </Card>
     </div>
   );
 }

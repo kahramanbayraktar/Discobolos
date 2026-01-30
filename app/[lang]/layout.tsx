@@ -82,7 +82,7 @@ export default async function RootLayout({
   const dict = await getDictionary(lang);
 
   return (
-    <html lang={lang} className={`${inter.variable} ${spaceGrotesk.variable}`}>
+    <html lang={lang} className={`${inter.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
       <body className="font-sans antialiased min-h-screen flex flex-col" suppressHydrationWarning>
         <Header dict={dict} lang={lang} />
         <main className="flex-1">{children}</main>

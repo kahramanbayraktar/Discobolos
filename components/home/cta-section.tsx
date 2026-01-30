@@ -41,7 +41,7 @@ const features = {
 };
 
 export function CTASection({ dict, lang }: { dict: any, lang: Locale }) {
-  const currentFeatures = features[lang];
+  const currentFeatures = features[lang] || features.tr;
 
   return (
     <section className="py-16 md:py-24">

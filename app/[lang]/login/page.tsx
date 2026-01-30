@@ -30,7 +30,7 @@ export default function LoginPage() {
       setIsLoading(false);
     } else {
       toast.success("Logged in successfully!");
-      router.push("./admin/events");
+      router.push(`/${window.location.pathname.split('/')[1]}/admin`);
       router.refresh();
     }
   };

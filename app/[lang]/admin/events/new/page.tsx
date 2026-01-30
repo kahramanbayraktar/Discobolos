@@ -21,27 +21,25 @@ export default async function AdminNewEventPage({
   }
 
   return (
-    <div className="container mx-auto py-12 px-4">
-      <div className="max-w-2xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight">
-            Admin: Add New Event
-          </h1>
-          <LogoutButton />
-        </div>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Event Details</CardTitle>
-            <CardDescription>
-              Fill in the information below to add a new event to the calendar.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <EventForm />
-          </CardContent>
-        </Card>
+    <div className="max-w-2xl mx-auto">
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight">
+          Admin: Add New Event
+        </h1>
+        <LogoutButton />
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Event Details</CardTitle>
+          <CardDescription>
+            Fill in the information below to add a new event to the calendar.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <EventForm />
+        </CardContent>
+      </Card>
     </div>
   );
 }

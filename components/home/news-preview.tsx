@@ -66,7 +66,7 @@ export function NewsPreview({ dict, lang }: { dict: any, lang: Locale }) {
                     {featuredPost.author}
                   </span>
                   <time className="text-muted-foreground">
-                    {new Date(featuredPost.date).toLocaleDateString(lang, {
+                    {new Date(featuredPost.date).toLocaleDateString(lang === 'tr' ? 'tr-TR' : 'en-US', {
                       month: "long",
                       day: "numeric",
                       year: "numeric",
@@ -98,7 +98,7 @@ export function NewsPreview({ dict, lang }: { dict: any, lang: Locale }) {
                         {post.excerpt}
                       </p>
                       <time className="text-xs text-muted-foreground mt-2 block">
-                        {new Date(post.date).toLocaleDateString(lang, {
+                        {new Date(post.date).toLocaleDateString(lang === 'tr' ? 'tr-TR' : 'en-US', {
                           month: "long",
                           day: "numeric",
                         })}

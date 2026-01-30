@@ -19,27 +19,25 @@ export default async function AdminNewPlayerPage({
   if (!user) redirect(`/${lang}/login`);
 
   return (
-    <div className="container mx-auto py-12 px-4">
-      <div className="max-w-2xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight">
-            Admin: Add New Player
-          </h1>
-          <LogoutButton />
-        </div>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Player Details</CardTitle>
-            <CardDescription>
-              Enter the information of the new player to add them to the roster.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <PlayerForm />
-          </CardContent>
-        </Card>
+    <div className="max-w-2xl mx-auto">
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight">
+          Admin: Add New Player
+        </h1>
+        <LogoutButton />
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Player Details</CardTitle>
+          <CardDescription>
+            Enter the information of the new player to add them to the roster.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <PlayerForm />
+        </CardContent>
+      </Card>
     </div>
   );
 }

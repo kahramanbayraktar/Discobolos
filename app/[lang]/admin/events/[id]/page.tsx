@@ -27,27 +27,25 @@ export default async function EditEventPage({
   }
 
   return (
-    <div className="container mx-auto py-12 px-4">
-      <div className="max-w-2xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight">
-            Admin: Edit Event
-          </h1>
-          <LogoutButton />
-        </div>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Update Event</CardTitle>
-            <CardDescription>
-              Modify the details of the selected event.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <EventForm initialData={event} />
-          </CardContent>
-        </Card>
+    <div className="max-w-2xl mx-auto">
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight">
+          Admin: Edit Event
+        </h1>
+        <LogoutButton />
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Update Event</CardTitle>
+          <CardDescription>
+            Modify the details of the selected event.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <EventForm initialData={event} />
+        </CardContent>
+      </Card>
     </div>
   );
 }
