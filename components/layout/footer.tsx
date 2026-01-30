@@ -1,5 +1,6 @@
+import { Instagram, Mail, Twitter, Youtube } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
-import { Disc, Instagram, Twitter, Youtube, Mail } from "lucide-react";
 
 const footerLinks = {
   team: [
@@ -20,7 +21,7 @@ const socialLinks = [
   { href: "https://instagram.com", icon: Instagram, label: "Instagram" },
   { href: "https://twitter.com", icon: Twitter, label: "Twitter" },
   { href: "https://youtube.com", icon: Youtube, label: "YouTube" },
-  { href: "mailto:hello@discdynasty.com", icon: Mail, label: "Email" },
+  { href: "mailto:hello@discobolos.team", icon: Mail, label: "Email" },
 ];
 
 export function Footer() {
@@ -31,11 +32,17 @@ export function Footer() {
           {/* Brand */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                <Disc className="h-6 w-6" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-full overflow-hidden">
+                <Image
+                  src="/images/logo.png"
+                  alt="Discobolos Logo"
+                  width={32}
+                  height={32}
+                  className="object-contain"
+                />
               </div>
               <span className="font-[family-name:var(--font-display)] text-xl font-bold">
-                Disc Dynasty
+                Discobolos
               </span>
             </Link>
             <p className="text-sm text-secondary-foreground/80 leading-relaxed">
@@ -107,10 +114,10 @@ export function Footer() {
               <p>San Francisco, CA 94102</p>
               <p className="pt-2">
                 <a
-                  href="mailto:hello@discdynasty.com"
+                  href="mailto:hello@discobolos.team"
                   className="hover:text-primary transition-colors"
                 >
-                  hello@discdynasty.com
+                  hello@discobolos.team
                 </a>
               </p>
             </address>
@@ -119,7 +126,7 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-secondary-foreground/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-secondary-foreground/60">
-            &copy; {new Date().getFullYear()} Disc Dynasty. All rights reserved.
+            &copy; {new Date().getFullYear()} Discobolos. All rights reserved.
           </p>
           <p className="text-sm text-secondary-foreground/60">
             Play hard. Play fair. Play with spirit.

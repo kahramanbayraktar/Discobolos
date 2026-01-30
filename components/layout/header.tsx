@@ -10,34 +10,21 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import type { Locale } from "@/i18n-config";
 import { Menu } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 function DiscobolosLogo({ className }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 48 48"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+    <Image
+      src="/images/logo.png"
+      alt="Discobolos Logo"
+      width={40}
+      height={40}
       className={className}
-    >
-      {/* Discus thrower silhouette inspired by jersey */}
-      <circle cx="24" cy="24" r="22" className="fill-primary" />
-      <circle cx="24" cy="24" r="18" className="fill-accent" />
-      <circle cx="24" cy="24" r="14" className="fill-primary" />
-      {/* Stylized athlete figure */}
-      <path
-        d="M20 16c1.5 0 2.5-1 2.5-2.5S21.5 11 20 11s-2.5 1-2.5 2.5S18.5 16 20 16z"
-        className="fill-primary-foreground"
-      />
-      <path
-        d="M16 36l4-8 2-4 6-2 4-6-2-1-4 5-5 1-1 3-5 10 1 2z"
-        className="fill-primary-foreground"
-      />
-      <circle cx="32" cy="20" r="4" className="stroke-primary-foreground stroke-2 fill-none" />
-      <circle cx="32" cy="20" r="2" className="fill-primary-foreground" />
-    </svg>
+      priority
+    />
   );
 }
 
