@@ -4,7 +4,7 @@ import { ArrowRight, Trophy } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export function HeroSection({ dict, lang }: { dict: any, lang: Locale }) {
+export function HeroSection({ dict, lang, playerCount = 0 }: { dict: any, lang: Locale, playerCount?: number }) {
   return (
     <section className="relative overflow-hidden bg-secondary min-h-[90vh] flex items-center">
       {/* Diagonal geometric pattern inspired by jersey */}
@@ -91,15 +91,15 @@ export function HeroSection({ dict, lang }: { dict: any, lang: Locale }) {
             <div className="grid grid-cols-3 gap-6 pt-4 bg-secondary/90 rounded-xl p-6 shadow-lg">
               <div>
                 <p className="font-[family-name:var(--font-display)] text-3xl font-bold text-primary">
-                  77
+                  2024
                 </p>
                 <p className="text-sm text-secondary-foreground/70">
-                  {dict.stats.team_number}
+                  {dict.stats.established}
                 </p>
               </div>
               <div>
                 <p className="font-[family-name:var(--font-display)] text-3xl font-bold text-primary">
-                  45+
+                  {playerCount > 0 ? playerCount : "0"}
                 </p>
                 <p className="text-sm text-secondary-foreground/70">
                   {dict.stats.active_players}
@@ -107,10 +107,10 @@ export function HeroSection({ dict, lang }: { dict: any, lang: Locale }) {
               </div>
               <div>
                 <p className="font-[family-name:var(--font-display)] text-3xl font-bold text-primary">
-                  12
+                  32
                 </p>
                 <p className="text-sm text-secondary-foreground/70">
-                  {dict.stats.championships}
+                  {dict.stats.meetups}
                 </p>
               </div>
             </div>

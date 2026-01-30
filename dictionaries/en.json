@@ -16,9 +16,9 @@
         "cta_join": "Join Our Team",
         "cta_schedule": "View Schedule",
         "stats": {
-            "team_number": "Team Number",
+            "established": "Established",
             "active_players": "Active Players",
-            "championships": "Championships"
+            "meetups": "Meetups"
         }
     },
     "cta": {

@@ -16,9 +16,9 @@
         "cta_join": "Takıma Katıl",
         "cta_schedule": "Takvimi Gör",
         "stats": {
-            "team_number": "Takım No",
+            "established": "Kuruluş",
             "active_players": "Aktif Oyuncu",
-            "championships": "Şampiyonluk"
+            "meetups": "Buluşma"
         }
     },
     "cta": {

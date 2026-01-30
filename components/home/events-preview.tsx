@@ -2,7 +2,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import type { Locale } from "@/i18n-config";
-import { events } from "@/lib/data";
 import type { Event } from "@/lib/types";
 import { ArrowRight, Clock, MapPin } from "lucide-react";
 import Link from "next/link";
@@ -23,8 +22,12 @@ function formatDate(dateString: string, locale: Locale) {
   };
 }
 
-export function EventsPreview({ dict, lang }: { dict: any, lang: Locale }) {
-  const upcomingEvents = events.slice(0, 3);
+export function EventsPreview({ dict, lang, events }: { dict: any, lang: Locale, events: Event[] }) {
+  // Filter for future events and take first 3
+  const now = new Date();
+  const upcomingEvents = events
+    .filter(e => new Date(e.date) >= new Date(now.setHours(0,0,0,0)))
+    .slice(0, 3);
 
   return (
     <section className="py-16 md:py-24">
@@ -47,65 +50,77 @@ export function EventsPreview({ dict, lang }: { dict: any, lang: Locale }) {
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {upcomingEvents.map((event) => {
-            const date = formatDate(event.date, lang);
-            return (
-              <Card
-                key={event.id}
-                className="group hover:shadow-lg transition-shadow overflow-hidden"
-              >
-                <CardContent className="p-0">
-                  <div className="flex">
-                    {/* Date Block */}
-                    <div className="flex flex-col items-center justify-center bg-primary px-4 py-6 text-primary-foreground min-w-[80px]">
-                      <span className="text-xs font-medium uppercase">
-                        {date.month}
-                      </span>
-                      <span className="font-[family-name:var(--font-display)] text-3xl font-bold">
-                        {date.day}
-                      </span>
-                      <span className="text-xs">{date.weekday}</span>
-                    </div>
-
-                    {/* Content */}
-                    <div className="flex-1 p-4 space-y-3">
-                      <div className="flex items-start justify-between gap-2">
-                        <h3 className="font-semibold leading-tight group-hover:text-primary transition-colors">
-                          {event.title}
-                        </h3>
-                        <Badge
-                          variant="outline"
-                          className={`shrink-0 ${eventTypeColors[event.type]}`}
-                        >
-                          {event.type}
-                        </Badge>
+          {upcomingEvents.length === 0 ? (
+            <div className="col-span-full py-12 text-center bg-muted/30 rounded-2xl border-2 border-dashed border-muted">
+              <p className="text-muted-foreground">{dict.empty}</p>
+            </div>
+          ) : (
+            upcomingEvents.map((event) => {
+              const date = formatDate(event.date, lang);
+              return (
+                <Card
+                  key={event.id}
+                  className="group hover:shadow-lg transition-shadow overflow-hidden"
+                >
+                  <CardContent className="p-0">
+                    <div className="flex">
+                      {/* Date Block */}
+                      <div className="flex flex-col items-center justify-center bg-primary px-4 py-6 text-primary-foreground min-w-[80px]">
+                        <span className="text-xs font-medium uppercase">
+                          {date.month}
+                        </span>
+                        <span className="font-[family-name:var(--font-display)] text-3xl font-bold">
+                          {date.day}
+                        </span>
+                        <span className="text-xs">{date.weekday}</span>
                       </div>
 
-                      <div className="space-y-1.5 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-2">
-                          <Clock className="h-3.5 w-3.5" />
-                          <span>
-                            {event.time}
-                            {event.endTime && ` - ${event.endTime}`}
-                          </span>
+                      {/* Content */}
+                      <div className="flex-1 p-4 space-y-3">
+                        <div className="flex items-start justify-between gap-2">
+                          <h3 className="font-semibold leading-tight group-hover:text-primary transition-colors">
+                            {event.title}
+                          </h3>
+                          <Badge
+                            variant="outline"
+                            className={`shrink-0 capitalize ${eventTypeColors[event.type]}`}
+                          >
+                            {/* Use mapping if available in a higher-level dictionary object or fallback */}
+                            {lang === 'tr' ? 
+                              (event.type === 'practice' ? 'Antrenman' : 
+                               event.type === 'match' ? 'Maç' : 
+                               event.type === 'social' ? 'Sosyal' : 
+                               event.type === 'tournament' ? 'Turnuva' : event.type) : 
+                              event.type}
+                          </Badge>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <MapPin className="h-3.5 w-3.5" />
-                          <span className="truncate">{event.location}</span>
-                        </div>
-                      </div>
 
-                      {event.opponent && (
-                        <p className="text-sm font-medium text-accent">
-                          vs. {event.opponent}
-                        </p>
-                      )}
+                        <div className="space-y-1.5 text-sm text-muted-foreground">
+                          <div className="flex items-center gap-2">
+                            <Clock className="h-3.5 w-3.5" />
+                            <span>
+                              {event.time}
+                              {event.endTime && ` - ${event.endTime}`}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <MapPin className="h-3.5 w-3.5" />
+                            <span className="truncate">{event.location}</span>
+                          </div>
+                        </div>
+
+                        {event.opponent && (
+                          <p className="text-sm font-medium text-accent">
+                            vs. {event.opponent}
+                          </p>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
+                  </CardContent>
+                </Card>
+              );
+            })
+          )}
         </div>
       </div>
     </section>
