@@ -106,18 +106,18 @@ export function Header({ dict, lang }: { dict: any, lang: Locale }) {
             </Button>
           </SheetTrigger>
           <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-            <nav className="flex flex-col gap-4 mt-8">
+            <nav className="flex flex-col gap-2 mt-8">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => setIsOpen(false)}
-                  className="text-lg font-medium hover:text-primary transition-colors py-2 border-b border-border"
+                  className="text-lg font-medium hover:text-primary transition-colors py-3 px-4 border-b border-border"
                 >
                   {item.label}
                 </Link>
               ))}
-               <div className="flex items-center gap-4 py-2">
+               <div className="flex items-center gap-4 py-4 px-4">
                     <Link 
                         href={redirectedPathName("tr")} 
                         className={`text-lg font-medium hover:text-primary ${lang === 'tr' ? 'text-primary' : 'text-muted-foreground'}`}
@@ -133,11 +133,13 @@ export function Header({ dict, lang }: { dict: any, lang: Locale }) {
                     </Link>
                </div>
 
-              <Button asChild className="mt-4 bg-accent text-accent-foreground hover:bg-accent/90">
-                <Link href={`/${lang}/contact`} onClick={() => setIsOpen(false)}>
-                  {dict.nav.join}
-                </Link>
-              </Button>
+              <div className="px-4 mt-4">
+                <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+                  <Link href={`/${lang}/contact`} onClick={() => setIsOpen(false)}>
+                    {dict.nav.join}
+                  </Link>
+                </Button>
+              </div>
             </nav>
           </SheetContent>
         </Sheet>

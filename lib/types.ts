@@ -55,6 +55,16 @@ export interface Comment {
   createdAt: string;
 }
 
+export interface GallerySubmission {
+  id: string;
+  albumId: string;
+  url: string;
+  filePath: string;
+  authorName: string;
+  status: "pending" | "approved" | "rejected";
+  createdAt: string;
+}
+
 export interface ContactFormData {
   name: string;
   email: string;

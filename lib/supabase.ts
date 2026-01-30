@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { Event, GalleryAlbum, Player } from './types';
+import { Event, GalleryAlbum, GallerySubmission, Player } from './types';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -287,6 +287,58 @@ export async function deleteGalleryAlbum(id: string) {
   const { error } = await supabase
     .from('gallery')
     .delete()
+    .eq('id', id);
+
+  if (error) throw error;
+}
+
+// --- Gallery Submissions Functions ---
+
+export async function getGallerySubmissions(albumId?: string): Promise<GallerySubmission[]> {
+  let query = supabase.from('gallery_submissions').select('*').order('created_at', { ascending: false });
+  
+  if (albumId) {
+    query = query.eq('album_id', albumId);
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error('Error fetching gallery submissions:', error);
+    return [];
+  }
+
+  return (data || []).map((row: any) => ({
+    id: row.id,
+    albumId: row.album_id,
+    url: row.url,
+    filePath: row.file_path,
+    authorName: row.author_name,
+    status: row.status,
+    createdAt: row.created_at,
+  }));
+}
+
+export async function createGallerySubmission(submission: Omit<GallerySubmission, 'id' | 'createdAt' | 'status'>) {
+  const { data, error } = await supabase
+    .from('gallery_submissions')
+    .insert([{
+      album_id: submission.albumId,
+      url: submission.url,
+      file_path: submission.filePath,
+      author_name: submission.authorName,
+      status: 'pending'
+    }])
+    .select();
+
+  if (error) throw error;
+  return data[0];
+}
+
+export async function updateGallerySubmissionStatus(id: string, status: "approved" | "rejected") {
+  const { error } = await supabase
+    .from('gallery_submissions')
+    .update({ status })
     .eq('id', id);
 
   if (error) throw error;

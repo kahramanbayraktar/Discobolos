@@ -6,7 +6,7 @@ import { getDictionary } from "@/get-dictionary";
 import { Locale } from "@/i18n-config";
 import { getGalleryAlbums } from "@/lib/supabase";
 import { createClient } from "@/lib/supabase/server";
-import { Edit, Image as ImageIcon, Plus } from "lucide-react";
+import { Edit, Image as ImageIcon, Inbox, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -32,6 +32,12 @@ export default async function AdminGalleryListPage({
           Admin: Gallery Management
         </h1>
         <div className="flex gap-4">
+          <Button asChild variant="outline">
+            <Link href={`/${lang}/admin/gallery/submissions`} className="gap-2">
+              <Inbox className="h-4 w-4" />
+              Submissions
+            </Link>
+          </Button>
           <Button asChild variant="default">
             <Link href={`/${lang}/admin/gallery/new`} className="gap-2">
               <Plus className="h-4 w-4" />

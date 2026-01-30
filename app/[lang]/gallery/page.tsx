@@ -25,14 +25,12 @@ export default async function GalleryPage({
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="max-w-2xl mx-auto text-center mb-12">
-          <p className="text-sm font-medium text-primary mb-2">Media</p>
+          <p className="text-sm font-medium text-primary mb-2">{dict.badge || "Media"}</p>
           <h1 className="font-[family-name:var(--font-display)] text-4xl font-bold tracking-tight md:text-5xl">
             {dict.title || "Photo Gallery"}
           </h1>
           <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-            Relive our best moments - from championship victories to team
-            bonding events. All albums are hosted on Google Photos for easy
-            viewing and sharing.
+            {dict.description || "Relive our best moments."}
           </p>
         </div>
 
@@ -43,11 +41,9 @@ export default async function GalleryPage({
               <Camera className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <h3 className="font-semibold mb-1">Google Photos Integration</h3>
+              <h3 className="font-semibold mb-1">{dict.integration_title || "Google Photos Integration"}</h3>
               <p className="text-sm text-muted-foreground">
-                Our photo albums are hosted on Google Photos. Click on any album
-                to view all photos in a beautiful, full-screen gallery. You can
-                also download, share, or add your own photos to team albums!
+                {dict.integration_desc || "Our photo albums are hosted on Google Photos."}
               </p>
             </div>
           </div>
@@ -56,7 +52,7 @@ export default async function GalleryPage({
         {/* Albums Grid */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {albums.map((album) => (
-            <AlbumCard key={album.id} album={album} lang={lang} />
+            <AlbumCard key={album.id} album={album} lang={lang} view_album_text={dict.view_album} />
           ))}
         </div>
 
@@ -66,19 +62,19 @@ export default async function GalleryPage({
             <p className="font-[family-name:var(--font-display)] text-4xl font-bold text-primary">
               {albums.length}
             </p>
-            <p className="text-sm text-muted-foreground mt-1">Albums</p>
+            <p className="text-sm text-muted-foreground mt-1">{dict.stats_albums || "Albums"}</p>
           </div>
           <div className="text-center p-6 rounded-xl bg-muted">
             <p className="font-[family-name:var(--font-display)] text-4xl font-bold text-primary">
               {albums.reduce((sum, album) => sum + album.photoCount, 0)}
             </p>
-            <p className="text-sm text-muted-foreground mt-1">Total Photos</p>
+            <p className="text-sm text-muted-foreground mt-1">{dict.stats_photos || "Total Photos"}</p>
           </div>
           <div className="text-center p-6 rounded-xl bg-muted">
             <p className="font-[family-name:var(--font-display)] text-4xl font-bold text-primary">
               {new Date().getFullYear() - 2024}+
             </p>
-            <p className="text-sm text-muted-foreground mt-1">Years of Memories</p>
+            <p className="text-sm text-muted-foreground mt-1">{dict.stats_years || "Years of Memories"}</p>
           </div>
         </div>
       </div>

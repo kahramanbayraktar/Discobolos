@@ -9,9 +9,10 @@ import Link from "next/link";
 interface AlbumCardProps {
   album: GalleryAlbum;
   lang: Locale;
+  view_album_text?: string;
 }
 
-export function AlbumCard({ album, lang }: AlbumCardProps) {
+export function AlbumCard({ album, lang, view_album_text }: AlbumCardProps) {
   return (
     <Card className="group overflow-hidden hover:shadow-lg transition-all duration-300">
       <CardContent className="p-0">
@@ -33,7 +34,7 @@ export function AlbumCard({ album, lang }: AlbumCardProps) {
             <div className="opacity-0 group-hover:opacity-100 transition-opacity">
               <Badge className="gap-2">
                 <ExternalLink className="h-3 w-3" />
-                View Album
+                {view_album_text || "View Album"}
               </Badge>
             </div>
           </div>
