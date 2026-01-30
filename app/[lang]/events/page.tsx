@@ -1,7 +1,7 @@
 import { EventsPageContent } from "@/components/events/events-page-content";
 import { getDictionary } from "@/get-dictionary";
 import { Locale } from "@/i18n-config";
-import { events } from "@/lib/data";
+import { getEvents } from "@/lib/supabase";
 import type { Metadata } from "next";
 
 export async function generateMetadata({
@@ -25,6 +25,7 @@ export default async function EventsPage({
 }) {
   const { lang } = await params;
   const dict = await getDictionary(lang);
+  const events = await getEvents();
 
   return (
     <div className="py-12 md:py-20">

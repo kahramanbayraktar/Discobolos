@@ -1,10 +1,33 @@
-
 import { createClient } from '@supabase/supabase-js';
+import { Event } from './types';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-// Ensure client is only created if keys are present (prevents build errors if env missing)
-export const supabase = supabaseUrl && supabaseKey 
-  ? createClient(supabaseUrl, supabaseKey) 
-  : null;
+export const supabase = createClient(supabaseUrl, supabaseKey);
+
+export async function getEvents(): Promise<Event[]> {
+  const { data, error } = await supabase
+    .from('events')
+    .select('*')
+    .order('date', { ascending: true });
+
+  if (error) {
+    console.error('Error fetching events:', error);
+    return [];
+  }
+
+  // Map snake_case from DB to camelCase for the app
+  return (data || []).map((row: any) => ({
+    id: row.id,
+    title: row.title,
+    description: row.description || '',
+    date: row.date,
+    time: row.time,
+    endTime: row.end_time || undefined,
+    location: row.location,
+    locationUrl: row.location_url || undefined,
+    type: row.type,
+    opponent: row.opponent || undefined,
+  }));
+}
