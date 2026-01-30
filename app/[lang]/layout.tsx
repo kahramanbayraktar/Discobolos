@@ -1,5 +1,6 @@
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
+import { Toaster } from "@/components/ui/sonner";
 import { getDictionary } from "@/get-dictionary";
 import { i18n, type Locale } from "@/i18n-config";
 import { Analytics } from "@vercel/analytics/next";
@@ -69,6 +70,7 @@ export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }));
 }
 
+
 export default async function RootLayout({
   children,
   params,
@@ -85,6 +87,7 @@ export default async function RootLayout({
         <Header dict={dict} lang={lang} />
         <main className="flex-1">{children}</main>
         <Footer />
+        <Toaster />
         <Analytics />
       </body>
     </html>

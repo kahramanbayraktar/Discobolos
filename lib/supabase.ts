@@ -31,3 +31,26 @@ export async function getEvents(): Promise<Event[]> {
     opponent: row.opponent || undefined,
   }));
 }
+
+export async function createEvent(event: Omit<Event, 'id'>) {
+  const { data, error } = await supabase
+    .from('events')
+    .insert([{
+      title: event.title,
+      description: event.description,
+      date: event.date,
+      time: event.time,
+      end_time: event.endTime,
+      location: event.location,
+      location_url: event.locationUrl,
+      type: event.type,
+      opponent: event.opponent
+    }])
+    .select();
+
+  if (error) {
+    throw error;
+  }
+
+  return data[0];
+}
