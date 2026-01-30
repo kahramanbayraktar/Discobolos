@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { createClient } from "@/lib/supabase/client";
+import { Event } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -30,8 +31,8 @@ const eventSchema = zod.object({
   title: zod.string().min(2, "Title is too short"),
   description: zod.string().min(5, "Description is too short"),
   date: zod.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format (YYYY-MM-DD)"),
-  time: zod.string().regex(/^\d{2}:\d{2}$/, "Invalid time format (HH:MM)"),
-  endTime: zod.string().optional(),
+  time: zod.string().regex(/^([0-9]{1,2}):([0-9]{2})(:[0-9]{2})?$/, "Invalid time format (HH:MM)"),
+  endTime: zod.string().optional().or(zod.literal("")),
   location: zod.string().min(2, "Location is required"),
   locationUrl: zod.string().url("Invalid URL").optional().or(zod.literal("")),
   type: zod.enum(["practice", "match", "social", "tournament"]),
@@ -40,7 +41,11 @@ const eventSchema = zod.object({
 
 type EventFormValues = zod.infer<typeof eventSchema>;
 
-export function EventForm() {
+interface EventFormProps {
+  initialData?: Event;
+}
+
+export function EventForm({ initialData }: EventFormProps) {
   const router = useRouter();
   const params = useParams();
   const lang = params.lang as string;
@@ -49,42 +54,64 @@ export function EventForm() {
 
   const form = useForm<EventFormValues>({
     resolver: zodResolver(eventSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-      date: new Date().toISOString().split("T")[0],
-      time: "18:00",
-      type: "practice",
-      location: "",
-      locationUrl: "",
-      opponent: "",
-    },
+    defaultValues: initialData
+      ? {
+          title: initialData.title,
+          description: initialData.description,
+          date: initialData.date,
+          time: initialData.time,
+          endTime: initialData.endTime || "",
+          type: initialData.type,
+          location: initialData.location,
+          locationUrl: initialData.locationUrl || "",
+          opponent: initialData.opponent || "",
+        }
+      : {
+          title: "",
+          description: "",
+          date: new Date().toISOString().split("T")[0],
+          time: "18:00",
+          type: "practice",
+          location: "",
+          locationUrl: "",
+          opponent: "",
+        },
   });
 
   async function onSubmit(data: EventFormValues) {
     setIsLoading(true);
     try {
-      const { error } = await supabase
-        .from('events')
-        .insert([{
-          title: data.title,
-          description: data.description,
-          date: data.date,
-          time: data.time,
-          end_time: data.endTime || null,
-          location: data.location,
-          location_url: data.locationUrl || null,
-          type: data.type,
-          opponent: data.opponent || null
-        }]);
+      const dbData = {
+        title: data.title,
+        description: data.description,
+        date: data.date,
+        time: data.time,
+        end_time: data.endTime || null,
+        location: data.location,
+        location_url: data.locationUrl || null,
+        type: data.type,
+        opponent: data.opponent || null
+      };
 
-      if (error) throw error;
+      if (initialData) {
+        const { error } = await supabase
+          .from('events')
+          .update(dbData)
+          .eq('id', initialData.id);
+        if (error) throw error;
+        toast.success("Event updated successfully!");
+      } else {
+        const { error } = await supabase
+          .from('events')
+          .insert([dbData]);
+        if (error) throw error;
+        toast.success("Event created successfully!");
+      }
 
-      toast.success("Event created successfully!");
       router.push(`/${lang}/events`); 
       router.refresh();
     } catch (error: any) {
-      toast.error("Failed to create event: " + error.message);
+      toast.error("Error: " + error.message);
     } finally {
       setIsLoading(false);
     }
@@ -241,7 +268,9 @@ export function EventForm() {
         </div>
 
         <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? "Creating..." : "Create Event"}
+          {isLoading 
+            ? (initialData ? "Saving..." : "Creating...") 
+            : (initialData ? "Save Changes" : "Create Event")}
         </Button>
       </form>
     </Form>

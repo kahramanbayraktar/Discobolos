@@ -34,6 +34,15 @@ function formatDate(dateString: string, lang: string) {
   };
 }
 
+function formatTime(timeString: string) {
+  if (!timeString) return "";
+  const parts = timeString.split(":");
+  if (parts.length >= 2) {
+    return `${parts[0]}:${parts[1]}`;
+  }
+  return timeString;
+}
+
 const getLocalizedContent = (event: Event, dict: any) => {
   // Map event IDs or titles to dictionary keys if they exist, otherwise use original
   // In a real app, this would come from a CMS. For this demo, we use a mapping.
@@ -94,7 +103,7 @@ export function EventCard({ event, dict, lang, variant = "default" }: EventCardP
                 </Badge>
               </div>
               <p className="text-sm text-muted-foreground truncate">
-                {event.time} - {event.location}
+                {formatTime(event.time)} - {event.location}
               </p>
             </div>
           </div>
@@ -147,8 +156,8 @@ export function EventCard({ event, dict, lang, variant = "default" }: EventCardP
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4 text-primary" />
                 <span>
-                  {event.time}
-                  {event.endTime && ` - ${event.endTime}`}
+                  {formatTime(event.time)}
+                  {event.endTime && ` - ${formatTime(event.endTime)}`}
                 </span>
               </div>
               <div className="flex items-center gap-2">
