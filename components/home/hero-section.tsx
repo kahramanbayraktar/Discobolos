@@ -37,7 +37,7 @@ export function HeroSection({ dict, lang, playerCount = 0 }: { dict: any, lang: 
           {/* Animated Logo with Organic Rings */}
           <div className="relative flex order-first lg:order-last items-center justify-center pt-0 pb-0 lg:py-0 -mt-25 ml-35 lg:-mt-10">
             <div className="relative w-[280px] h-[280px] lg:w-[400px] lg:h-[480px] flex items-center justify-center">
-              {/* Outer irregular ring 1 - slowest, largest */}
+              {/* Outer irregular ring 1 - Peach (Outermost) */}
               <div 
                 className="absolute w-[260px] h-[260px] lg:w-[380px] lg:h-[380px] rounded-full border-2 animate-spin-slow opacity-60"
                 style={{ 
@@ -47,7 +47,7 @@ export function HeroSection({ dict, lang, playerCount = 0 }: { dict: any, lang: 
                 }}
               />
               
-              {/* Outer irregular ring 2 */}
+              {/* Outer irregular ring 2 - Charcoal */}
               <div 
                 className="absolute w-[230px] h-[230px] lg:w-[340px] lg:h-[340px] rounded-full border-2 animate-spin-reverse opacity-40"
                 style={{ 
@@ -57,7 +57,7 @@ export function HeroSection({ dict, lang, playerCount = 0 }: { dict: any, lang: 
                 }}
               />
               
-              {/* Middle irregular ring 1 */}
+              {/* Middle irregular ring 1 - Teal */}
               <div 
                 className="absolute w-[200px] h-[200px] lg:w-[300px] lg:h-[300px] rounded-full border-[3px] animate-spin-slow opacity-70"
                 style={{ 
@@ -67,7 +67,7 @@ export function HeroSection({ dict, lang, playerCount = 0 }: { dict: any, lang: 
                 }}
               />
               
-              {/* Middle irregular ring 2 */}
+              {/* Middle irregular ring 2 - Orange */}
               <div 
                 className="absolute w-[170px] h-[170px] lg:w-[260px] lg:h-[260px] rounded-full border-2 animate-spin-reverse opacity-50"
                 style={{ 
@@ -77,7 +77,7 @@ export function HeroSection({ dict, lang, playerCount = 0 }: { dict: any, lang: 
                 }}
               />
               
-              {/* Inner irregular ring 1 */}
+              {/* Inner irregular ring 1 - Peach */}
               <div 
                 className="absolute w-[140px] h-[140px] lg:w-[220px] lg:h-[220px] rounded-full border-[3px] animate-spin-slow"
                 style={{ 
@@ -87,7 +87,7 @@ export function HeroSection({ dict, lang, playerCount = 0 }: { dict: any, lang: 
                 }}
               />
               
-              {/* Inner irregular ring 2 - fastest */}
+              {/* Inner irregular ring 2 - Charcoal (Innermost) */}
               <div 
                 className="absolute w-[110px] h-[110px] lg:w-[180px] lg:h-[180px] rounded-full border-2 animate-spin-reverse"
                 style={{ 
