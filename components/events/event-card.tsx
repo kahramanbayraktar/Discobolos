@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import type { Event } from "@/lib/types";
+import { formatTime } from "@/lib/utils";
 import { Clock, ExternalLink, MapPin } from "lucide-react";
 import Link from "next/link";
 
@@ -14,7 +15,7 @@ interface EventCardProps {
 
 const eventTypeColors: Record<Event["type"], string> = {
   practice: "bg-primary/10 text-primary border-primary/20",
-  match: "bg-accent/10 text-accent-foreground border-accent/20",
+  match: "bg-accent/10 text-accent border-accent/20",
   social: "bg-chart-4/10 text-chart-4 border-chart-4/20",
   tournament: "bg-chart-5/10 text-chart-5 border-chart-5/20",
 };
@@ -35,14 +36,6 @@ function formatDate(dateString: string, lang: string) {
   };
 }
 
-function formatTime(timeString: string) {
-  if (!timeString) return "";
-  const parts = timeString.split(":");
-  if (parts.length >= 2) {
-    return `${parts[0]}:${parts[1]}`;
-  }
-  return timeString;
-}
 
 const getLocalizedContent = (event: Event, dict: any) => {
   // Map event IDs or titles to dictionary keys if they exist, otherwise use original

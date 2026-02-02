@@ -3,12 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import type { Locale } from "@/i18n-config";
 import type { Event } from "@/lib/types";
+import { formatTime } from "@/lib/utils";
 import { ArrowRight, Clock, MapPin } from "lucide-react";
 import Link from "next/link";
 
 const eventTypeColors: Record<Event["type"], string> = {
   practice: "bg-primary/10 text-primary border-primary/20",
-  match: "bg-accent/10 text-accent-foreground border-accent/20",
+  match: "bg-accent/10 text-accent border-accent/20",
   social: "bg-chart-4/10 text-chart-4 border-chart-4/20",
   tournament: "bg-chart-5/10 text-chart-5 border-chart-5/20",
 };
@@ -79,7 +80,9 @@ export function EventsPreview({ dict, lang, events }: { dict: any, lang: Locale,
                       <div className="flex-1 p-4 space-y-3">
                         <div className="flex items-start justify-between gap-2">
                           <h3 className="font-semibold leading-tight group-hover:text-primary transition-colors">
-                            {event.title}
+                            <Link href={`/${lang}/events/${event.id}`}>
+                              {event.title}
+                            </Link>
                           </h3>
                           <Badge
                             variant="outline"
@@ -99,8 +102,8 @@ export function EventsPreview({ dict, lang, events }: { dict: any, lang: Locale,
                           <div className="flex items-center gap-2">
                             <Clock className="h-3.5 w-3.5" />
                             <span>
-                              {event.time}
-                              {event.endTime && ` - ${event.endTime}`}
+                              {formatTime(event.time)}
+                              {event.endTime && ` - ${formatTime(event.endTime)}`}
                             </span>
                           </div>
                           <div className="flex items-center gap-2">

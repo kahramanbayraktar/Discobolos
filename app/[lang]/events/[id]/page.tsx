@@ -5,7 +5,8 @@ import { getDictionary } from "@/get-dictionary";
 import { Locale } from "@/i18n-config";
 import { getEventById, getPlayers, getRSVPs } from "@/lib/supabase";
 import { getServerPlayer } from "@/lib/supabase/server";
-import { Calendar, ChevronLeft, Clock, MapPin } from "lucide-react";
+import { formatTime } from "@/lib/utils";
+import { Calendar, ChevronLeft, Clock, ExternalLink, MapPin } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -50,7 +51,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
 
   const eventTypeColors: Record<string, string> = {
     practice: "bg-primary/10 text-primary border-primary/20",
-    match: "bg-accent/10 text-accent-foreground border-accent/20",
+    match: "bg-accent/10 text-accent border-accent/20",
     social: "bg-chart-4/10 text-chart-4 border-chart-4/20",
     tournament: "bg-chart-5/10 text-chart-5 border-chart-5/20",
   };
@@ -98,7 +99,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
               </div>
               <div>
                 <p className="text-xs uppercase font-bold text-muted-foreground tracking-wider mb-1">Saat</p>
-                <p className="font-medium">{event.time} {event.endTime ? `- ${event.endTime}` : ''}</p>
+                <p className="font-medium">{formatTime(event.time)} {event.endTime ? `- ${formatTime(event.endTime)}` : ''}</p>
               </div>
             </div>
 
@@ -108,7 +109,19 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
               </div>
               <div>
                 <p className="text-xs uppercase font-bold text-muted-foreground tracking-wider mb-1">Konum</p>
-                <p className="font-medium underline decoration-primary/30 underline-offset-4">{event.location}</p>
+                {event.locationUrl ? (
+                  <a 
+                    href={event.locationUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="font-medium underline decoration-primary/30 underline-offset-4 hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    {event.location}
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                ) : (
+                  <p className="font-medium">{event.location}</p>
+                )}
               </div>
             </div>
           </div>
