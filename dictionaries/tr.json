@@ -170,5 +170,22 @@
         "update_button": "Şifreyi Güncelle",
         "update_success": "Şifren başarıyla güncellendi! Giriş yapabilirsin.",
         "password_mismatch": "Şifreler eşleşmiyor."
+    },
+    "event_detail": {
+        "title": "Etkinlik Detayları",
+        "description": "Etkinlik hakkında daha fazla bilgi.",
+        "back_to_events": "Takvime Dön",
+        "rsvp_title": "Katılacak mısın?",
+        "rsvp_description": "Takım arkadaşlarına gelip gelmeyeceğini haber ver!",
+        "rsvp_coming": "Geliyorum!",
+        "rsvp_not_coming": "Gelemiyorum",
+        "rsvp_maybe": "Belki",
+        "rsvp_success": "Katılım durumun kaydedildi!",
+        "rsvp_login_required": "Ankete katılmak için giriş yapmalısın",
+        "attendees_title": "Kimler geliyor?",
+        "attendees_coming": "Katılanlar",
+        "attendees_not_coming": "Katılmayanlar",
+        "attendees_maybe": "Belki",
+        "attendees_empty": "Henüz katılım bildirilmemiş."
     }
 }

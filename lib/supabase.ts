@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
-import { AttendanceRecord, Event, GalleryAlbum, GallerySubmission, Player, PlayerStats } from './types';
+import { AttendanceRecord, Event, GalleryAlbum, GallerySubmission, Player, PlayerStats, RSVP } from './types';
+import { getCookie } from './utils';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -433,12 +434,48 @@ export async function getPlayerStats(): Promise<PlayerStats[]> {
 }
 
 export async function getCurrentPlayer(): Promise<PlayerStats | null> {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user || !user.email) return null;
+  // Use cookie instead of supabase.auth.getUser()
+  const token = typeof document !== 'undefined' ? getCookie('player_token') : null;
+  if (!token) return null;
 
   const stats = await getPlayerStats();
-  // Match by email
-  const playerStats = stats.find(p => p.email?.toLowerCase() === user.email?.toLowerCase());
+  const playerStats = stats.find(p => p.id === token);
   
   return playerStats || null;
+}
+
+// --- RSVP Functions ---
+
+export async function getRSVPs(eventId: string): Promise<RSVP[]> {
+  const { data, error } = await supabase
+    .from('rsvps')
+    .select('*')
+    .eq('event_id', eventId);
+
+  if (error) {
+    console.error('Error fetching RSVPs:', error);
+    return [];
+  }
+
+  return (data || []).map((row: any) => ({
+    id: row.id,
+    playerId: row.player_id,
+    eventId: row.event_id,
+    status: row.status,
+    createdAt: row.created_at,
+  }));
+}
+
+export async function upsertRSVP(playerId: string, eventId: string, status: RSVP['status']) {
+  const { data, error } = await supabase
+    .from('rsvps')
+    .upsert({
+      player_id: playerId,
+      event_id: eventId,
+      status: status
+    }, { onConflict: 'player_id,event_id' })
+    .select();
+
+  if (error) throw error;
+  return data;
 }

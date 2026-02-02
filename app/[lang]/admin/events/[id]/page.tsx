@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { getDictionary } from "@/get-dictionary";
 import { Locale } from "@/i18n-config";
 import { getEventById } from "@/lib/supabase";
-import { createClient } from "@/lib/supabase/server";
+import { getServerPlayer } from "@/lib/supabase/server";
 import { notFound, redirect } from "next/navigation";
 
 export default async function EditEventPage({
@@ -14,12 +14,8 @@ export default async function EditEventPage({
 }) {
   const { lang, id } = await params;
   const dict = await getDictionary(lang);
-  const supabase = await createClient();
-
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) {
-    redirect(`/${lang}/login`);
-  }
+  const player = await getServerPlayer();
+  if (!player || !player.isCaptain) redirect(`/${lang}/login`);
 
   const event = await getEventById(id);
   if (!event) {

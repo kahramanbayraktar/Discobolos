@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import type { Event } from "@/lib/types";
 import { Clock, ExternalLink, MapPin } from "lucide-react";
+import Link from "next/link";
 
 interface EventCardProps {
   event: Event;
@@ -93,7 +94,9 @@ export function EventCard({ event, dict, lang, variant = "default" }: EventCardP
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
                 <h3 className="font-semibold truncate group-hover:text-primary transition-colors">
-                  {title}
+                  <Link href={`/${lang}/events/${event.id}`}>
+                    {title}
+                  </Link>
                 </h3>
                 <Badge
                   variant="outline"
@@ -138,7 +141,9 @@ export function EventCard({ event, dict, lang, variant = "default" }: EventCardP
                   {typeLabel}
                 </Badge>
                 <h3 className="font-[family-name:var(--font-display)] text-xl font-bold group-hover:text-primary transition-colors">
-                  {title}
+                  <Link href={`/${lang}/events/${event.id}`}>
+                    {title}
+                  </Link>
                 </h3>
                 {event.opponent && (
                   <p className="text-sm font-medium text-accent mt-1">

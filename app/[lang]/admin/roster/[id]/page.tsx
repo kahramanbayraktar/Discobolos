@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { getDictionary } from "@/get-dictionary";
 import { Locale } from "@/i18n-config";
 import { getPlayerById } from "@/lib/supabase";
-import { createClient } from "@/lib/supabase/server";
+import { getServerPlayer } from "@/lib/supabase/server";
 import { notFound, redirect } from "next/navigation";
 
 export default async function EditPlayerPage({
@@ -14,12 +14,8 @@ export default async function EditPlayerPage({
 }) {
   const { lang, id } = await params;
   const dict = await getDictionary(lang);
-  const supabase = await createClient();
-
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) {
-    redirect(`/${lang}/login`);
-  }
+  const activePlayer = await getServerPlayer();
+  if (!activePlayer || !activePlayer.isCaptain) redirect(`/${lang}/login`);
 
   const player = await getPlayerById(id);
   if (!player) {

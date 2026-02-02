@@ -5,7 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { getDictionary } from "@/get-dictionary";
 import { Locale } from "@/i18n-config";
 import { getGalleryAlbums } from "@/lib/supabase";
-import { createClient } from "@/lib/supabase/server";
+import { getServerPlayer } from "@/lib/supabase/server";
 import { Edit, Image as ImageIcon, Inbox, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,10 +18,8 @@ export default async function AdminGalleryListPage({
 }) {
   const { lang } = await params;
   const dict = await getDictionary(lang);
-  const supabase = await createClient();
-
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect(`/${lang}/login`);
+  const player = await getServerPlayer();
+  if (!player || !player.isCaptain) redirect(`/${lang}/login`);
 
   const albums = await getGalleryAlbums();
 

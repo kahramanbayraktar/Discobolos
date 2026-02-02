@@ -170,5 +170,22 @@
         "update_button": "Update Password",
         "update_success": "Password updated successfully! You can now login.",
         "password_mismatch": "Passwords do not match."
+    },
+    "event_detail": {
+        "title": "Event Details",
+        "description": "More information about this event.",
+        "back_to_events": "Back to Schedule",
+        "rsvp_title": "Will you attend?",
+        "rsvp_description": "Let your teammates know if you're coming!",
+        "rsvp_coming": "I'm coming!",
+        "rsvp_not_coming": "Not this time",
+        "rsvp_maybe": "Maybe",
+        "rsvp_success": "Your RSVP has been saved!",
+        "rsvp_login_required": "Please login to RSVP",
+        "attendees_title": "Who's coming?",
+        "attendees_coming": "Attending",
+        "attendees_not_coming": "Not Attending",
+        "attendees_maybe": "Maybe",
+        "attendees_empty": "No RSVPs yet."
     }
 }

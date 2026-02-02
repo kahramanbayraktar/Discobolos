@@ -87,3 +87,11 @@ export interface PlayerStats extends Player {
   totalPoints: number;
   rank?: number;
 }
+
+export interface RSVP {
+  id: string;
+  playerId: string;
+  eventId: string;
+  status: "coming" | "not_coming" | "maybe";
+  createdAt: string;
+}

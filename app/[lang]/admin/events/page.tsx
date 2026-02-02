@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { getDictionary } from "@/get-dictionary";
 import { Locale } from "@/i18n-config";
 import { getEvents } from "@/lib/supabase";
-import { createClient } from "@/lib/supabase/server";
+import { getServerPlayer } from "@/lib/supabase/server";
 import { ClipboardList, Edit, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -18,10 +18,8 @@ export default async function AdminEventsListPage({
 }) {
   const { lang } = await params;
   const dict = await getDictionary(lang);
-  const supabase = await createClient();
-
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect(`/${lang}/login`);
+  const player = await getServerPlayer();
+  if (!player || !player.isCaptain) redirect(`/${lang}/login`);
 
   const events = await getEvents();
 
