@@ -53,6 +53,14 @@ export default async function AdminDashboardPage({
       bgColor: "bg-purple-500/10",
     },
     {
+      title: "Attendance",
+      description: "Mark attendance and award points for events",
+      icon: Users,
+      href: `/${lang}/admin/attendance`,
+      color: "text-amber-500",
+      bgColor: "bg-amber-500/10",
+    },
+    {
       title: "Settings",
       description: "Website configuration and admin users",
       icon: Settings,
