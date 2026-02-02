@@ -7,6 +7,9 @@ import { getDictionary } from "@/get-dictionary";
 import type { Locale } from "@/i18n-config";
 import { getEvents, getPlayers } from "@/lib/supabase";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function HomePage({ params }: { params: Promise<{ lang: Locale }> }) {
   const { lang } = await params;
   const dict = await getDictionary(lang);
