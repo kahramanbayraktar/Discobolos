@@ -3,6 +3,7 @@
 import { AttendanceBadge } from "@/components/attendance/attendance-badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createClient } from "@/lib/supabase/client";
 import { PlayerStats } from "@/lib/types";
@@ -21,7 +22,12 @@ export default function ProfilePage({ params }: ProfilePageProps) {
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [lang, setLang] = useState<string>("");
-  const fileInputRef = useRef<HTMLInputElement>(null);
+const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editName, setEditName] = useState("");
+  const [editNickname, setEditNickname] = useState("");
+  const [editFunFact, setEditFunFact] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
   const router = useRouter();
   const supabase = createClient();
 
@@ -81,6 +87,10 @@ export default function ProfilePage({ params }: ProfilePageProps) {
       totalPoints,
     });
     
+    setEditName(matchedPlayer.name);
+    setEditNickname(matchedPlayer.nickname || "");
+    setEditFunFact(matchedPlayer.fun_fact || "");
+    
     setLoading(false);
   };
 
@@ -130,6 +140,36 @@ export default function ProfilePage({ params }: ProfilePageProps) {
       toast.error("Yükleme başarısız: " + error.message);
     } finally {
       setUploading(false);
+    }
+  };
+
+  const handleSaveProfile = async () => {
+    if (!player) return;
+    setIsSaving(true);
+    try {
+      const { error } = await supabase
+        .from('players')
+        .update({
+          name: editName,
+          nickname: editNickname,
+          fun_fact: editFunFact
+        })
+        .eq('id', player.id);
+
+      if (error) throw error;
+
+      toast.success(lang === 'tr' ? "Profil güncellendi!" : "Profile updated!");
+      setPlayer(prev => prev ? { 
+        ...prev, 
+        name: editName, 
+        nickname: editNickname, 
+        funFact: editFunFact 
+      } : null);
+      setIsEditing(false);
+    } catch (error: any) {
+      toast.error("Hata: " + error.message);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -185,9 +225,63 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                   <span className="text-muted-foreground">Pozisyon:</span>
                   <Badge variant="secondary" className="bg-primary/20 text-primary border-none">{player.position}</Badge>
                 </div>
-                <div className="pt-4 border-t border-primary/10 italic text-sm text-center text-muted-foreground">
-                  "{player.funFact}"
-                </div>
+                
+                {isEditing ? (
+                  <div className="space-y-3 pt-4 border-t border-primary/10">
+                    <div className="space-y-1">
+                      <label className="text-[10px] uppercase font-bold text-muted-foreground">İsim</label>
+                      <input 
+                        className="w-full bg-background border border-primary/20 rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] uppercase font-bold text-muted-foreground">Lakap</label>
+                      <input 
+                        className="w-full bg-background border border-primary/20 rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                        value={editNickname}
+                        onChange={(e) => setEditNickname(e.target.value)}
+                        placeholder="Örn: The Flash"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] uppercase font-bold text-muted-foreground">Eğlenceli Bilgi</label>
+                      <textarea 
+                        className="w-full bg-background border border-primary/20 rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary h-20 resize-none"
+                        value={editFunFact}
+                        onChange={(e) => setEditFunFact(e.target.value)}
+                      />
+                    </div>
+                    <div className="flex gap-2 pt-2">
+                      <Button size="sm" className="flex-1" onClick={handleSaveProfile} disabled={isSaving}>
+                        {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : (lang === 'tr' ? "Kaydet" : "Save")}
+                      </Button>
+                      <Button size="sm" variant="ghost" className="flex-1" onClick={() => {
+                        setIsEditing(false);
+                        setEditName(player.name);
+                        setEditNickname(player.nickname || "");
+                        setEditFunFact(player.funFact || "");
+                      }}>
+                        {lang === 'tr' ? "İptal" : "Cancel"}
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="pt-4 border-t border-primary/10 italic text-sm text-center text-muted-foreground">
+                      "{player.funFact}"
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="w-full mt-4 text-xs h-8 border-primary/20 hover:bg-primary/5"
+                      onClick={() => setIsEditing(true)}
+                    >
+                      {lang === 'tr' ? "Profili Düzenle" : "Edit Profile"}
+                    </Button>
+                  </>
+                )}
               </>
             ) : (
               <div className="text-center p-4 bg-amber-50 dark:bg-amber-900/10 rounded-lg border border-amber-200 dark:border-amber-800 text-xs text-amber-700 dark:text-amber-400">

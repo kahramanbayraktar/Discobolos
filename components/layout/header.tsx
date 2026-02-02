@@ -19,6 +19,7 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import type { Locale } from "@/i18n-config";
 import { createClient } from "@/lib/supabase/client";
+import { getCookie } from "@/lib/utils";
 import { LayoutDashboard, LogOut, Menu, User, UserCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -46,18 +47,36 @@ export function Header({ dict, lang }: { dict: any, lang: Locale }) {
   const supabase = createClient();
 
   useEffect(() => {
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
+    const fetchPlayer = async () => {
+      const token = getCookie('player_token');
+      if (token) {
+        const { data: player } = await supabase
+          .from('players')
+          .select('*')
+          .eq('id', token)
+          .maybeSingle();
+        
+        if (player) {
+          setUser({
+            id: player.id,
+            email: player.email,
+            name: player.name,
+            image: player.image,
+            isCaptain: player.is_captain
+          });
+        } else {
+          setUser(null);
+        }
+      } else {
+        setUser(null);
+      }
     };
-    getUser();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
+    fetchPlayer();
 
-    return () => subscription.unsubscribe();
-  }, [supabase.auth]);
+    // We can't easily subscribe to cookie changes, but router.refresh() 
+    // from login/logout will re-mount or re-render components.
+  }, [pathname]); // Refresh on navigation to ensure state is current
 
   const navItems = [
     { href: `/${lang}`, label: dict.nav.home },
@@ -77,7 +96,10 @@ export function Header({ dict, lang }: { dict: any, lang: Locale }) {
   };
 
   const handleLogout = async () => {
+    document.cookie = "player_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
     await supabase.auth.signOut();
+    setUser(null);
+    router.push(`/${lang}`);
     router.refresh();
   };
 
@@ -129,16 +151,25 @@ export function Header({ dict, lang }: { dict: any, lang: Locale }) {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-10 w-10 rounded-full border border-primary/20 p-0 overflow-hidden">
                   <Avatar className="h-full w-full">
-                    <AvatarFallback className="bg-primary/5 text-primary">
-                      {user.email?.[0].toUpperCase()}
-                    </AvatarFallback>
+                    {user.image ? (
+                      <Image 
+                        src={user.image} 
+                        alt={user.name} 
+                        fill 
+                        className="object-cover"
+                      />
+                    ) : (
+                      <AvatarFallback className="bg-primary/5 text-primary">
+                        {user.name?.[0].toUpperCase() || user.email?.[0].toUpperCase()}
+                      </AvatarFallback>
+                    )}
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">{user.email?.split('@')[0]}</p>
+                    <p className="text-sm font-medium leading-none">{user.name}</p>
                     <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
                   </div>
                 </DropdownMenuLabel>
@@ -149,12 +180,14 @@ export function Header({ dict, lang }: { dict: any, lang: Locale }) {
                     <span>{dict.nav.profile}</span>
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href={`/${lang}/admin`} className="cursor-pointer">
-                    <LayoutDashboard className="mr-2 h-4 w-4" />
-                    <span>Admin Panel</span>
-                  </Link>
-                </DropdownMenuItem>
+                {user.isCaptain && (
+                  <DropdownMenuItem asChild>
+                    <Link href={`/${lang}/admin`} className="cursor-pointer">
+                      <LayoutDashboard className="mr-2 h-4 w-4" />
+                      <span>Admin Panel</span>
+                    </Link>
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout} className="text-red-500 focus:text-red-500 cursor-pointer">
                   <LogOut className="mr-2 h-4 w-4" />
@@ -164,12 +197,24 @@ export function Header({ dict, lang }: { dict: any, lang: Locale }) {
             </DropdownMenu>
           ) : (
             <div className="flex items-center gap-2">
-              <Button asChild variant="ghost" className="hidden sm:flex">
-                <Link href={`/${lang}/login`}>{dict.nav.profile || "Giriş Yap"}</Link>
-              </Button>
-              <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-                <Link href={`/${lang}/contact`}>{dict.nav.join}</Link>
-              </Button>
+              <div className="relative group">
+                <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90 transition-all">
+                  <Link href={`/${lang}/contact`}>{dict.nav.join}</Link>
+                </Button>
+                
+                <div className="absolute top-full right-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="bg-popover border border-primary/20 rounded-lg shadow-xl p-1 min-w-[140px]">
+                    <Button asChild variant="ghost" className="w-full justify-start text-xs h-9 hover:bg-primary/10 text-foreground">
+                      <Link href={`/${lang}/login`} className="flex items-center gap-2 w-full">
+                        <User className="h-3.5 w-3.5 text-primary" />
+                        <span className="font-medium text-foreground">
+                          {lang === 'tr' ? 'Giriş Yap' : 'Login'}
+                        </span>
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </div>
