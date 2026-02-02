@@ -9,6 +9,7 @@ export interface Player {
   yearJoined: number;
   isCaptain?: boolean;
   email?: string;
+  accessCode?: string;
 }
 
 export interface Event {

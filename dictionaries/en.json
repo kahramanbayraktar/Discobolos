@@ -145,5 +145,30 @@
             "save_success": "Attendance recorded successfully.",
             "save_error": "An error occurred while saving."
         }
+    },
+    "unauthorized": {
+        "title": "Access Denied",
+        "description": "Sorry, this page is exclusive to approved Discobolos players.",
+        "not_registered": "Your email address was not found in our player roster.",
+        "contact_captain": "If you are on the team but cannot log in, please contact your captain.",
+        "back_home": "Back to Home",
+        "logout": "Try with Different Account"
+    },
+    "forgot_password": {
+        "title": "Reset Password",
+        "description": "Enter your email and we'll send you a link to reset your password.",
+        "email_label": "Email Address",
+        "send_link": "Send Reset Link",
+        "back_to_login": "Back to Login",
+        "success_title": "Check your email",
+        "success_description": "We've sent a password reset link to %email%.",
+        "error_generic": "Something went wrong. Please try again.",
+        "reset_title": "New Password",
+        "reset_description": "Enter your new password below.",
+        "new_password_label": "New Password",
+        "confirm_password_label": "Confirm New Password",
+        "update_button": "Update Password",
+        "update_success": "Password updated successfully! You can now login.",
+        "password_mismatch": "Passwords do not match."
     }
 }

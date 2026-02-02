@@ -27,24 +27,63 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  // refreshing the auth token
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  // Check for our custom session cookie
+  const playerToken = request.cookies.get('player_token')?.value
 
   const pathname = request.nextUrl.pathname
+  const segments = pathname.split('/')
+  const lang = segments[1] || 'en'
 
-  // Check if it's an admin route
-  const isAdminRoute = pathname.split('/').some(segment => segment === 'admin')
+  // Define public paths
+  const publicSegments = ['login', 'unauthorized', 'roster', 'events', 'news', 'rules', 'gallery', 'contact']
+  const isPublicPath = 
+    pathname === `/${lang}` || 
+    segments.length <= 2 ||
+    publicSegments.includes(segments[2])
 
-  if (isAdminRoute && !user) {
-    // Redirect to login if not authenticated
-    // We need to keep the language prefix
-    const segments = pathname.split('/')
-    const lang = segments[1] || 'en' // fallback
-    const url = request.nextUrl.clone()
-    url.pathname = `/${lang}/login`
-    return NextResponse.redirect(url)
+  // If player token exists, verify it
+  if (playerToken) {
+    const { data: player } = await supabase
+      .from('players')
+      .select('id, is_captain')
+      .eq('id', playerToken)
+      .maybeSingle()
+
+    const isAuthorizedPlayer = !!player
+    const isCaptain = player?.is_captain || false
+
+    // 1. If not an authorized player, redirect to unauthorized page
+    if (!isAuthorizedPlayer && !isPublicPath) {
+      const url = request.nextUrl.clone()
+      url.pathname = `/${lang}/unauthorized`
+      return NextResponse.redirect(url)
+    }
+
+    // 2. If it's an admin route, check for captain status
+    const isAdminRoute = segments.some(segment => segment === 'admin')
+    if (isAdminRoute && !isCaptain) {
+      const url = request.nextUrl.clone()
+      url.pathname = `/${lang}`
+      return NextResponse.redirect(url)
+    }
+
+    // 3. If logged in and trying to go to login, redirect to home
+    if (pathname === `/${lang}/login`) {
+      const url = request.nextUrl.clone()
+      url.pathname = `/${lang}`
+      return NextResponse.redirect(url)
+    }
+  } else {
+    // If NO token
+    const isProtectedRoute = 
+      segments.some(s => ['admin', 'attendance', 'profile'].includes(s))
+
+    if (isProtectedRoute) {
+      const url = request.nextUrl.clone()
+      url.pathname = `/${lang}/login`
+      url.searchParams.set('next', pathname)
+      return NextResponse.redirect(url)
+    }
   }
 
   return supabaseResponse

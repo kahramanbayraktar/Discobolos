@@ -129,6 +129,7 @@ export async function getPlayers(): Promise<Player[]> {
     yearJoined: row.year_joined,
     isCaptain: row.is_captain,
     email: row.email || '',
+    accessCode: row.access_code || '',
   }));
 }
 
@@ -152,6 +153,7 @@ export async function getPlayerById(id: string): Promise<Player | null> {
     yearJoined: data.year_joined,
     isCaptain: data.is_captain,
     email: data.email || '',
+    accessCode: data.access_code || '',
   };
 }
 
@@ -167,7 +169,8 @@ export async function createPlayer(player: Omit<Player, 'id'>) {
       fun_fact: player.funFact,
       year_joined: player.yearJoined,
       is_captain: player.isCaptain,
-      email: player.email
+      email: player.email,
+      access_code: player.accessCode
     }])
     .select();
 
@@ -187,7 +190,8 @@ export async function updatePlayer(id: string, player: Partial<Omit<Player, 'id'
       fun_fact: player.funFact,
       year_joined: player.yearJoined,
       is_captain: player.isCaptain,
-      email: player.email
+      email: player.email,
+      access_code: player.accessCode
     })
     .eq('id', id)
     .select();

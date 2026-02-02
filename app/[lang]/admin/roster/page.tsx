@@ -7,8 +7,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { getDictionary } from "@/get-dictionary";
 import { Locale } from "@/i18n-config";
 import { getPlayers } from "@/lib/supabase";
-import { createClient } from "@/lib/supabase/server";
-import { Edit, Plus, User } from "lucide-react";
+import { getServerPlayer } from "@/lib/supabase/server";
+import { Edit, Key, Plus, User } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -19,10 +19,9 @@ export default async function AdminRosterListPage({
 }) {
   const { lang } = await params;
   const dict = await getDictionary(lang);
-  const supabase = await createClient();
-
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect(`/${lang}/login`);
+  
+  const player = await getServerPlayer();
+  if (!player || !player.isCaptain) redirect(`/${lang}/login`);
 
   const players = await getPlayers();
 
@@ -47,7 +46,7 @@ export default async function AdminRosterListPage({
         <CardHeader>
           <CardTitle>Team Roster</CardTitle>
           <CardDescription>
-            Manage the players appearing on the public roster page.
+            Manage players and their login access codes.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -58,6 +57,7 @@ export default async function AdminRosterListPage({
                 <TableHead className="w-[80px]">#</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Position</TableHead>
+                <TableHead>Access Code</TableHead>
                 <TableHead>Role</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
@@ -65,31 +65,37 @@ export default async function AdminRosterListPage({
             <TableBody>
               {players.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                  <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
                     No players found. Add your first teammate!
                   </TableCell>
                 </TableRow>
               ) : (
-                players.map((player) => (
-                  <TableRow key={player.id}>
+                players.map((p) => (
+                  <TableRow key={p.id}>
                     <TableCell>
                       <Avatar className="h-10 w-10">
-                        <AvatarImage src={player.image} alt={player.name} />
+                        <AvatarImage src={p.image} alt={p.name} />
                         <AvatarFallback><User className="h-4 w-4" /></AvatarFallback>
                       </Avatar>
                     </TableCell>
-                    <TableCell className="font-bold">{player.number}</TableCell>
+                    <TableCell className="font-bold">{p.number}</TableCell>
                     <TableCell className="font-medium">
-                      {player.name}
-                      {player.nickname && (
+                      {p.name}
+                      {p.nickname && (
                         <span className="block text-xs text-muted-foreground italic">
-                          "{player.nickname}"
+                          "{p.nickname}"
                         </span>
                       )}
                     </TableCell>
-                    <TableCell>{player.position}</TableCell>
+                    <TableCell>{p.position}</TableCell>
                     <TableCell>
-                      {player.isCaptain ? (
+                      <div className="flex items-center gap-1.5 text-xs font-mono bg-muted px-2 py-1 rounded w-fit">
+                        <Key className="h-3 w-3 text-muted-foreground" />
+                        {p.accessCode}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      {p.isCaptain ? (
                         <span className="text-xs bg-accent/20 text-accent-foreground px-2 py-1 rounded-full font-bold">
                           Captain
                         </span>
@@ -100,11 +106,11 @@ export default async function AdminRosterListPage({
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
                         <Button asChild variant="ghost" size="icon">
-                          <Link href={`/${lang}/admin/roster/${player.id}`}>
+                          <Link href={`/${lang}/admin/roster/${p.id}`}>
                             <Edit className="h-4 w-4" />
                           </Link>
                         </Button>
-                        <DeletePlayerButton playerId={player.id} />
+                        <DeletePlayerButton playerId={p.id} />
                       </div>
                     </TableCell>
                   </TableRow>

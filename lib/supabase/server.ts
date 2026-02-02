@@ -19,11 +19,39 @@ export async function createClient() {
             )
           } catch {
             // The `setAll` method was called from a Server Component.
-            // This can be ignored if you have middleware refreshing
-            // user sessions.
           }
         },
       },
     }
   )
+}
+
+export async function getServerPlayer() {
+  const cookieStore = await cookies()
+  const playerToken = cookieStore.get('player_token')?.value
+  
+  if (!playerToken) return null
+
+  const supabase = await createClient()
+  const { data: player } = await supabase
+    .from('players')
+    .select('*')
+    .eq('id', playerToken)
+    .maybeSingle()
+
+  if (!player) return null
+
+  return {
+    id: player.id,
+    name: player.name,
+    nickname: player.nickname,
+    number: player.number,
+    position: player.position,
+    image: player.image,
+    funFact: player.fun_fact,
+    yearJoined: player.year_joined,
+    isCaptain: player.is_captain,
+    email: player.email,
+    accessCode: player.access_code,
+  }
 }

@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createClient } from "@/lib/supabase/client";
 import { PlayerStats } from "@/lib/types";
+import { getCookie } from "@/lib/utils";
 import { Camera, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -19,56 +20,67 @@ export default function ProfilePage({ params }: ProfilePageProps) {
   const [player, setPlayer] = useState<PlayerStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
-  const [user, setUser] = useState<any>(null);
   const [lang, setLang] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const supabase = createClient();
 
   const fetchPlayerData = async (targetLang: string) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
+    const playerToken = getCookie('player_token');
+    
+    if (!playerToken) {
       router.push(`/${targetLang}/login?next=/${targetLang}/profile`);
       return;
     }
-    setUser(user);
 
-    // Fetch player stats
-    const { data: players } = await supabase.from('players').select('*');
-    const { data: attendance } = await supabase.from('attendance').select('*');
+    // Fetch player data directly by ID
+    const { data: matchedPlayer, error: playerError } = await supabase
+      .from('players')
+      .select('*')
+      .eq('id', playerToken)
+      .maybeSingle();
 
-    if (players) {
-      const matchedPlayer = players.find(p => p.email?.toLowerCase() === user.email?.toLowerCase());
-      if (matchedPlayer) {
-        // Calculate stats (simplified here for client side)
-        const playerAttendance = (attendance || []).filter(a => a.player_id === matchedPlayer.id && a.is_present);
-        const totalPoints = playerAttendance.reduce((sum, a) => {
-          let pts = 1;
-          if (a.is_early) pts += 2;
-          if (a.is_on_time) pts += 1;
-          if (a.has_double_jersey) pts += 1;
-          return sum + pts;
-        }, 0);
-
-        setPlayer({
-          id: matchedPlayer.id,
-          name: matchedPlayer.name,
-          nickname: matchedPlayer.nickname,
-          number: matchedPlayer.number,
-          position: matchedPlayer.position,
-          image: matchedPlayer.image,
-          funFact: matchedPlayer.fun_fact,
-          yearJoined: matchedPlayer.year_joined,
-          isCaptain: matchedPlayer.is_captain,
-          email: matchedPlayer.email,
-          attendanceCount: playerAttendance.length,
-          earlyArrivalCount: playerAttendance.filter(a => a.is_early).length,
-          onTimeCount: playerAttendance.filter(a => a.is_on_time).length,
-          doubleJerseyCount: playerAttendance.filter(a => a.has_double_jersey).length,
-          totalPoints,
-        });
-      }
+    if (playerError || !matchedPlayer) {
+      // If token is invalid, log out
+      document.cookie = "player_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      router.push(`/${targetLang}/login`);
+      return;
     }
+
+    // Fetch attendance for stats
+    const { data: attendance } = await supabase
+      .from('attendance')
+      .select('*')
+      .eq('player_id', matchedPlayer.id);
+
+    // Calculate stats
+    const playerAttendance = (attendance || []).filter(a => a.is_present);
+    const totalPoints = playerAttendance.reduce((sum, a) => {
+      let pts = 1;
+      if (a.is_early) pts += 2;
+      if (a.is_on_time) pts += 1;
+      if (a.has_double_jersey) pts += 1;
+      return sum + pts;
+    }, 0);
+
+    setPlayer({
+      id: matchedPlayer.id,
+      name: matchedPlayer.name,
+      nickname: matchedPlayer.nickname,
+      number: matchedPlayer.number,
+      position: matchedPlayer.position,
+      image: matchedPlayer.image,
+      funFact: matchedPlayer.fun_fact,
+      yearJoined: matchedPlayer.year_joined,
+      isCaptain: matchedPlayer.is_captain,
+      email: matchedPlayer.email,
+      attendanceCount: playerAttendance.length,
+      earlyArrivalCount: playerAttendance.filter(a => a.is_early).length,
+      onTimeCount: playerAttendance.filter(a => a.is_on_time).length,
+      doubleJerseyCount: playerAttendance.filter(a => a.has_double_jersey).length,
+      totalPoints,
+    });
+    
     setLoading(false);
   };
 
@@ -112,7 +124,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
       if (updateError) throw updateError;
 
       toast.success("Profil fotoğrafı güncellendi!");
-      setPlayer(prev => prev ? { ...prev, image: publicUrl } : null);
+      setPlayer((prev: PlayerStats | null) => prev ? { ...prev, image: publicUrl } : null);
     } catch (error: any) {
       console.error(error);
       toast.error("Yükleme başarısız: " + error.message);
@@ -139,7 +151,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
               <Avatar className="h-32 w-32 border-4 border-primary/10 transition-all group-hover:opacity-75">
                 <AvatarImage src={player?.image} alt={player?.name} className="object-cover" />
                 <AvatarFallback className="text-4xl bg-primary/5 text-primary">
-                  {user?.email?.[0].toUpperCase()}
+                  {player?.email?.[0]?.toUpperCase() || 'P'}
                 </AvatarFallback>
               </Avatar>
               <button 
@@ -158,9 +170,9 @@ export default function ProfilePage({ params }: ProfilePageProps) {
               />
             </div>
             <CardTitle className="text-2xl font-bold font-[family-name:var(--font-display)]">
-              {player?.name || user?.email?.split('@')[0]}
+              {player?.name || 'Oyuncu'}
             </CardTitle>
-            <p className="text-sm text-muted-foreground">{user?.email}</p>
+            <p className="text-sm text-muted-foreground">{player?.email}</p>
           </CardHeader>
           <CardContent className="space-y-4">
             {player ? (

@@ -145,5 +145,30 @@
             "save_success": "Katılım bilgileri başarıyla kaydedildi.",
             "save_error": "Kaydetme sırasında bir hata oluştu."
         }
+    },
+    "unauthorized": {
+        "title": "Erişim Yetkiniz Yok",
+        "description": "Üzgünüz, bu sayfa yalnızca onaylanmış Discobolos oyuncularına özeldir.",
+        "not_registered": "E-posta adresiniz oyuncu listemizde bulunamadı.",
+        "contact_captain": "Eğer takımdaysanız ve giriş yapamıyorsanız, lütfen kaptanınızla iletişime geçin.",
+        "back_home": "Anasayfaya Dön",
+        "logout": "Farklı Hesapla Giriş Yap"
+    },
+    "forgot_password": {
+        "title": "Şifremi Unuttum",
+        "description": "E-posta adresini gir, sana şifreni sıfırlaman için bir bağlantı gönderelim.",
+        "email_label": "E-posta Adresi",
+        "send_link": "Sıfırlama Bağlantısı Gönder",
+        "back_to_login": "Giriş Sayfasına Dön",
+        "success_title": "E-postanı Kontrol Et",
+        "success_description": "Şifre sıfırlama bağlantısını %email% adresine gönderdik.",
+        "error_generic": "Bir şeyler yanlış gitti. Lütfen tekrar dene.",
+        "reset_title": "Yeni Şifre",
+        "reset_description": "Lütfen yeni şifreni aşağıya gir.",
+        "new_password_label": "Yeni Şifre",
+        "confirm_password_label": "Yeni Şifre Tekrar",
+        "update_button": "Şifreyi Güncelle",
+        "update_success": "Şifren başarıyla güncellendi! Giriş yapabilirsin.",
+        "password_mismatch": "Şifreler eşleşmiyor."
     }
 }

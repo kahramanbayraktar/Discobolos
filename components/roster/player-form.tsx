@@ -41,6 +41,7 @@ const playerSchema = z.object({
   yearJoined: z.coerce.number().min(2000).max(new Date().getFullYear()),
   isCaptain: z.boolean().default(false),
   email: z.string().email("Invalid email address.").optional().or(z.literal("")),
+  accessCode: z.string().min(4, "Access code must be at least 4 characters.").default("1907"),
 });
 
 type PlayerFormValues = z.infer<typeof playerSchema>;
@@ -69,6 +70,7 @@ export function PlayerForm({ initialData }: PlayerFormProps) {
           yearJoined: initialData.yearJoined,
           isCaptain: initialData.isCaptain || false,
           email: initialData.email || "",
+          accessCode: initialData.accessCode || "1907",
         }
       : {
           name: "",
@@ -80,6 +82,7 @@ export function PlayerForm({ initialData }: PlayerFormProps) {
           yearJoined: new Date().getFullYear(),
           isCaptain: false,
           email: "",
+          accessCode: "1907",
         },
   });
 
@@ -96,6 +99,7 @@ export function PlayerForm({ initialData }: PlayerFormProps) {
         year_joined: data.yearJoined,
         is_captain: data.isCaptain,
         email: data.email,
+        access_code: data.accessCode,
       };
 
       if (initialData) {
@@ -177,6 +181,22 @@ export function PlayerForm({ initialData }: PlayerFormProps) {
                 </FormControl>
                 <FormDescription>
                   This will be used for player login.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="accessCode"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Access Code (Secret)</FormLabel>
+                <FormControl>
+                  <Input placeholder="1907" {...field} />
+                </FormControl>
+                <FormDescription>
+                  Code used for login instead of a password.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
