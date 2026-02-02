@@ -14,8 +14,8 @@
         "badge": "Spirit of the Game Champions",
         "title_part1": "Play with Spirit.",
         "title_part2": "Throw with Passion.",
-        "description": "Discobolos is an Ultimate Frisbee community inspired by the ancient spirit of athletics. We're united by our love for the game and the timeless values of fair play and competition.",
-        "cta_join": "Join Our Team",
+        "description": "Discobolos is an Ultimate Frisbee community inspired by the spirit of ancient athletics, bringing together players through their love for the game and its timeless values.",
+        "cta_join": "Join the Team",
         "cta_schedule": "View Schedule",
         "stats": {
             "established": "Established",
@@ -26,14 +26,24 @@
     "cta": {
         "title": "Ready to Hit the Field?",
         "description": "Whether you're a seasoned pro or picking up a disc for the first time, there's a spot for you on our roster.",
-        "button": "Join Discobolos Now"
+        "button": "Join Discobolos Now",
+        "learn_rules": "Learn the Rules"
+    },
+    "birthday": {
+        "gift_label": "Surprise for Captain! 🎁",
+        "title": "Happy Birthday <br /> Captain Cem!",
+        "subtitle": "The Discobolos family is proud of you.",
+        "message": "\"You inspire us all with your leadership on the field, your endless energy, and your Spirit of the Game. May your new year be filled with fast assists, amazing blocks, and always a fair game!\"",
+        "team_name": "Halikarnassos Discobolos Team",
+        "more_confetti": "More Confetti! 🎉"
     },
     "gallery": {
         "badge": "Media",
         "title": "Photo Gallery",
-        "description": "Relive our best moments - from championship victories to team bonding events. All albums are hosted on Google Photos for easy viewing and sharing.",
+        "view_all": "View Full Gallery",
+        "description": "Witness our journey from championship victories to team-building adventures. All albums are hosted on Google Photos for easy viewing and sharing.",
         "integration_title": "Google Photos Integration",
-        "integration_desc": "Our photo albums are hosted on Google Photos. Click on any album to view all photos in a beautiful, full-screen gallery. You can also download, share, or add your own photos to team albums!",
+        "integration_desc": "Our photo albums are hosted on Google Photos. Click on any album to view all photos in a full-screen gallery. You can also add photos, download, or share them with the team!",
         "stats_albums": "Albums",
         "stats_photos": "Total Photos",
         "stats_years": "Years of Memories",
@@ -41,35 +51,42 @@
         "view_album": "View Album",
         "photos_count": "%count% Photos",
         "photos_label": "photos",
-        "hosted_on_google": "This album is hosted on Google Photos for the best viewing experience. Click below to open the full album.",
+        "hosted_on_google": "This album is hosted on Google Photos for the best viewing experience. Click the button below to open the full album.",
         "view_on_google": "View on Google Photos",
         "full_resolution": "Full resolution photos with slideshow mode",
         "open_album": "Open Album",
         "contribute_title": "Share Your Memories",
-        "contribute_desc": "Were you at this event? Add your own photos and videos to the team album!",
+        "contribute_desc": "Were you part of this event? Add your own shots and videos to the team album!",
         "contribute_button": "Add Photos/Videos",
-        "contribute_placeholder": "Select a photo or video to share with the team. These will be reviewed by admins before appearing.",
+        "contribute_placeholder": "Select a photo or video to share with the team. Uploads will appear after moderator approval.",
         "contribute_name_label": "Your Name",
         "contribute_name_placeholder": "Who took this?",
         "contribute_file_label": "Photo/Video",
         "contribute_uploading": "Uploading...",
         "contribute_submit": "Upload and Share",
-        "contribute_success": "Successfully uploaded! Admin will review it soon.",
+        "contribute_success": "Successfully uploaded! A moderator will review it soon.",
         "contribute_error_file": "Please select a file and enter your name.",
-        "community_highlights_title": "Team Highlights",
+        "community_highlights_title": "Community Highlights",
         "community_highlights_desc": "Special moments shared by team members.",
         "highlights_preview": "Highlights Preview",
-        "highlights_desc": "This is just a highlight reel. Open the full album to see all %count% photos and videos.",
+        "highlights_desc": "This is just a preview. Open the album to see all %count% photos and videos.",
         "comments": "Comments"
     },
     "events": {
-        "title": "Upcoming Events",
+        "title": "Schedule",
+        "subtitle": "Join Us on the Field",
         "view_all": "View All Events",
         "empty": "No upcoming events found."
     },
     "news": {
-        "title": "Latest News",
-        "view_all": "View All News"
+        "title": "News",
+        "subtitle": "Team Updates",
+        "view_all": "View All News",
+        "categories": {
+            "match-report": "Match Report",
+            "announcement": "Announcement",
+            "feature": "Feature"
+        }
     },
     "events_page": {
         "badge": "Schedule",
@@ -77,46 +94,31 @@
         "description": "Stay up to date with all our practices, matches, tournaments, and social gatherings. We'd love to see you on the field!",
         "list_view": "List View",
         "calendar_view": "Calendar",
-        "select_date": "Select a Date",
+        "select_date": "Select Date",
         "event_types": "Event Types",
         "no_events_date": "No events scheduled for this date.",
-        "select_indicator": "Select a date with an indicator to see events.",
+        "select_indicator": "Select a highlighted date to see events.",
         "no_events_scheduled": "No %type% events scheduled.",
         "view_on_map": "View on Map",
         "vs": "vs.",
         "types": {
             "all": "All Events",
             "practice": "Practice",
-            "match": "Matches",
+            "match": "Match",
             "social": "Social",
-            "tournament": "Tournaments"
-        },
-        "titles": {
-            "weekly_practice": "Weekly Practice",
-            "league_match": "League Match vs. %opponent%",
-            "pizza_night": "Team Social - Pizza Night",
-            "winter_classic": "SF Winter Classic Tournament",
-            "friendly_match": "Friendly Match vs. %opponent%"
-        },
-        "descriptions": {
-            "weekly_practice": "Regular team practice session. All skill levels welcome. Bring water and cleats!",
-            "weekly_practice_zone": "Regular team practice. Focus on zone offense this week. New players welcome!",
-            "league_match": "Important league match against our cross-town rivals. Arrive 30 minutes early for warm-up.",
-            "pizza_night": "Monthly team bonding event. Good food, great company, and maybe some disc golf!",
-            "winter_classic": "Two-day tournament featuring teams from across California. Our biggest event of the season!",
-            "friendly_match": "Casual scrimmage with our friends from across the bay."
+            "tournament": "Tournament"
         }
     },
     "attendance": {
         "badge": "Leaderboard",
         "title": "Hall of Fame",
-        "description": "Rewarding discipline and passion on the field. Who embodies the Discobolos spirit best?",
+        "description": "Celebrating consistency and dedication on the field. Who's leading the spirit for Discobolos?",
         "table": {
             "rank": "Rank",
             "player": "Player",
-            "points": "Ego Points",
+            "points": "Points",
             "badges": "Badges",
-            "presence": "Honored with Presence",
+            "presence": "Presence",
             "early": "Dawn Operation",
             "on_time": "Second Precision",
             "double_jersey": "Chameleon Mode",
@@ -125,67 +127,175 @@
         "badges": {
             "early_bird": {
                 "name": "Early Bird",
-                "description": "Waking up the sun on the field"
+                "description": "Greeting the dawn on the field"
             },
             "chameleon": {
                 "name": "Chameleon",
-                "description": "Never forgets the double jersey"
+                "description": "Never forgets their markers"
+            },
+            "iron_man": {
+                "name": "Iron Man",
+                "description": "Attends every single session"
             },
             "reliable": {
                 "name": "Reliable",
-                "description": "Always on field on time"
-            },
-            "iron_man": {
-                "name": "Iron Man/Woman",
-                "description": "Attends every single practice"
+                "description": "Always on the field before time"
             }
         },
         "admin": {
-            "title": "Attendance Record",
+            "title": "Record Attendance",
             "save_success": "Attendance recorded successfully.",
-            "save_error": "An error occurred while saving."
+            "save_error": "Error saving attendance."
         }
     },
     "unauthorized": {
         "title": "Access Denied",
-        "description": "Sorry, this page is exclusive to approved Discobolos players.",
-        "not_registered": "Your email address was not found in our player roster.",
-        "contact_captain": "If you are on the team but cannot log in, please contact your captain.",
+        "description": "Sorry, this page is exclusive to verified Discobolos players.",
+        "not_registered": "Your email address was not found in our player list.",
+        "contact_captain": "If you are on the team and cannot log in, please contact the captain.",
         "back_home": "Back to Home",
-        "logout": "Try with Different Account"
+        "logout": "Log out and try again"
     },
     "forgot_password": {
-        "title": "Reset Password",
-        "description": "Enter your email and we'll send you a link to reset your password.",
+        "title": "Forgot Password",
+        "description": "Enter your email address and we'll send you a link to reset your password.",
         "email_label": "Email Address",
         "send_link": "Send Reset Link",
         "back_to_login": "Back to Login",
-        "success_title": "Check your email",
+        "success_title": "Check Your Email",
         "success_description": "We've sent a password reset link to %email%.",
         "error_generic": "Something went wrong. Please try again.",
         "reset_title": "New Password",
-        "reset_description": "Enter your new password below.",
+        "reset_description": "Please enter your new password below.",
         "new_password_label": "New Password",
         "confirm_password_label": "Confirm New Password",
         "update_button": "Update Password",
-        "update_success": "Password updated successfully! You can now login.",
+        "update_success": "Password updated successfully! You can now log in.",
         "password_mismatch": "Passwords do not match."
     },
     "event_detail": {
         "title": "Event Details",
-        "description": "More information about this event.",
-        "back_to_events": "Back to Schedule",
-        "rsvp_title": "Will you attend?",
-        "rsvp_description": "Let your teammates know if you're coming!",
-        "rsvp_coming": "I'm coming!",
-        "rsvp_not_coming": "Not this time",
+        "description": "More information about the event.",
+        "back_to_events": "Back to Calendar",
+        "rsvp_title": "Are you coming?",
+        "rsvp_description": "Let your teammates know if you'll be there!",
+        "rsvp_coming": "I'm Coming!",
+        "rsvp_not_coming": "Not Coming",
         "rsvp_maybe": "Maybe",
         "rsvp_success": "Your RSVP has been saved!",
-        "rsvp_login_required": "Please login to RSVP",
-        "attendees_title": "Who's coming?",
-        "attendees_coming": "Attending",
-        "attendees_not_coming": "Not Attending",
+        "rsvp_login_required": "Please log in to RSVP",
+        "attendees_title": "Who's Coming?",
+        "attendees_coming": "Coming",
+        "attendees_not_coming": "Not Coming",
         "attendees_maybe": "Maybe",
         "attendees_empty": "No RSVPs yet."
+    },
+    "contact_page": {
+        "badge": "Get Involved",
+        "title": "Join the Discobolos",
+        "description": "Whether you're picking up a disc for the first time or you're a seasoned player looking for a new team, we'd love to have you join us!",
+        "reasons": {
+            "community": {
+                "title": "Amazing Community",
+                "description": "Join a supportive group of players where you'll make friends for life."
+            },
+            "spirit": {
+                "title": "Spirit of the Game",
+                "description": "Experience a sport built on mutual respect, fairness, and joy."
+            },
+            "competitive": {
+                "title": "Competitive Play",
+                "description": "Participate in leagues, tournaments, and friendly matches."
+            }
+        },
+        "contact_info_title": "Contact Information",
+        "practice_location_title": "Practice Location",
+        "practice_location_desc": "Usually Funtown, Ortakent (Weekdays) or Camel Beach (Weekends)",
+        "practice_times_title": "Practice Times",
+        "practice_times_desc": "Wednesdays 20:00-21:00, Saturdays 14:00-16:00",
+        "email_us_title": "Email Us",
+        "follow_us_title": "Follow Us",
+        "follow_us_desc": "Follow us for updates, photos, and behind-the-scenes content!",
+        "whatsapp_title": "Join WhatsApp Group",
+        "whatsapp_desc": "Get instant updates and chat with the team in our community group.",
+        "whatsapp_button": "Join Group",
+        "faq_title": "Frequently Asked Questions",
+        "faq_desc": "Everything you need to know about joining Halikarnassos Discobolos",
+        "faqs": [
+            {
+                "question": "Do I need experience to join?",
+                "answer": "Absolutely not! We welcome players of all skill levels, from complete beginners to experienced athletes. We have dedicated coaching for new players to help you learn the basics."
+            },
+            {
+                "question": "What gear do I need?",
+                "answer": "Just bring yourself, comfortable athletic wear, and cleats (soccer cleats work great). We provide discs for practice. Once you join the team, you'll be able to get a team jersey."
+            },
+            {
+                "question": "How often do you practice?",
+                "answer": "We have regular practices twice a week (Tuesday and Thursday evenings) and optional weekend scrimmages. There's no pressure to attend every session - we know life can be busy!"
+            },
+            {
+                "question": "Is there a membership fee?",
+                "answer": "We have modest seasonal dues that cover field rentals, equipment, tournament entry fees, and team jerseys. We offer payment plans and never turn a player away due to financial constraints."
+            },
+            {
+                "question": "What's the time commitment like?",
+                "answer": "As much or as little as you want! Some casual players just do 1-2 practices a week, while competitive players attend tournaments and extra drills. We're flexible!"
+            },
+            {
+                "question": "How do tryouts work?",
+                "answer": "We don't have traditional tryouts - instead, we invite you to join us for a few practices to see if the team is a good fit for you. It's low-pressure and fun-focused!"
+            }
+        ]
+    },
+    "contact_form": {
+        "title": "Join Our Squad",
+        "name_label": "Full Name *",
+        "name_placeholder": "Your Name",
+        "email_label": "Email Address *",
+        "email_placeholder": "example@email.com",
+        "experience_label": "Experience Level *",
+        "experience_placeholder": "Select your experience",
+        "experience_levels": {
+            "beginner": {
+                "label": "Beginner",
+                "description": "New to Ultimate - never played"
+            },
+            "intermediate": {
+                "label": "Intermediate",
+                "description": "Played casually / know the basics"
+            },
+            "advanced": {
+                "label": "Advanced",
+                "description": "Regular player / league experience"
+            },
+            "competitive": {
+                "label": "Competitive",
+                "description": "Tournament / club level experience"
+            }
+        },
+        "message_label": "Message",
+        "message_placeholder": "Tell us about yourself - your interests, availability, questions, etc.",
+        "submit_button": "Submit Application",
+        "submitting_button": "Submitting...",
+        "success_title": "Thanks for reaching out!",
+        "success_desc": "We've received your message and will get back to you soon. In the meantime, check out our upcoming events or learn more about the rules of Ultimate!",
+        "another_response_button": "Submit Another Response",
+        "agreement_text": "By submitting this form, you agree to be contacted by Halikarnassos Discobolos regarding team activities and events.",
+        "error_generic": "Something went wrong. Please try again."
+    },
+    "footer": {
+        "description": "Embracing the Spirit of the Game since 2018. Join our community of passionate Ultimate Frisbee players.",
+        "team": "Team",
+        "resources": "Resources",
+        "get_in_touch": "Get in Touch",
+        "address": {
+            "complex": "",
+            "street": "",
+            "city": "Bodrum, Mugla"
+        },
+        "all_rights_reserved": "All rights reserved.",
+        "tagline": "Play hard. Play fair. Play with spirit.",
+        "faq": "FAQ"
     }
 }

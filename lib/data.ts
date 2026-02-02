@@ -1,4 +1,4 @@
-import type { Player, Event, NewsPost, GalleryAlbum } from "./types";
+import type { Event, GalleryAlbum, NewsPost, Player } from "./types";
 
 export const players: Player[] = [
   {
@@ -158,8 +158,8 @@ export const newsPosts: NewsPost[] = [
     title: "Dynasty Dominates Fall League Championship",
     slug: "dynasty-dominates-fall-championship",
     excerpt:
-      "An incredible season finale as Disc Dynasty clinches the Fall League title with an undefeated playoff run.",
-    content: `The Disc Dynasty completed their dream season with a convincing 15-11 victory over the Silicon Valley Spinners in the Fall League Championship...`,
+      "An incredible season finale as Halikarnassos Discobolos clinches the Fall League title with an undefeated playoff run.",
+    content: `The Halikarnassos Discobolos completed their dream season with a convincing 15-11 victory over the Silicon Valley Spinners in the Fall League Championship...`,
     date: "2026-01-15",
     author: "Alex Rivera",
     image: "/news/championship.jpg",
@@ -171,7 +171,7 @@ export const newsPosts: NewsPost[] = [
     slug: "spring-tryouts-2026",
     excerpt:
       "Looking to join the Ultimate Frisbee community? Our spring tryout dates are now set.",
-    content: `Disc Dynasty is excited to announce our Spring 2026 tryout dates! Whether you're a seasoned player or completely new to the sport...`,
+    content: `Halikarnassos Discobolos is excited to announce our Spring 2026 tryout dates! Whether you're a seasoned player or completely new to the sport...`,
     date: "2026-01-10",
     author: "Sam Martinez",
     image: "/news/tryouts.jpg",
@@ -183,7 +183,7 @@ export const newsPosts: NewsPost[] = [
     slug: "spirit-award-celebration",
     excerpt:
       "Our team received the League Spirit Award for the third consecutive year.",
-    content: `We're proud to announce that Disc Dynasty has been awarded the prestigious League Spirit Award for 2025...`,
+    content: `We're proud to announce that Halikarnassos Discobolos has been awarded the prestigious League Spirit Award for 2025...`,
     date: "2026-01-05",
     author: "Jordan Chen",
     image: "/news/spirit-award.jpg",

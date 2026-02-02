@@ -25,7 +25,7 @@ export function NewsPreview({ dict, lang }: { dict: any, lang: Locale }) {
           <div>
             <p className="text-sm font-medium text-primary mb-2">{dict.title}</p>
             <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight md:text-4xl">
-              Team Updates
+              {dict.subtitle}
             </h2>
           </div>
           <Button asChild variant="outline" className="gap-2 w-fit bg-transparent">
@@ -48,7 +48,7 @@ export function NewsPreview({ dict, lang }: { dict: any, lang: Locale }) {
                 <div className="absolute inset-0 bg-gradient-to-t from-secondary to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
                   <Badge className="mb-2">
-                    {categoryLabels[featuredPost.category]}
+                    {dict.categories ? dict.categories[featuredPost.category] : featuredPost.category}
                   </Badge>
                   <h3 className="font-[family-name:var(--font-display)] text-xl font-bold text-secondary-foreground group-hover:text-primary transition-colors">
                     <Link href={`/${lang}/news/${featuredPost.slug}`}>
@@ -89,7 +89,7 @@ export function NewsPreview({ dict, lang }: { dict: any, lang: Locale }) {
                     </div>
                     <div className="flex-1 min-w-0">
                       <Badge variant="outline" className="mb-2">
-                        {categoryLabels[post.category]}
+                        {dict.categories ? dict.categories[post.category] : post.category}
                       </Badge>
                       <h3 className="font-semibold leading-tight group-hover:text-primary transition-colors">
                         <Link href={`/${lang}/news/${post.slug}`}>{post.title}</Link>

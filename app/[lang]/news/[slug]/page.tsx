@@ -1,11 +1,11 @@
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { newsPosts } from "@/lib/data";
+import type { NewsPost } from "@/lib/types";
+import { ArrowLeft, Newspaper, Share2 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Newspaper, ArrowLeft, Share2 } from "lucide-react";
-import { newsPosts } from "@/lib/data";
-import type { NewsPost } from "@/lib/types";
 
 interface NewsArticlePageProps {
   params: Promise<{ slug: string }>;
@@ -128,7 +128,7 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
               Special recognition goes to our captains who led by example,
               demonstrating both athletic excellence and unwavering commitment
               to fair play. Their leadership on and off the field continues to
-              inspire every member of Disc Dynasty.
+              inspire every member of Halikarnassos Discobolos.
             </p>
           </div>
 

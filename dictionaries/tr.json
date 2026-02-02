@@ -26,11 +26,21 @@
     "cta": {
         "title": "Sahaya Çıkmaya Hazır mısın?",
         "description": "İster deneyimli bir profesyonel ol, ister diski ilk kez eline al, kadromuzda sana göre bir yer var.",
-        "button": "Discobolos'a Katıl"
+        "button": "Discobolos'a Katıl",
+        "learn_rules": "Kuralları Öğren"
+    },
+    "birthday": {
+        "gift_label": "Kaptan'a Sürpriz! 🎁",
+        "title": "İyi ki Doğdun <br /> Cem Kaptan!",
+        "subtitle": "Discobolos ailesi seninle gurur duyuyor.",
+        "message": "\"Sahadaki liderliğin, bitmek bilmeyen enerjin ve Spirit of the Game ruhunla hepimize ilham veriyorsun. Yeni yaşında bol süratli asistler, muazzam bloklar ve her zaman adil bir oyun seni beklesin!\"",
+        "team_name": "Halikarnassos Discobolos Team",
+        "more_confetti": "Daha Fazla Konfeti! 🎉"
     },
     "gallery": {
         "badge": "Medya",
         "title": "Fotoğraf Galerisi",
+        "view_all": "Tüm Galeriyi Gör",
         "description": "Şampiyonluk zaferlerinden takım kaynaşma etkinliklerine kadar en özel anlarımızı görün. Tüm albümler kolay görüntüleme ve paylaşım için Google Photos üzerinde barındırılmaktadır.",
         "integration_title": "Google Photos Entegrasyonu",
         "integration_desc": "Fotoğraf albümlerimiz Google Photos üzerinde barındırılmaktadır. Herhangi bir albüme tıklayarak tüm fotoğrafları tam ekran galeri olarak görebilirsiniz. Ayrıca takım albümlerine fotoğraf ekleyebilir, indirebilir veya paylaşabilirsiniz!",
@@ -63,13 +73,20 @@
         "comments": "Yorumlar"
     },
     "events": {
-        "title": "Yaklaşan Etkinlikler",
+        "title": "Takvim",
+        "subtitle": "Sahada Bize Katıl",
         "view_all": "Tüm Etkinlikleri Gör",
         "empty": "Yaklaşan etkinlik bulunamadı."
     },
     "news": {
-        "title": "Son Haberler",
-        "view_all": "Tüm Haberleri Gör"
+        "title": "Haberler",
+        "subtitle": "Takımdan Güncellemeler",
+        "view_all": "Tüm Haberleri Gör",
+        "categories": {
+            "match-report": "Maç Raporu",
+            "announcement": "Duyuru",
+            "feature": "Özel Haber"
+        }
     },
     "events_page": {
         "badge": "Takvim",
@@ -81,7 +98,7 @@
         "event_types": "Etkinlik Türleri",
         "no_events_date": "Bu tarihte planlanmış etkinlik bulunmuyor.",
         "select_indicator": "Etkinlikleri görmek için işaretli bir tarih seçin.",
-        "no_events_scheduled": "Planlanmış %type% etkinliği bulunamadı.",
+        "no_events_scheduled": "Planlanmış %type% etkinlikliği bulunamadı.",
         "view_on_map": "Haritada Gör",
         "vs": "vs.",
         "types": {
@@ -187,5 +204,113 @@
         "attendees_not_coming": "Katılmayanlar",
         "attendees_maybe": "Belki",
         "attendees_empty": "Henüz katılım bildirilmemiş."
+    },
+    "contact_page": {
+        "badge": "Bize Katıl",
+        "title": "Discobolos'a Dahil Ol",
+        "description": "Diski ilk kez eline alıyor olsan da, yeni bir takım arayan deneyimli bir oyuncu olsan da, seni aramızda görmekten mutluluk duyarız!",
+        "reasons": {
+            "community": {
+                "title": "Muhteşem Topluluk",
+                "description": "Ömür boyu sürcek dostluklar kuracağın sıcak bir oyuncu grubuna katıl."
+            },
+            "spirit": {
+                "title": "Oyunun Ruhu",
+                "description": "Saygı, adalet ve neşe üzerine kurulu bir sporu deneyimle."
+            },
+            "competitive": {
+                "title": "Rekabetçi Oyun",
+                "description": "Liglere, turnuvalara ve hazırlık maçlarına katıl."
+            }
+        },
+        "contact_info_title": "İletişim Bilgileri",
+        "practice_location_title": "Antrenman Yeri",
+        "practice_location_desc": "Genellikle Hafta içi Funtown Halı Sahası, Ortakent, Hafta sonu Camel Beach, Ortakent",
+        "practice_times_title": "Antrenman Saatleri",
+        "practice_times_desc": "Genellikle Çarşamba: 20:00 - 21:00, Cumartesi: 14:00 - 16:00",
+        "email_us_title": "Bize E-posta Gönder",
+        "follow_us_title": "Bizi Takip Et",
+        "follow_us_desc": "Güncellemeler, fotoğraflar ve sahne arkası içerikler için bizi takip edin!",
+        "whatsapp_title": "WhatsApp Grubuna Katıl",
+        "whatsapp_desc": "Topluluk grubumuzda anlık güncellemeler alın ve takımla sohbet edin.",
+        "whatsapp_button": "Gruba Katıl",
+        "faq_title": "Sıkça Sorulan Sorular",
+        "faq_desc": "Halikarnassos Discobolos'ye katılmak hakkında bilmeniz gereken her şey",
+        "faqs": [
+            {
+                "question": "Katılmak için tecrübeye ihtiyacım var mı?",
+                "answer": "Kesinlikle hayır! Tamamen yeni başlayanlardan deneyimli sporculara kadar her seviyeden oyuncuyu bekliyoruz. Yeni oyuncular için özel antrenman seanslarımız var ve temelleri öğrenmenize yardımcı oluyoruz."
+            },
+            {
+                "question": "Hangi ekipmanlara ihtiyacım var?",
+                "answer": "Sadece kendinizi, rahat spor kıyafetlerini ve kramponlarınızı (futbol kramponları uygundur) getirin. Antrenmanlar için disk sağlıyoruz. Takıma katıldığınızda takım forması alacaksınız."
+            },
+            {
+                "question": "Ne sıklıkla antrenman yapıyorsunuz?",
+                "answer": "Haftada iki kez (Salı ve Perşembe akşamları) düzenli antrenmanlarımız ve isteğe bağlı hafta sonu maçlarımız var. Her seansa katılma zorunluluğunuz yok - hayatın yoğun olabileceğini biliyoruz!"
+            },
+            {
+                "question": "Katılım ücreti var mı?",
+                "answer": "Saha kiralarını, ekipmanları, turnuva ücretlerini ve takım formalarını karşılayan mütevazı sezonluk aidatımız var. Ödeme planları sunuyoruz ve maddi kısıtlamalar nedeniyle hiçbir oyuncuyu geri çevirmiyoruz."
+            },
+            {
+                "question": "Zaman taahhüdü nedir?",
+                "answer": "İstediğiniz kadar çok veya az! Eğlence amaçlı oyuncular haftada 1-2 antrenman yaparken, rekabetçi oyuncular turnuvalara ve ek çalışmalara katılır. Esneğiz!"
+            },
+            {
+                "question": "Seçmeler nasıl oluyor?",
+                "answer": "Geleneksel seçmelerimiz yok - onun yerine, takımın size uygun olup olmadığını görmeniz için sizi birkaç antrenmanımıza davet ediyoruz. Düşük baskı ve eğlence odaklı!"
+            }
+        ]
+    },
+    "contact_form": {
+        "title": "Ekibimize Katıl",
+        "name_label": "Ad Soyad *",
+        "name_placeholder": "Adınız",
+        "email_label": "E-posta Adresi *",
+        "email_placeholder": "ornegi@ornek.com",
+        "experience_label": "Tecrübe Seviyesi *",
+        "experience_placeholder": "Tecrübe seviyenizi seçin",
+        "experience_levels": {
+            "beginner": {
+                "label": "Başlangıç",
+                "description": "Ultimate'ta yeniyim - hiç oynamadım"
+            },
+            "intermediate": {
+                "label": "Orta",
+                "description": "Rahat oynuyorum / temelleri biliyorum"
+            },
+            "advanced": {
+                "label": "İleri",
+                "description": "Düzenli oyuncuyum / lig tecrübem var"
+            },
+            "competitive": {
+                "label": "Rekabetçi",
+                "description": "Turnuva / kulüp seviyesinde tecrübem var"
+            }
+        },
+        "message_label": "Mesaj",
+        "message_placeholder": "Bize kendinizden bahsedin - ilgi alanlarınız, uygunluğunuz, sorularınız vb.",
+        "submit_button": "Başvuru Yap",
+        "submitting_button": "Gönderiliyor...",
+        "success_title": "Bize ulaştığınız için teşekkürler!",
+        "success_desc": "Mesajınızı aldık ve en kısa sürede size geri döneceğiz. Bu sırada yaklaşan etkinliklerimize göz atabilir veya Ultimate kurallarını öğrenebilirsiniz!",
+        "another_response_button": "Başka Bir Yanıt Gönder",
+        "agreement_text": "Bu formu göndererek, takım faaliyetleri ve etkinlikleri hakkında Halikarnassos Discobolos tarafından sizinle iletişime geçilmesini kabul etmiş olursunuz.",
+        "error_generic": "Bir şeyler yanlış gitti. Lütfen tekrar deneyin."
+    },
+    "footer": {
+        "description": "2018'den beri Oyunun Ruhu'nu yaşatıyoruz. Tutkulu Ultimate Frisbee oyuncularından oluşan topluluğumuza katılın.",
+        "team": "Takım",
+        "resources": "Kaynaklar",
+        "get_in_touch": "İletişime Geç",
+        "address": {
+            "complex": "",
+            "street": "",
+            "city": "Bodrum, Muğla"
+        },
+        "all_rights_reserved": "Tüm hakları saklıdır.",
+        "tagline": "Sert oyna. Adil oyna. Ruhunla oyna.",
+        "faq": "SSS"
     }
 }

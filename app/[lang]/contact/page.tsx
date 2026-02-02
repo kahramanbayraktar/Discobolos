@@ -1,96 +1,75 @@
-import type { Metadata } from "next";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ContactForm } from "@/components/contact/contact-form";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getDictionary } from "@/get-dictionary";
+import { Locale } from "@/i18n-config";
 import {
-  MapPin,
-  Mail,
   Clock,
-  Instagram,
-  Twitter,
-  Users,
   Heart,
-  Trophy,
   HelpCircle,
+  Instagram,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Trophy,
+  Users
 } from "lucide-react";
-import { ContactForm } from "@/components/contact/contact-form";
+import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Join Us",
-  description:
-    "Join Disc Dynasty Ultimate Frisbee team. Sign up for tryouts, get contact information, and learn how to become part of our community.",
-};
+interface ContactPageProps {
+  params: Promise<{ lang: Locale }>;
+}
 
-const reasons = [
-  {
-    icon: Users,
-    title: "Amazing Community",
-    description:
-      "Join a welcoming group of players who become lifelong friends.",
-  },
-  {
-    icon: Heart,
-    title: "Spirit of the Game",
-    description: "Experience a sport built on respect, fairness, and joy.",
-  },
-  {
-    icon: Trophy,
-    title: "Competitive Play",
-    description: "Participate in leagues, tournaments, and friendly matches.",
-  },
-];
+export async function generateMetadata({
+  params,
+}: ContactPageProps): Promise<Metadata> {
+  const { lang } = await params;
+  const dict = await getDictionary(lang);
 
-const faqs = [
-  {
-    question: "Do I need experience to join?",
-    answer:
-      "Not at all! We welcome players of all skill levels, from complete beginners to experienced athletes. We have dedicated practice sessions for newer players and will help you learn the fundamentals.",
-  },
-  {
-    question: "What equipment do I need?",
-    answer:
-      "Just bring yourself, comfortable athletic clothing, and cleats (soccer or football cleats work great). We provide discs for practice. Once you join the team, you'll get a team jersey.",
-  },
-  {
-    question: "How often do you practice?",
-    answer:
-      "We have regular practices twice a week (Tuesday and Thursday evenings), with optional weekend scrimmages. You're not required to attend every session - we understand life gets busy!",
-  },
-  {
-    question: "Is there a fee to join?",
-    answer:
-      "We have modest seasonal dues that cover field rentals, equipment, tournament fees, and team jerseys. We offer payment plans and never turn away players due to financial constraints.",
-  },
-  {
-    question: "What's the time commitment?",
-    answer:
-      "As much or as little as you want! Casual players might attend 1-2 practices per week, while competitive players participate in tournaments and additional training. We're flexible!",
-  },
-  {
-    question: "How do tryouts work?",
-    answer:
-      "We don't have traditional tryouts - instead, we invite you to join us for a few practices to see if the team is a good fit. It's low-pressure and focused on having fun!",
-  },
-];
+  return {
+    title: `${dict.contact_page.title} | Discobolos`,
+    description: dict.contact_page.description,
+  };
+}
 
-export default function ContactPage() {
+export default async function ContactPage({ params }: ContactPageProps) {
+  const { lang } = await params;
+  const dict = await getDictionary(lang);
+
+  const reasons = [
+    {
+      icon: Users,
+      title: dict.contact_page.reasons.community.title,
+      description: dict.contact_page.reasons.community.description,
+    },
+    {
+      icon: Heart,
+      title: dict.contact_page.reasons.spirit.title,
+      description: dict.contact_page.reasons.spirit.description,
+    },
+    {
+      icon: Trophy,
+      title: dict.contact_page.reasons.competitive.title,
+      description: dict.contact_page.reasons.competitive.description,
+    },
+  ];
+
   return (
     <div className="py-12 md:py-20">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="max-w-2xl mx-auto text-center mb-12">
-          <p className="text-sm font-medium text-primary mb-2">Get Involved</p>
+          <p className="text-sm font-medium text-primary mb-2">{dict.contact_page.badge}</p>
           <h1 className="font-[family-name:var(--font-display)] text-4xl font-bold tracking-tight md:text-5xl">
-            Join the Dynasty
+            {dict.contact_page.title}
           </h1>
           <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-            Whether you're picking up a disc for the first time or you're a
-            seasoned player looking for a new team, we'd love to have you join
-            us!
+            {dict.contact_page.description}
           </p>
         </div>
 
@@ -114,13 +93,13 @@ export default function ContactPage() {
         {/* Main Content Grid */}
         <div className="grid gap-8 lg:grid-cols-2 mb-16">
           {/* Contact Form */}
-          <ContactForm />
+          <ContactForm dict={dict.contact_form} />
 
           {/* Contact Info */}
           <div className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Contact Information</CardTitle>
+                <CardTitle>{dict.contact_page.contact_info_title}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-start gap-4">
@@ -128,12 +107,9 @@ export default function ContactPage() {
                     <MapPin className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <p className="font-medium">Practice Location</p>
-                    <p className="text-sm text-muted-foreground">
-                      Golden Gate Park, Field 3
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      San Francisco, CA
+                    <p className="font-medium">{dict.contact_page.practice_location_title}</p>
+                    <p className="text-sm text-muted-foreground whitespace-pre-line">
+                      {dict.contact_page.practice_location_desc}
                     </p>
                   </div>
                 </div>
@@ -143,12 +119,9 @@ export default function ContactPage() {
                     <Clock className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <p className="font-medium">Practice Times</p>
-                    <p className="text-sm text-muted-foreground">
-                      Tuesday & Thursday: 6:00 PM - 8:00 PM
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      Saturday (optional): 10:00 AM - 12:00 PM
+                    <p className="font-medium">{dict.contact_page.practice_times_title}</p>
+                    <p className="text-sm text-muted-foreground whitespace-pre-line">
+                      {dict.contact_page.practice_times_desc}
                     </p>
                   </div>
                 </div>
@@ -158,12 +131,12 @@ export default function ContactPage() {
                     <Mail className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <p className="font-medium">Email Us</p>
+                    <p className="font-medium">{dict.contact_page.email_us_title}</p>
                     <a
-                      href="mailto:hello@discdynasty.com"
+                      href="mailto:bodrumdiscobolos@gmail.com"
                       className="text-sm text-primary hover:underline"
                     >
-                      hello@discdynasty.com
+                      bodrumdiscobolos@gmail.com
                     </a>
                   </div>
                 </div>
@@ -172,12 +145,12 @@ export default function ContactPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Follow Us</CardTitle>
+                <CardTitle>{dict.contact_page.follow_us_title}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex gap-4">
                   <a
-                    href="https://instagram.com"
+                    href="https://instagram.com/disc.o.bolos"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex h-12 w-12 items-center justify-center rounded-full bg-muted hover:bg-primary hover:text-primary-foreground transition-colors"
@@ -185,19 +158,32 @@ export default function ContactPage() {
                   >
                     <Instagram className="h-5 w-5" />
                   </a>
-                  <a
-                    href="https://twitter.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex h-12 w-12 items-center justify-center rounded-full bg-muted hover:bg-primary hover:text-primary-foreground transition-colors"
-                    aria-label="Twitter"
-                  >
-                    <Twitter className="h-5 w-5" />
-                  </a>
                 </div>
                 <p className="text-sm text-muted-foreground mt-4">
-                  Follow us for updates, photos, and behind-the-scenes content!
+                  {dict.contact_page.follow_us_desc}
                 </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-primary/5 border-primary/20">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <MessageCircle className="h-5 w-5 text-primary" />
+                  {dict.contact_page.whatsapp_title}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">
+                  {dict.contact_page.whatsapp_desc}
+                </p>
+                <a
+                  href="https://chat.whatsapp.com/I6e3ebUCedM7bqaI7vK4aj" // Placeholder link, user can update
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors w-full"
+                >
+                  {dict.contact_page.whatsapp_button}
+                </a>
               </CardContent>
             </Card>
           </div>
@@ -210,15 +196,15 @@ export default function ContactPage() {
               <HelpCircle className="h-6 w-6 text-primary" />
             </div>
             <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold">
-              Frequently Asked Questions
+              {dict.contact_page.faq_title}
             </h2>
             <p className="text-muted-foreground mt-2">
-              Everything you need to know about joining Disc Dynasty
+              {dict.contact_page.faq_desc}
             </p>
           </div>
 
           <Accordion type="single" collapsible className="w-full">
-            {faqs.map((faq, index) => (
+            {dict.contact_page.faqs.map((faq: any, index: number) => (
               <AccordionItem key={index} value={`item-${index}`}>
                 <AccordionTrigger className="text-left">
                   {faq.question}

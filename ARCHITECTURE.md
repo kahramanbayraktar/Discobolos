@@ -67,6 +67,11 @@ This project is a dynamic, high-performance website for the "Discobolos" Ultimat
 *   **Form:** Controlled React component.
 *   **Submission:** Writes to `recruits` table in Supabase or triggers an Email (via Resend/emailjs).
 
+### 4. Data Fetching & Caching Strategy
+*   **Static by Default:** Next.js (App Router) automatically pre-renders pages as static if they don't use dynamic functions (cookies, headers, etc.).
+*   **Production Issue:** Frequently updated database content (like Events) may appear stale in production if the page is cached at build time.
+*   **Solution:** Use `export const dynamic = "force-dynamic";` or `revalidate = 0;` in page files that depend on real-time database data to bypass the default static cache.
+
 ## Design System
 *   **Colors:** Extracted from Jersey (Primary: TBD, Secondary: TBD). High contrast, energetic.
 *   **Typography:** Modern Sans-Serif (e.g., 'Inter' or 'Outfit').

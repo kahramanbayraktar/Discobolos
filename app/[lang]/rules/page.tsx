@@ -1,18 +1,17 @@
-import type { Metadata } from "next";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  Heart,
-  Shield,
-  Users,
-  Target,
-  Flag,
-  Trophy,
-  Clock,
-  Disc,
-  ArrowRight,
-  CheckCircle,
+    ArrowRight,
+    Clock,
+    Disc,
+    Flag,
+    Heart,
+    Shield,
+    Target,
+    Trophy,
+    Users
 } from "lucide-react";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Rules & Spirit of the Game",
@@ -237,7 +236,7 @@ export default function RulesPage() {
                 Ready to Play?
               </h3>
               <p className="text-muted-foreground max-w-md mx-auto mb-6">
-                Join Disc Dynasty and experience the Spirit of the Game
+                Join Halikarnassos Discobolos and experience the Spirit of the Game
                 firsthand. We welcome players of all skill levels!
               </p>
               <a

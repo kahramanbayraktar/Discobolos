@@ -84,7 +84,7 @@ export function CTASection({ dict, lang }: { dict: any, lang: Locale }) {
                   variant="outline"
                   className="bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
                 >
-                  <Link href={`/${lang}/rules`}>{lang === 'tr' ? 'Kuralları Öğren' : 'Learn the Rules'}</Link>
+                  <Link href={`/${lang}/rules`}>{dict.learn_rules}</Link>
                 </Button>
               </div>
             </div>

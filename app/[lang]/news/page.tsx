@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
 import { NewsCard } from "@/components/news/news-card";
 import { newsPosts } from "@/lib/data";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "News & Updates",
   description:
-    "Latest news, match reports, and announcements from Disc Dynasty Ultimate Frisbee team.",
+    "Latest news, match reports, and announcements from Halikarnassos Discobolos Ultimate Frisbee team.",
 };
 
 export default function NewsPage() {
@@ -21,7 +21,7 @@ export default function NewsPage() {
             News & Stories
           </h1>
           <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-            Match reports, team announcements, and stories from the Disc Dynasty
+            Match reports, team announcements, and stories from the Halikarnassos Discobolos
             community.
           </p>
         </div>

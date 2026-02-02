@@ -39,7 +39,7 @@ export function EventsPreview({ dict, lang, events }: { dict: any, lang: Locale,
               {dict.title}
             </p>
             <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight md:text-4xl">
-              Join Us on the Field
+              {dict.subtitle}
             </h2>
           </div>
           <Button asChild variant="outline" className="gap-2 w-fit bg-transparent">
@@ -88,13 +88,7 @@ export function EventsPreview({ dict, lang, events }: { dict: any, lang: Locale,
                             variant="outline"
                             className={`shrink-0 capitalize ${eventTypeColors[event.type]}`}
                           >
-                            {/* Use mapping if available in a higher-level dictionary object or fallback */}
-                            {lang === 'tr' ? 
-                              (event.type === 'practice' ? 'Antrenman' : 
-                               event.type === 'match' ? 'Maç' : 
-                               event.type === 'social' ? 'Sosyal' : 
-                               event.type === 'tournament' ? 'Turnuva' : event.type) : 
-                              event.type}
+                            {dict.types ? dict.types[event.type] : event.type}
                           </Badge>
                         </div>
 

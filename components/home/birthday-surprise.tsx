@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Gift, Heart, PartyPopper, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export function BirthdaySurprise() {
+export function BirthdaySurprise({ dict }: { dict: any }) {
   const [isOpen, setIsOpen] = useState(false);
   const [showGift, setShowGift] = useState(false);
 
@@ -60,7 +60,7 @@ export function BirthdaySurprise() {
               <Gift className="h-8 w-8 text-white animate-bounce group-hover:scale-125 transition-transform" />
             </Button>
             <span className="absolute -top-12 right-0 bg-white dark:bg-slate-800 text-xs font-bold py-1 px-3 rounded-full shadow-lg border border-primary/20 whitespace-nowrap animate-pulse">
-              Kaptan'a Sürpriz! 🎁
+              {dict.gift_label}
             </span>
           </motion.div>
         )}
@@ -93,30 +93,31 @@ export function BirthdaySurprise() {
                 </motion.div>
 
                 <div className="space-y-2">
-                  <h2 className="text-4xl font-bold font-[family-name:var(--font-display)] italic text-primary">
-                    İyi ki Doğdun <br /> Cem Kaptan!
-                  </h2>
+                  <h2 
+                    className="text-4xl font-bold font-[family-name:var(--font-display)] italic text-primary"
+                    dangerouslySetInnerHTML={{ __html: dict.title }}
+                  />
                   <p className="text-xl text-muted-foreground font-medium">
-                    Discobolos ailesi seninle gurur duyuyor.
+                    {dict.subtitle}
                   </p>
                 </div>
 
                 <div className="py-6 px-4 bg-primary/5 rounded-2xl border border-primary/10">
                   <p className="text-lg leading-relaxed italic text-foreground/90">
-                    "Sahadaki liderliğin, bitmek bilmeyen enerjin ve Spirit of the Game ruhunla hepimize ilham veriyorsun. Yeni yaşında bol süratli asistler, muazzam bloklar ve her zaman adil bir oyun seni beklesin!"
+                    {dict.message}
                   </p>
                 </div>
 
                 <div className="flex justify-center gap-2">
                   <Heart className="text-red-500 fill-red-500 h-6 w-6 animate-ping" />
-                  <span className="font-bold text-primary">Halikarnassos Discobolos Team</span>
+                  <span className="font-bold text-primary">{dict.team_name}</span>
                 </div>
 
                 <Button 
                   onClick={() => triggerConfetti()} 
                   className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
                 >
-                  Daha Fazla Konfeti! 🎉
+                  {dict.more_confetti}
                 </Button>
               </div>
 

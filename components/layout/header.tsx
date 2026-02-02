@@ -83,7 +83,7 @@ export function Header({ dict, lang }: { dict: any, lang: Locale }) {
     { href: `/${lang}/roster`, label: dict.nav.roster },
     { href: `/${lang}/attendance`, label: dict.attendance.badge || "Hall of Fame" },
     { href: `/${lang}/events`, label: dict.nav.events },
-    { href: `/${lang}/news`, label: dict.nav.news },
+    // { href: `/${lang}/news`, label: dict.nav.news },
     { href: `/${lang}/rules`, label: dict.nav.rules },
     { href: `/${lang}/gallery`, label: dict.nav.gallery },
   ];

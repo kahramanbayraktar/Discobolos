@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Our Roster",
   description:
-    "Meet the players of Disc Dynasty - handlers, cutters, and hybrids who make up our Ultimate Frisbee family.",
+    "Meet the players of Halikarnassos Discobolos - handlers, cutters, and hybrids who make up our Ultimate Frisbee family.",
 };
 
 export default async function RosterPage() {

@@ -24,14 +24,29 @@ const socialLinks = [
   { href: "mailto:hello@discobolos.team", icon: Mail, label: "Email" },
 ];
 
-export function Footer() {
+export function Footer({ dict, lang }: { dict: any; lang: string }) {
+  const footerLinksData = {
+    team: [
+      { href: `/${lang}/roster`, label: dict.nav.roster },
+      { href: `/${lang}/events`, label: dict.nav.events },
+      // { href: `/${lang}/news`, label: dict.nav.news },
+      { href: `/${lang}/gallery`, label: dict.nav.gallery },
+    ],
+    resources: [
+      { href: `/${lang}/rules`, label: dict.footer.resources },
+      { href: `/${lang}/rules#spirit`, label: dict.nav.rules },
+      { href: `/${lang}/contact`, label: dict.nav.join },
+      { href: `/${lang}/contact#faq`, label: dict.footer.faq },
+    ],
+  };
+
   return (
     <footer className="border-t border-border bg-secondary text-secondary-foreground">
       <div className="container mx-auto px-4 py-12">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div className="space-y-4">
-            <Link href="/" className="flex items-center gap-2">
+            <Link href={`/${lang}`} className="flex items-center gap-2">
               <div className="flex h-10 w-10 items-center justify-center rounded-full overflow-hidden">
                 <Image
                   src="/images/logo.png"
@@ -46,8 +61,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-sm text-secondary-foreground/80 leading-relaxed">
-              Embracing the Spirit of the Game since 2018. Join our community of
-              passionate Ultimate Frisbee players.
+              {dict.footer.description}
             </p>
             <div className="flex gap-3">
               {socialLinks.map((social) => (
@@ -68,10 +82,10 @@ export function Footer() {
           {/* Team Links */}
           <div>
             <h3 className="font-[family-name:var(--font-display)] font-semibold mb-4">
-              Team
+              {dict.footer.team}
             </h3>
             <ul className="space-y-2">
-              {footerLinks.team.map((link) => (
+              {footerLinksData.team.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -87,10 +101,10 @@ export function Footer() {
           {/* Resources Links */}
           <div>
             <h3 className="font-[family-name:var(--font-display)] font-semibold mb-4">
-              Resources
+              {dict.footer.resources}
             </h3>
             <ul className="space-y-2">
-              {footerLinks.resources.map((link) => (
+              {footerLinksData.resources.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -106,18 +120,18 @@ export function Footer() {
           {/* Contact */}
           <div>
             <h3 className="font-[family-name:var(--font-display)] font-semibold mb-4">
-              Get in Touch
+              {dict.footer.get_in_touch}
             </h3>
             <address className="not-italic text-sm text-secondary-foreground/80 space-y-2">
-              <p>City Sports Complex</p>
-              <p>123 Athletic Drive</p>
-              <p>San Francisco, CA 94102</p>
+              <p>{dict.footer.address.complex}</p>
+              <p>{dict.footer.address.street}</p>
+              <p>{dict.footer.address.city}</p>
               <p className="pt-2">
                 <a
-                  href="mailto:hello@discobolos.team"
+                  href="mailto:bodrumdiscobolos@gmail.com"
                   className="hover:text-primary transition-colors"
                 >
-                  hello@discobolos.team
+                  bodrumdiscobolos@gmail.com
                 </a>
               </p>
             </address>
@@ -126,10 +140,10 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-secondary-foreground/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-secondary-foreground/60">
-            &copy; {new Date().getFullYear()} Discobolos. All rights reserved.
+            &copy; {new Date().getFullYear()} Discobolos. {dict.footer.all_rights_reserved}
           </p>
           <p className="text-sm text-secondary-foreground/60">
-            Play hard. Play fair. Play with spirit.
+            {dict.footer.tagline}
           </p>
         </div>
       </div>

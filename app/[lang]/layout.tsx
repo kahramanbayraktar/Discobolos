@@ -86,7 +86,7 @@ export default async function RootLayout({
       <body className="font-sans antialiased min-h-screen flex flex-col" suppressHydrationWarning>
         <Header dict={dict} lang={lang} />
         <main className="flex-1">{children}</main>
-        <Footer />
+        <Footer dict={dict} lang={lang} />
         <Toaster />
         <Analytics />
       </body>

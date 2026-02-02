@@ -95,3 +95,10 @@ export interface RSVP {
   status: "coming" | "not_coming" | "maybe";
   createdAt: string;
 }
+
+export interface ContactFormData {
+  name: string;
+  email: string;
+  experienceLevel: "beginner" | "intermediate" | "advanced" | "competitive";
+  message: string;
+}

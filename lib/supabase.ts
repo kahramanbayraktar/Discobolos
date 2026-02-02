@@ -7,11 +7,11 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
-export async function getEvents(): Promise<Event[]> {
+export async function getEvents(ascending = true): Promise<Event[]> {
   const { data, error } = await supabase
     .from('events')
     .select('*')
-    .order('date', { ascending: true });
+    .order('date', { ascending });
 
   if (error) {
     console.error('Error fetching events:', error);

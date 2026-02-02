@@ -1,47 +1,46 @@
 "use client";
 
-import React from "react"
+import React from "react";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, Send, Loader2 } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 import type { ContactFormData } from "@/lib/types";
+import { CheckCircle, Loader2, Send } from "lucide-react";
+import { useState } from "react";
 
-const experienceLevels = [
-  {
-    value: "beginner",
-    label: "Beginner",
-    description: "New to Ultimate - never played before",
-  },
-  {
-    value: "intermediate",
-    label: "Intermediate",
-    description: "Played casually / know the basics",
-  },
-  {
-    value: "advanced",
-    label: "Advanced",
-    description: "Regular player / league experience",
-  },
-  {
-    value: "competitive",
-    label: "Competitive",
-    description: "Tournament / club level experience",
-  },
-];
-
-export function ContactForm() {
+export function ContactForm({ dict }: { dict: any }) {
+  const experienceLevels = [
+    {
+      value: "beginner",
+      label: dict.experience_levels.beginner.label,
+      description: dict.experience_levels.beginner.description,
+    },
+    {
+      value: "intermediate",
+      label: dict.experience_levels.intermediate.label,
+      description: dict.experience_levels.intermediate.description,
+    },
+    {
+      value: "advanced",
+      label: dict.experience_levels.advanced.label,
+      description: dict.experience_levels.advanced.description,
+    },
+    {
+      value: "competitive",
+      label: dict.experience_levels.competitive.label,
+      description: dict.experience_levels.competitive.description,
+    },
+  ];
   const [formData, setFormData] = useState<ContactFormData>({
     name: "",
     email: "",
@@ -80,12 +79,10 @@ export function ContactForm() {
             <CheckCircle className="h-8 w-8 text-primary" />
           </div>
           <h3 className="font-[family-name:var(--font-display)] text-2xl font-bold mb-2">
-            Thanks for reaching out!
+            {dict.success_title}
           </h3>
           <p className="text-muted-foreground max-w-md mx-auto">
-            We've received your message and will get back to you soon. In the
-            meantime, check out our upcoming events or learn more about the
-            rules of Ultimate!
+            {dict.success_desc}
           </p>
           <Button
             variant="outline"
@@ -100,7 +97,7 @@ export function ContactForm() {
               });
             }}
           >
-            Submit Another Response
+            {dict.another_response_button}
           </Button>
         </CardContent>
       </Card>
@@ -110,51 +107,51 @@ export function ContactForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Join Our Team</CardTitle>
+        <CardTitle>{dict.title}</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="name">Full Name *</Label>
+              <Label htmlFor="name">{dict.name_label}</Label>
               <Input
                 id="name"
                 value={formData.name}
                 onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, name: e.target.value }))
+                  setFormData((prev: ContactFormData) => ({ ...prev, name: e.target.value }))
                 }
-                placeholder="Your name"
+                placeholder={dict.name_placeholder}
                 required
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email">Email Address *</Label>
+              <Label htmlFor="email">{dict.email_label}</Label>
               <Input
                 id="email"
                 type="email"
                 value={formData.email}
                 onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, email: e.target.value }))
+                  setFormData((prev: ContactFormData) => ({ ...prev, email: e.target.value }))
                 }
-                placeholder="you@example.com"
+                placeholder={dict.email_placeholder}
                 required
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="experience">Experience Level *</Label>
+            <Label htmlFor="experience">{dict.experience_label}</Label>
             <Select
               value={formData.experienceLevel}
               onValueChange={(value) =>
-                setFormData((prev) => ({
+                setFormData((prev: ContactFormData) => ({
                   ...prev,
                   experienceLevel: value as ContactFormData["experienceLevel"],
                 }))
               }
             >
               <SelectTrigger id="experience">
-                <SelectValue placeholder="Select your experience level" />
+                <SelectValue placeholder={dict.experience_placeholder} />
               </SelectTrigger>
               <SelectContent>
                 {experienceLevels.map((level) => (
@@ -172,39 +169,38 @@ export function ContactForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="message">Message</Label>
+            <Label htmlFor="message">{dict.message_label}</Label>
             <Textarea
               id="message"
               value={formData.message}
               onChange={(e) =>
-                setFormData((prev) => ({ ...prev, message: e.target.value }))
+                setFormData((prev: ContactFormData) => ({ ...prev, message: e.target.value }))
               }
-              placeholder="Tell us about yourself - your interests, availability, questions, etc."
+              placeholder={dict.message_placeholder}
               rows={4}
             />
           </div>
 
           {error && (
-            <p className="text-sm text-destructive">{error}</p>
+            <p className="text-sm text-destructive">{dict.error_generic}</p>
           )}
 
           <Button type="submit" className="w-full gap-2" disabled={isSubmitting}>
             {isSubmitting ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                Submitting...
+                {dict.submitting_button}
               </>
             ) : (
               <>
-                Submit Application
+                {dict.submit_button}
                 <Send className="h-4 w-4" />
               </>
             )}
           </Button>
 
           <p className="text-xs text-muted-foreground text-center">
-            By submitting this form, you agree to be contacted by Disc Dynasty
-            regarding team activities and events.
+            {dict.agreement_text}
           </p>
         </form>
       </CardContent>

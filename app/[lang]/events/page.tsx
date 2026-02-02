@@ -28,7 +28,7 @@ export default async function EventsPage({
 }) {
   const { lang } = await params;
   const dict = await getDictionary(lang);
-  const events = await getEvents();
+  const events = await getEvents(false);
 
   return (
     <div className="py-12 md:py-20">
