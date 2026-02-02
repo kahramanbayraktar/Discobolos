@@ -4,6 +4,8 @@ import { Locale } from "@/i18n-config";
 import { getPlayerStats } from "@/lib/supabase";
 import type { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({ params }: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await params;
   const dict = await getDictionary(lang);
