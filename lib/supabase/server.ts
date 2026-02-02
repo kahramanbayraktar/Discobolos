@@ -51,6 +51,7 @@ export async function getServerPlayer() {
     funFact: player.fun_fact,
     yearJoined: player.year_joined,
     isCaptain: player.is_captain,
+    isAdmin: player.is_admin,
     email: player.email,
     accessCode: player.access_code,
   }

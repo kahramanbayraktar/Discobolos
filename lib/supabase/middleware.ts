@@ -45,12 +45,13 @@ export async function updateSession(request: NextRequest) {
   if (playerToken) {
     const { data: player } = await supabase
       .from('players')
-      .select('id, is_captain')
+      .select('id, is_captain, is_admin')
       .eq('id', playerToken)
       .maybeSingle()
 
     const isAuthorizedPlayer = !!player
     const isCaptain = player?.is_captain || false
+    const isAdmin = player?.is_admin || false
 
     // 1. If not an authorized player, redirect to unauthorized page
     if (!isAuthorizedPlayer && !isPublicPath) {
@@ -59,9 +60,9 @@ export async function updateSession(request: NextRequest) {
       return NextResponse.redirect(url)
     }
 
-    // 2. If it's an admin route, check for captain status
+    // 2. If it's an admin route, check for admin status
     const isAdminRoute = segments.some(segment => segment === 'admin')
-    if (isAdminRoute && !isCaptain) {
+    if (isAdminRoute && !isAdmin) {
       const url = request.nextUrl.clone()
       url.pathname = `/${lang}`
       return NextResponse.redirect(url)

@@ -8,6 +8,7 @@ export interface Player {
   funFact: string;
   yearJoined: number;
   isCaptain?: boolean;
+  isAdmin?: boolean;
   email?: string;
   accessCode?: string;
 }

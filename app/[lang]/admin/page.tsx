@@ -16,7 +16,7 @@ export default async function AdminDashboardPage({
   const dict = await getDictionary(lang);
   
   const player = await getServerPlayer();
-  if (!player || !player.isCaptain) redirect(`/${lang}/login`);
+  if (!player || !player.isAdmin) redirect(`/${lang}/login`);
 
   const menuItems = [
     {

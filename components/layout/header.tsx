@@ -3,18 +3,18 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuList,
-  navigationMenuTriggerStyle
+    NavigationMenu,
+    NavigationMenuItem,
+    NavigationMenuList,
+    navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import type { Locale } from "@/i18n-config";
@@ -62,7 +62,8 @@ export function Header({ dict, lang }: { dict: any, lang: Locale }) {
             email: player.email,
             name: player.name,
             image: player.image,
-            isCaptain: player.is_captain
+            isCaptain: player.is_captain,
+            isAdmin: player.is_admin
           });
         } else {
           setUser(null);
@@ -180,7 +181,7 @@ export function Header({ dict, lang }: { dict: any, lang: Locale }) {
                     <span>{dict.nav.profile}</span>
                   </Link>
                 </DropdownMenuItem>
-                {user.isCaptain && (
+                {user.isAdmin && (
                   <DropdownMenuItem asChild>
                     <Link href={`/${lang}/admin`} className="cursor-pointer">
                       <LayoutDashboard className="mr-2 h-4 w-4" />
