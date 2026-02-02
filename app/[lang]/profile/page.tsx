@@ -5,13 +5,35 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
 import { createClient } from "@/lib/supabase/client";
 import { PlayerStats } from "@/lib/types";
 import { getCookie } from "@/lib/utils";
 import { Camera, Loader2 } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+
+const AVATARS = [
+  "/images/avatars/player-1.png",
+  "/images/avatars/player-2.png",
+  "/images/avatars/player-3.png",
+  "/images/avatars/player-4.png",
+  "/images/avatars/player-5.png",
+  "/images/avatars/player-cyberpunk.png",
+  "/images/avatars/player-graffiti.png",
+  "/images/avatars/player-female-1.png",
+  "/images/avatars/player-female-2.png",
+  "/images/avatars/player-female-3.png",
+  "/images/avatars/player-cosmic.png",
+  "/images/avatars/player-vaporwave.png",
+];
 
 interface ProfilePageProps {
   params: Promise<{ lang: string }>;
@@ -28,6 +50,7 @@ const fileInputRef = useRef<HTMLInputElement>(null);
   const [editNickname, setEditNickname] = useState("");
   const [editFunFact, setEditFunFact] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [isAvatarPickerOpen, setIsAvatarPickerOpen] = useState(false);
   const router = useRouter();
   const supabase = createClient();
 
@@ -143,6 +166,28 @@ const fileInputRef = useRef<HTMLInputElement>(null);
     }
   };
 
+  const handleSelectAvatar = async (url: string) => {
+    if (!player) return;
+    
+    setUploading(true);
+    try {
+      const { error } = await supabase
+        .from('players')
+        .update({ image: url })
+        .eq('id', player.id);
+
+      if (error) throw error;
+
+      toast.success(lang === 'tr' ? "Profil fotoğrafı seçildi!" : "Avatar selected!");
+      setPlayer((prev: PlayerStats | null) => prev ? { ...prev, image: url } : null);
+      setIsAvatarPickerOpen(false);
+    } catch (error: any) {
+      toast.error("Hata: " + error.message);
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSaveProfile = async () => {
     if (!player) return;
     setIsSaving(true);
@@ -195,7 +240,7 @@ const fileInputRef = useRef<HTMLInputElement>(null);
                 </AvatarFallback>
               </Avatar>
               <button 
-                onClick={() => fileInputRef.current?.click()}
+                onClick={() => setIsAvatarPickerOpen(true)}
                 disabled={uploading}
                 className="absolute inset-0 flex items-center justify-center bg-black/40 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity disabled:cursor-not-allowed"
               >
@@ -208,6 +253,44 @@ const fileInputRef = useRef<HTMLInputElement>(null);
                 accept="image/*"
                 onChange={handleImageUpload}
               />
+
+              <Dialog open={isAvatarPickerOpen} onOpenChange={setIsAvatarPickerOpen}>
+                <DialogContent className="max-w-2xl">
+                  <DialogHeader>
+                    <DialogTitle>{lang === 'tr' ? "Profil Fotoğrafını Değiştir" : "Change Profile Picture"}</DialogTitle>
+                  </DialogHeader>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-4">
+                    {/* Upload Option */}
+                    <button
+                      onClick={() => {
+                        setIsAvatarPickerOpen(false);
+                        fileInputRef.current?.click();
+                      }}
+                      className="aspect-square flex flex-col items-center justify-center border-2 border-dashed border-primary/20 rounded-xl hover:bg-primary/5 transition-colors gap-2"
+                    >
+                      <Camera className="w-8 h-8 text-primary/40" />
+                      <span className="text-xs font-medium">{lang === 'tr' ? "Fotoğraf Yükle" : "Upload Photo"}</span>
+                    </button>
+
+                    {/* Pre-generated Avatars */}
+                    {AVATARS.map((url, i) => (
+                      <button
+                        key={i}
+                        onClick={() => handleSelectAvatar(url)}
+                        className="group relative aspect-square rounded-xl overflow-hidden border-2 border-transparent hover:border-primary transition-all"
+                      >
+                        <Image
+                          src={url}
+                          alt={`Avatar ${i + 1}`}
+                          fill
+                          className="object-cover"
+                        />
+                        <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </button>
+                    ))}
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
             <CardTitle className="text-2xl font-bold font-[family-name:var(--font-display)]">
               {player?.name || 'Oyuncu'}

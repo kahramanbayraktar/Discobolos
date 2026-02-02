@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import type { Player } from "@/lib/types";
-import { Star, User } from "lucide-react";
+import { Star } from "lucide-react";
 import Image from "next/image";
 
 interface PlayerCardProps {
@@ -15,23 +15,32 @@ const positionColors: Record<Player["position"], string> = {
 };
 
 export function PlayerCard({ player }: PlayerCardProps) {
+  const playerPlaceholders = [
+    "/images/avatars/player-1.png",
+    "/images/avatars/player-2.png",
+    "/images/avatars/player-3.png",
+    "/images/avatars/player-4.png",
+    "/images/avatars/player-5.png",
+    "/images/avatars/player-female-1.png",
+    "/images/avatars/player-female-2.png",
+    "/images/avatars/player-female-3.png",
+  ];
+
+  // Deterministically select a placeholder based on player's name or number
+  const placeholderIndex = (player.number || player.name.length) % playerPlaceholders.length;
+  const placeholderImage = playerPlaceholders[placeholderIndex];
+
   return (
     <Card className="group overflow-hidden hover:shadow-lg transition-all duration-300">
       <CardContent className="p-0">
         {/* Image Area */}
         <div className="relative aspect-[4/3] bg-secondary overflow-hidden">
-          {player.image ? (
-            <Image
-              src={player.image}
-              alt={player.name}
-              fill
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <User className="h-20 w-20 text-secondary-foreground/20" />
-            </div>
-          )}
+          <Image
+            src={player.image || placeholderImage}
+            alt={player.name}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
           
           {/* Number Overlay */}
           <div className="absolute top-3 right-3">
