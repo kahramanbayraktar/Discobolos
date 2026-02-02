@@ -9,6 +9,8 @@ export const metadata: Metadata = {
     "Meet the players of Halikarnassos Discobolos - handlers, cutters, and hybrids who make up our Ultimate Frisbee family.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function RosterPage() {
   const players = await getPlayers();
   
