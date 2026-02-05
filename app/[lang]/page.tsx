@@ -1,4 +1,3 @@
-import { BirthdaySurprise } from "@/components/home/birthday-surprise";
 import { CTASection } from "@/components/home/cta-section";
 import { EventsPreview } from "@/components/home/events-preview";
 import { GalleryPreview } from "@/components/home/gallery-preview";
@@ -31,7 +30,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: Loc
       {/* <NewsPreview dict={dict.news} lang={lang} /> */}
       <GalleryPreview dict={dict.gallery} lang={lang} albums={albums} />
       <CTASection dict={dict.cta} lang={lang} />
-      <BirthdaySurprise dict={dict.birthday} />
+      {/* <BirthdaySurprise dict={dict.birthday} /> */}
     </>
   );
 }
