@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     "Browse photos and videos from Discobolos matches, tournaments, practices, and team events.",
 };
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function GalleryPage({
   params,
 }: {
@@ -49,10 +52,12 @@ export default async function GalleryPage({
           </div>
         </div>
 
-        {/* Albums Grid */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {/* Albums Grid - centered boxes */}
+        <div className="flex flex-wrap justify-center gap-6">
           {albums.map((album) => (
-            <AlbumCard key={album.id} album={album} lang={lang} view_album_text={dict.view_album} />
+            <div key={album.id} className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)] max-w-[400px]">
+              <AlbumCard album={album} lang={lang} view_album_text={dict.view_album} />
+            </div>
           ))}
         </div>
 

@@ -70,7 +70,28 @@
         "community_highlights_desc": "Takım üyeleri tarafından paylaşılan özel anlar.",
         "highlights_preview": "Öne Çıkanlar",
         "highlights_desc": "Bu sadece bir özettir. Tüm %count% fotoğraf ve videoyu görmek için albümü açın.",
-        "comments": "Yorumlar"
+        "comments": "Yorumlar",
+        "comment_section": {
+            "posting_as": "Şu kişi olarak yazıyorsunuz:",
+            "label": "Yorumunuz",
+            "placeholder": "Bu albüm hakkındaki düşüncelerini paylaş...",
+            "cancel": "İptal",
+            "post_button": "Yorum Yap",
+            "posting": "Gönderiliyor...",
+            "success_title": "Yorum gönderildi!",
+            "success_desc": "Düşüncelerini paylaştığın için teşekkürler.",
+            "unauthorized": "Sadece takım üyeleri yorum yapabilir.",
+            "empty": "Henüz yorum yapılmamış. İlk yorumu sen yap!",
+            "loading": "Yorumlar yükleniyor...",
+            "edit": "Düzenle",
+            "delete": "Sil",
+            "delete_title": "Yorumu Sil",
+            "delete_desc": "Bu yorumu silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+            "update_success": "Yorum güncellendi",
+            "delete_success": "Yorum silindi",
+            "edited": "(düzenlendi)",
+            "add_button": "%name% olarak yorum ekle"
+        }
     },
     "events": {
         "title": "Takvim",

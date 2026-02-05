@@ -29,9 +29,11 @@ import { useEffect, useState } from "react";
 
 interface CommentSectionProps {
   albumId: string;
+  lang: string;
+  dict: any;
 }
 
-export function CommentSection({ albumId }: CommentSectionProps) {
+export function CommentSection({ albumId, lang, dict }: CommentSectionProps) {
   const [comments, setComments] = useState<GalleryComment[]>([]);
   const [currentUser, setCurrentUser] = useState<Player | null>(null);
   const [content, setContent] = useState("");
@@ -97,15 +99,15 @@ export function CommentSection({ albumId }: CommentSectionProps) {
              authorName: newComment.author_name,
              content: newComment.content,
              createdAt: newComment.created_at,
-             updatedAt: null
+             updatedAt: undefined
          };
          
          setComments((prev) => [optimisticComment, ...prev]);
          setContent("");
          setShowForm(false);
          toast({
-            title: "Comment posted!",
-            description: "Thanks for sharing your thoughts.",
+            title: dict.comment_section.success_title,
+            description: dict.comment_section.success_desc,
          });
       }
     } catch (error) {
@@ -133,7 +135,7 @@ export function CommentSection({ albumId }: CommentSectionProps) {
       setEditingCommentId(null);
       setEditContent("");
       toast({
-        title: "Comment updated",
+        title: dict.comment_section.update_success,
       });
     } catch (error) {
       toast({
@@ -154,7 +156,7 @@ export function CommentSection({ albumId }: CommentSectionProps) {
       setCommentToDelete(null);
       
       toast({
-        title: "Comment deleted",
+        title: dict.comment_section.delete_success,
       });
     } catch (error) {
       toast({
@@ -189,15 +191,15 @@ export function CommentSection({ albumId }: CommentSectionProps) {
       <AlertDialog open={!!commentToDelete} onOpenChange={(open) => !open && setCommentToDelete(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Comment</AlertDialogTitle>
+            <AlertDialogTitle>{dict.comment_section.delete_title}</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this comment? This action cannot be undone.
+              {dict.comment_section.delete_desc}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{dict.comment_section.cancel}</AlertDialogCancel>
             <AlertDialogAction onClick={handleDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-              Delete
+              {dict.comment_section.delete}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -207,7 +209,7 @@ export function CommentSection({ albumId }: CommentSectionProps) {
       {currentUser ? (
         !showForm ? (
           <Button onClick={() => setShowForm(true)} variant="outline" className="w-full">
-            Add a Comment as {currentUser.name}
+            {dict.comment_section.add_button.replace('%name%', currentUser.name)}
           </Button>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4 p-4 border border-border rounded-lg bg-card anim-in fade-in slide-in-from-top-2">
@@ -216,17 +218,17 @@ export function CommentSection({ albumId }: CommentSectionProps) {
                 <AvatarFallback>{getInitials(currentUser.name)}</AvatarFallback>
               </Avatar>
               <span className="text-sm font-medium text-muted-foreground">
-                Posting as <span className="text-foreground font-bold">{currentUser.name}</span>
+                {dict.comment_section.posting_as} <span className="text-foreground font-bold">{currentUser.name}</span>
               </span>
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="content">Comment</Label>
+              <Label htmlFor="content">{dict.comment_section.label}</Label>
               <Textarea
                 id="content"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                placeholder="Share your thoughts about this album..."
+                placeholder={dict.comment_section.placeholder}
                 rows={3}
                 required
               />
@@ -237,18 +239,18 @@ export function CommentSection({ albumId }: CommentSectionProps) {
                 variant="ghost"
                 onClick={() => setShowForm(false)}
               >
-                Cancel
+                {dict.comment_section.cancel}
               </Button>
               <Button type="submit" disabled={isSubmitting} className="gap-2">
                 {isSubmitting ? (
                     <>
                       <Loader2 className="h-4 w-4 animate-spin" />
-                      Posting...
+                      {dict.comment_section.posting}
                     </>
                 ) : (
                     <>
                       <Send className="h-4 w-4" />
-                      Post Comment
+                      {dict.comment_section.post_button}
                     </>
                 )}
               </Button>
@@ -258,7 +260,7 @@ export function CommentSection({ albumId }: CommentSectionProps) {
       ) : (
         <div className="p-4 rounded-lg bg-muted/50 flex items-center justify-center gap-2 text-muted-foreground text-sm">
            <Lock className="h-4 w-4" />
-           <span>Only team members can post comments.</span>
+           <span>{dict.comment_section.unauthorized}</span>
         </div>
       )}
 
@@ -267,7 +269,7 @@ export function CommentSection({ albumId }: CommentSectionProps) {
         {isLoading ? (
             <div className="text-center py-8 text-muted-foreground">
                 <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2 opacity-50" />
-                Loading comments...
+                {dict.comment_section.loading}
             </div>
         ) : comments.length > 0 ? (
           comments.map((comment) => (
@@ -287,7 +289,7 @@ export function CommentSection({ albumId }: CommentSectionProps) {
                       {comment.authorName}
                     </span>
                     <span className="text-xs text-muted-foreground">
-                      {new Date(comment.createdAt).toLocaleDateString("tr-TR", {
+                      {new Date(comment.createdAt).toLocaleDateString(lang === 'tr' ? 'tr-TR' : 'en-US', {
                         month: "long",
                         day: "numeric",
                         year: "numeric",
@@ -295,7 +297,7 @@ export function CommentSection({ albumId }: CommentSectionProps) {
                         minute: "2-digit"
                       })}
                       {comment.updatedAt && (
-                        <span className="ml-1 italic text-[10px] opacity-70">(edited)</span>
+                        <span className="ml-1 italic text-[10px] opacity-70">{dict.comment_section.edited}</span>
                       )}
                     </span>
                   </div>
@@ -311,11 +313,11 @@ export function CommentSection({ albumId }: CommentSectionProps) {
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem onClick={() => startEditing(comment)}>
                           <Edit2 className="h-4 w-4 mr-2" /> 
-                          Edit
+                          {dict.comment_section.edit}
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => setCommentToDelete(comment.id)} className="text-destructive focus:text-destructive">
                           <Trash2 className="h-4 w-4 mr-2" /> 
-                          Delete
+                          {dict.comment_section.delete}
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -331,8 +333,8 @@ export function CommentSection({ albumId }: CommentSectionProps) {
                       className="bg-background"
                     />
                     <div className="flex justify-end gap-2">
-                      <Button size="sm" variant="ghost" onClick={cancelEditing}>Cancel</Button>
-                      <Button size="sm" onClick={() => handleEditSubmit(comment.id)}>Save</Button>
+                      <Button size="sm" variant="ghost" onClick={cancelEditing}>{dict.comment_section.cancel}</Button>
+                      <Button size="sm" onClick={() => handleEditSubmit(comment.id)}>{dict.gallery.contribute_submit || "Save"}</Button>
                     </div>
                   </div>
                 ) : (
@@ -345,7 +347,7 @@ export function CommentSection({ albumId }: CommentSectionProps) {
           <div className="text-center py-8">
             <User className="h-12 w-12 text-muted-foreground/20 mx-auto mb-2" />
             <p className="text-muted-foreground">
-              No comments yet. Be the first to share your thoughts!
+              {dict.comment_section.empty}
             </p>
           </div>
         )}

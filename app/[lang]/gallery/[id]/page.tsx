@@ -257,7 +257,7 @@ export default async function AlbumPage({ params }: AlbumPageProps) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <CommentSection albumId={album.id} />
+              <CommentSection albumId={album.id} lang={lang} dict={dict} />
             </CardContent>
           </Card>
         </div>
