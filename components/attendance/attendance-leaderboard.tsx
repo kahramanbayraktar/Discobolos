@@ -21,9 +21,24 @@ export function AttendanceLeaderboard({ stats, dict }: AttendanceLeaderboardProp
         <TableHeader>
           <TableRow className="hover:bg-transparent border-b">
             <TableHead className="w-[80px] text-center font-bold">{t.table.rank}</TableHead>
-            <TableHead className="min-w-[200px]">{t.table.player}</TableHead>
-            <TableHead className="text-center hidden md:table-cell">{t.table.presence}</TableHead>
-            <TableHead className="text-center">{t.table.badges}</TableHead>
+            <TableHead className="min-w-[180px]">{t.table.player}</TableHead>
+            <TableHead className="text-center">
+              <span className="hidden md:inline">{t.table.presence}</span>
+              <span className="md:hidden">P</span>
+            </TableHead>
+            <TableHead className="text-center">
+              <span className="hidden md:inline">{t.table.early}</span>
+              <span className="md:hidden">S</span>
+            </TableHead>
+            <TableHead className="text-center">
+              <span className="hidden md:inline">{t.table.on_time}</span>
+              <span className="md:hidden">T</span>
+            </TableHead>
+            <TableHead className="text-center">
+              <span className="hidden md:inline">{t.table.double_jersey}</span>
+              <span className="md:hidden">B</span>
+            </TableHead>
+            <TableHead className="text-center hidden lg:table-cell">{t.table.badges}</TableHead>
             <TableHead className="text-right font-bold">{t.table.points}</TableHead>
           </TableRow>
         </TableHeader>
@@ -70,18 +85,19 @@ export function AttendanceLeaderboard({ stats, dict }: AttendanceLeaderboardProp
                     </div>
                   </div>
                 </TableCell>
-                <TableCell className="text-center hidden md:table-cell">
-                  <div className="flex flex-col items-center gap-1">
-                    <span className="text-lg font-bold">{player.attendanceCount}</span>
-                    <div className="w-16 h-1.5 bg-muted rounded-full overflow-hidden">
-                      <div 
-                        className="h-full bg-primary transition-all" 
-                        style={{ width: `${Math.min(100, (player.attendanceCount / 10) * 100)}%` }}
-                      />
-                    </div>
-                  </div>
+                <TableCell className="text-center">
+                  <span className="font-bold text-lg">{player.attendanceCount}</span>
                 </TableCell>
-                <TableCell>
+                <TableCell className="text-center">
+                  <span className="text-muted-foreground">{player.earlyArrivalCount}</span>
+                </TableCell>
+                <TableCell className="text-center">
+                  <span className="text-muted-foreground">{player.onTimeCount}</span>
+                </TableCell>
+                <TableCell className="text-center">
+                  <span className="text-muted-foreground">{player.doubleJerseyCount}</span>
+                </TableCell>
+                <TableCell className="hidden lg:table-cell">
                   <div className="flex items-center justify-center gap-1.5">
                     {badges.length > 0 ? (
                       badges.map((badge, bIndex) => (

@@ -110,37 +110,50 @@
         }
     },
     "attendance": {
-        "badge": "Leaderboard",
-        "title": "Hall of Fame",
+        "badge": "Stele of Honor",
+        "title": "Discobolos Pantheon",
         "description": "Celebrating consistency and dedication on the field. Who's leading the spirit for Discobolos?",
+        "showcase_title": "Mythological Badges & Goals",
+        "target": "Goal",
+        "times": "Times",
         "table": {
             "rank": "Rank",
             "player": "Player",
             "points": "Points",
             "badges": "Badges",
-            "presence": "Presence",
-            "early": "Dawn Operation",
-            "on_time": "Second Precision",
-            "double_jersey": "Chameleon Mode",
+            "presence": "Attendance",
+            "early": "Early Arrival",
+            "on_time": "Punctuality",
+            "double_jersey": "Two Shirts",
             "actions": "Actions"
         },
         "badges": {
             "early_bird": {
-                "name": "Early Bird",
-                "description": "Greeting the dawn on the field"
+                "name": "Eos",
+                "description": "Greeting the sun on the field, the harbinger of light."
             },
             "chameleon": {
-                "name": "Chameleon",
-                "description": "Never forgets their markers"
+                "name": "Proteus",
+                "description": "Able to shift between both colors, the prepared player."
             },
             "iron_man": {
-                "name": "Iron Man",
-                "description": "Attends every single session"
+                "name": "Hestia",
+                "description": "Keeping the hearth burning, the guardian of the eternal flame."
             },
             "reliable": {
-                "name": "Reliable",
-                "description": "Always on the field before time"
+                "name": "Kairos",
+                "description": "Master of the moment's spirit, present at the exact instant."
             }
+        },
+        "info": {
+            "scoring_title": "Scoring System",
+            "scoring_presence": "Attendance",
+            "scoring_early": "Early Arrival",
+            "scoring_on_time": "Punctuality",
+            "scoring_double_jersey": "Two Shirts",
+            "scoring_unit": "Points",
+            "why_title": "Why it Matters?",
+            "why_description": "Discipline and timing are the foundations of games won on the field. This table celebrates commitment to the team in a fun way. Surprise rewards might await those at the top by the end of the season!"
         },
         "admin": {
             "title": "Record Attendance",

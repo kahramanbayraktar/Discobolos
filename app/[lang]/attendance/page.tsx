@@ -1,4 +1,5 @@
 import { AttendanceLeaderboard } from "@/components/attendance/attendance-leaderboard";
+import { BadgeShowcase } from "@/components/attendance/badge-showcase";
 import { getDictionary } from "@/get-dictionary";
 import { Locale } from "@/i18n-config";
 import { getPlayerStats } from "@/lib/supabase";
@@ -37,23 +38,33 @@ export default async function AttendancePage({ params }: { params: Promise<{ lan
         </p>
       </div>
 
+      {/* Badge Showcase */}
+      <div className="mb-12">
+        <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 italic">
+          <span className="w-8 h-1 bg-primary rounded-full" />
+          {t.showcase_title}
+        </h2>
+        <BadgeShowcase dict={dict} />
+      </div>
+
+      {/* Leaderboard */}
       <AttendanceLeaderboard stats={stats} dict={dict} />
 
       {/* Footer Info */}
       <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="p-6 rounded-2xl bg-muted/30 border border-primary/10 backdrop-blur-sm">
-          <h3 className="font-bold mb-2">Puanlama Sistemi</h3>
+          <h3 className="font-bold mb-2">{t.info.scoring_title}</h3>
           <ul className="text-sm text-muted-foreground space-y-2">
-            <li>• Antrenman Katılımı: 1 Puan</li>
-            <li>• 10 Dakika Erken Gelme: +2 Puan (Şafak Operasyonu)</li>
-            <li>• Zamanında Gelme: +1 Puan (Saniye Hassasiyeti)</li>
-            <li>• Çift Renk Forma: +1 Puan (Bukalemun)</li>
+            <li>• {t.info.scoring_presence}: 1 {t.info.scoring_unit}</li>
+            <li>• {t.info.scoring_early}: +2 {t.info.scoring_unit}</li>
+            <li>• {t.info.scoring_on_time}: +1 {t.info.scoring_unit}</li>
+            <li>• {t.info.scoring_double_jersey}: +1 {t.info.scoring_unit}</li>
           </ul>
         </div>
         <div className="p-6 rounded-2xl bg-muted/30 border border-accent/10 backdrop-blur-sm">
-          <h3 className="font-bold mb-2">Neden Önemli?</h3>
+          <h3 className="font-bold mb-2">{t.info.why_title}</h3>
           <p className="text-sm text-muted-foreground">
-            Disiplin ve zamanlama, sahada kazanılan maçların temelleridir. Bu tablo, takıma olan bağlılığı eğlenceli bir şekilde kutlar. Sezon sonu zirvede olanları sürpriz ödüller bekliyor olabilir!
+            {t.info.why_description}
           </p>
         </div>
       </div>

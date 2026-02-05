@@ -125,37 +125,50 @@
         }
     },
     "attendance": {
-        "badge": "Liderlik Tablosu",
-        "title": "Hall of Fame",
+        "badge": "Onur Kütüğü",
+        "title": "Discobolos Pantheon",
         "description": "Sahadaki disiplin ve tutkuyu ödüllendiriyoruz. Kimler Discobolos ruhunu en iyi yansıtıyor?",
+        "showcase_title": "Mitolojik Rozetler & Hedefler",
+        "target": "Hedef",
+        "times": "Kez",
         "table": {
             "rank": "Sıra",
             "player": "Oyuncu",
-            "points": "Ego Puanı",
+            "points": "Puan",
             "badges": "Rozetler",
-            "presence": "Varlığıyla Onurlandırdı",
-            "early": "Şafak Operasyonu",
-            "on_time": "Saniye Hassasiyeti",
-            "double_jersey": "Bukalemun Modu",
+            "presence": "Katılım",
+            "early": "Erken Gelme",
+            "on_time": "Dakiklik",
+            "double_jersey": "Çift Tişört",
             "actions": "İşlemler"
         },
         "badges": {
             "early_bird": {
-                "name": "Erkenci Kuş",
-                "description": "Şafağı sahada karşılayanlar"
+                "name": "Eos",
+                "description": "Güneşi sahada karşılayan, ışığın öncüsü."
             },
             "chameleon": {
-                "name": "Bukalemun",
-                "description": "Çift renk formayı asla unutmaz"
+                "name": "Proteus",
+                "description": "İki renge de bürünebilen, hazırlıklı oyuncu."
             },
             "iron_man": {
-                "name": "Demirbaş",
-                "description": "Bütün antrenmanlara katılır"
+                "name": "Hestia",
+                "description": "Ocağı tüttüren, sönmeyen ateşin bekçisi."
             },
             "reliable": {
-                "name": "Güvenilir",
-                "description": "Her zaman zamanında sahadadır"
+                "name": "Kairos",
+                "description": "Zamanın ruhuna hükmeden, tam anında orada olan."
             }
+        },
+        "info": {
+            "scoring_title": "Puanlama Sistemi",
+            "scoring_presence": "Katılım",
+            "scoring_early": "Erken Gelme",
+            "scoring_on_time": "Dakiklik",
+            "scoring_double_jersey": "Çift Tişört",
+            "scoring_unit": "Puan",
+            "why_title": "Neden Önemli?",
+            "why_description": "Disiplin ve zamanlama, sahada kazanılan maçların temelleridir. Bu tablo, takıma olan bağlılığı eğlenceli bir şekilde kutlar. Sezon sonu zirvede olanları sürpriz ödüller bekliyor olabilir!"
         },
         "admin": {
             "title": "Katılım Kaydı",

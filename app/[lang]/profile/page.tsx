@@ -6,10 +6,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { createClient } from "@/lib/supabase/client";
 import { PlayerStats } from "@/lib/types";
@@ -407,16 +407,16 @@ const fileInputRef = useRef<HTMLInputElement>(null);
                 {player ? (
                   <>
                     {player.earlyArrivalCount >= 3 && (
-                      <AttendanceBadge type="early_bird" name="Erkenci Kuş" description="Şafak operasyonları uzmanı!" className="h-16 w-16" />
+                      <AttendanceBadge type="early_bird" name="Erken Gelme" description="Şafak operasyonları uzmanı!" className="h-16 w-16" />
                     )}
                     {player.doubleJerseyCount >= 3 && (
-                      <AttendanceBadge type="chameleon" name="Bukalemun" description="Moda ve hazırlık bir arada." className="h-16 w-16" />
+                      <AttendanceBadge type="chameleon" name="Çift Tişört" description="Moda ve hazırlık bir arada." className="h-16 w-16" />
                     )}
                     {player.attendanceCount >= 5 && (
-                      <AttendanceBadge type="iron_man" name="Demirbaş" description="Bu sahada yağmur çamur dinlemedi." className="h-16 w-16" />
+                      <AttendanceBadge type="iron_man" name="Katılım" description="Bu sahada yağmur çamur dinlemedi." className="h-16 w-16" />
                     )}
                     {player.onTimeCount >= 3 && (
-                      <AttendanceBadge type="reliable" name="Güvenilir" description="Saniyesi saniyesine sahadaydı." className="h-16 w-16" />
+                      <AttendanceBadge type="reliable" name="Dakiklik" description="Saniyesi saniyesine sahadaydı." className="h-16 w-16" />
                     )}
                     {(player.attendanceCount || 0) < 1 && (
                       <p className="text-sm text-muted-foreground italic bg-muted/30 p-4 rounded-xl w-full border border-dashed border-primary/20">
