@@ -11,7 +11,7 @@ export default async function AdminNewAlbumPage({
 }) {
   const { lang } = await params;
   const player = await getServerPlayer();
-  if (!player || !player.isCaptain) redirect(`/${lang}/login`);
+  if (!player || !player.isAdmin) redirect(`/${lang}/login`);
 
   return (
     <div className="max-w-2xl mx-auto">

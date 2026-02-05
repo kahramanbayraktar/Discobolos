@@ -18,7 +18,7 @@ export default async function AdminSubmissionsPage({
 }) {
   const { lang } = await params;
   const player = await getServerPlayer();
-  if (!player || !player.isCaptain) redirect(`/${lang}/login`);
+  if (!player || !player.isAdmin) redirect(`/${lang}/login`);
 
   const submissions = await getGallerySubmissions();
   const albums = await getGalleryAlbums();

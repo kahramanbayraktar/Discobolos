@@ -14,7 +14,7 @@ export default async function AdminNewEventPage({
   const { lang } = await params;
   const dict = await getDictionary(lang);
   const player = await getServerPlayer();
-  if (!player || !player.isCaptain) redirect(`/${lang}/login`);
+  if (!player || !player.isAdmin) redirect(`/${lang}/login`);
 
   return (
     <div className="max-w-2xl mx-auto">

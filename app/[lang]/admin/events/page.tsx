@@ -19,7 +19,7 @@ export default async function AdminEventsListPage({
   const { lang } = await params;
   const dict = await getDictionary(lang);
   const player = await getServerPlayer();
-  if (!player || !player.isCaptain) redirect(`/${lang}/login`);
+  if (!player || !player.isAdmin) redirect(`/${lang}/login`);
 
   const events = await getEvents();
 

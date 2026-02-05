@@ -15,7 +15,7 @@ export default async function EditPlayerPage({
   const { lang, id } = await params;
   const dict = await getDictionary(lang);
   const activePlayer = await getServerPlayer();
-  if (!activePlayer || !activePlayer.isCaptain) redirect(`/${lang}/login`);
+  if (!activePlayer || !activePlayer.isAdmin) redirect(`/${lang}/login`);
 
   const player = await getPlayerById(id);
   if (!player) {

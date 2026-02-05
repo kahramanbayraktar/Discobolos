@@ -12,7 +12,7 @@ export default async function AdminEditAlbumPage({
 }) {
   const { lang, id } = await params;
   const activePlayer = await getServerPlayer();
-  if (!activePlayer || !activePlayer.isCaptain) redirect(`/${lang}/login`);
+  if (!activePlayer || !activePlayer.isAdmin) redirect(`/${lang}/login`);
 
   const album = await getGalleryAlbumById(id);
   if (!album) {
