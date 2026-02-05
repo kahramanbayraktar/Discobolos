@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { AttendanceRecord, Event, GalleryAlbum, GallerySubmission, Player, PlayerStats, RSVP } from './types';
+import { AttendanceRecord, Event, GalleryAlbum, GalleryComment, GallerySubmission, Player, PlayerStats, RSVP } from './types';
 import { getCookie } from './utils';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -352,6 +352,69 @@ export async function updateGallerySubmissionStatus(id: string, status: "approve
   const { error } = await supabase
     .from('gallery_submissions')
     .update({ status })
+    .eq('id', id);
+
+  if (error) throw error;
+}
+
+// --- Gallery Comments Functions ---
+
+export async function getGalleryComments(albumId: string): Promise<GalleryComment[]> {
+  const { data, error } = await supabase
+    .from('gallery_comments')
+    .select('*')
+    .eq('album_id', albumId)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching gallery comments:', error);
+    return [];
+  }
+
+  return (data || []).map((row: any) => ({
+    id: row.id,
+    albumId: row.album_id,
+    authorId: row.author_id,
+    authorName: row.author_name,
+    content: row.content,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at
+  }));
+}
+
+export async function createGalleryComment(comment: Omit<GalleryComment, 'id' | 'createdAt' | 'updatedAt'>) {
+  const { data, error } = await supabase
+    .from('gallery_comments')
+    .insert([{
+      album_id: comment.albumId,
+      author_id: comment.authorId,
+      author_name: comment.authorName,
+      content: comment.content
+    }])
+    .select();
+
+  if (error) throw error;
+  return data[0];
+}
+
+export async function updateGalleryComment(id: string, content: string) {
+  const { data, error } = await supabase
+    .from('gallery_comments')
+    .update({ 
+      content, 
+      updated_at: new Date().toISOString() 
+    })
+    .eq('id', id)
+    .select();
+
+  if (error) throw error;
+  return data[0];
+}
+
+export async function deleteGalleryComment(id: string) {
+  const { error } = await supabase
+    .from('gallery_comments')
+    .delete()
     .eq('id', id);
 
   if (error) throw error;

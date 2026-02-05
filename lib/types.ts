@@ -49,13 +49,14 @@ export interface GalleryAlbum {
   previewImages?: string[];
 }
 
-export interface Comment {
+export interface GalleryComment {
   id: string;
   albumId: string;
+  authorId?: string;
   authorName: string;
-  authorEmail: string;
   content: string;
   createdAt: string;
+  updatedAt?: string;
 }
 
 export interface GallerySubmission {
