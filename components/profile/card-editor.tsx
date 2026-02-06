@@ -21,7 +21,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { createClient } from "@/lib/supabase/client";
 import { Player, PlayerCardConfig } from "@/lib/types";
-import { Loader2, Palette, Sparkles, Wand2 } from "lucide-react";
+import { Loader2, Palette, Sparkles, Wand2, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -71,17 +71,32 @@ const COLORS = [
 export function CardEditor({ player, open, onOpenChange, onSave, lang }: CardEditorProps) {
   const router = useRouter();
   const [config, setConfig] = useState<PlayerCardConfig>(player.cardConfig || DEFAULT_CONFIG);
+  const [showMobilePreview, setShowMobilePreview] = useState(true);
   const [saving, setSaving] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
+  const [previewBio, setPreviewBio] = useState<string | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [avatarPrompt, setAvatarPrompt] = useState("");
   const supabase = createClient();
 
   const handleSave = async () => {
     setSaving(true);
     try {
+      const updates: any = { card_config: config };
+      
+      // If we have a new preview bio, save it
+      if (previewBio) {
+        updates.fun_fact = previewBio;
+      }
+
+      // If we have a new preview image, save it
+      if (previewImage) {
+        updates.image = previewImage;
+      }
+
       const { error } = await supabase
         .from('players')
-        .update({ card_config: config })
+        .update(updates)
         .eq('id', player.id);
 
       if (error) throw error;
@@ -96,7 +111,7 @@ export function CardEditor({ player, open, onOpenChange, onSave, lang }: CardEdi
       setSaving(false);
     }
   };
-
+   
   const updateConfig = (key: keyof PlayerCardConfig, value: any) => {
     setConfig(prev => ({ ...prev, [key]: value }));
   };
@@ -114,16 +129,10 @@ export function CardEditor({ player, open, onOpenChange, onSave, lang }: CardEdi
       if (data.bios && data.bios.length > 0) {
         const newBio = data.bios[0];
         
-        // Update database directly implementation for bio
-        const { error } = await supabase
-          .from('players')
-          .update({ fun_fact: newBio })
-          .eq('id', player.id);
-
-        if (error) throw error;
+        // Update local state only (Preview)
+        setPreviewBio(newBio);
         
-        toast.success(lang === 'tr' ? "Yeni biyografi hazır!" : "New bio generated!");
-        router.refresh();
+        toast.success(lang === 'tr' ? "Yeni biyografi önizleniyor!" : "New bio previewed!");
       } else {
         throw new Error("No bio generated");
       }
@@ -154,21 +163,10 @@ export function CardEditor({ player, open, onOpenChange, onSave, lang }: CardEdi
       const data = await res.json();
 
       if (data.url) {
-        // Update DB with new avatar URL
-        const { error } = await supabase
-          .from('players')
-          .update({ image: data.url })
-          .eq('id', player.id);
+        // Update local state only (Preview)
+        setPreviewImage(data.url);
 
-        if (error) throw error;
-
-        toast.success(lang === 'tr' ? "Avatar başarıyla yenilendi!" : "Avatar updated successfully!");
-        
-        // Refresh to show new image
-        router.refresh(); 
-        
-        // Optional: Close dialog or switch to verified state? 
-        // For now, let user see the update in the preview below/left
+        toast.success(lang === 'tr' ? "Avatar önizleniyor!" : "Avatar previewed!");
       } else {
          toast.error(lang === 'tr' ? "Avatar oluşturulamadı." : "Failed to generate avatar.");
       }
@@ -195,11 +193,45 @@ export function CardEditor({ player, open, onOpenChange, onSave, lang }: CardEdi
         </DialogHeader>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 py-6">
+          {/* Mobile Preview Toggle (Only visible when preview is hidden on mobile) */}
+          {!showMobilePreview && (
+            <div className="lg:hidden sticky top-0 z-20 bg-background/95 backdrop-blur py-2 border-b animate-in fade-in slide-in-from-top-2">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => setShowMobilePreview(true)}
+                className="w-full flex items-center justify-center gap-2"
+              >
+                <Sparkles className="w-4 h-4" />
+                {lang === 'tr' ? "Önizlemeyi Göster" : "Show Preview"}
+              </Button>
+            </div>
+          )}
+
           {/* Preview Section */}
-          <div className="lg:col-span-5 flex flex-col items-center justify-start p-6 bg-muted/30 rounded-xl border border-dashed border-primary/20 sticky top-0">
-            <p className="text-xs font-semibold text-muted-foreground uppercase mb-4 tracking-widest">
-              {lang === 'tr' ? "Önizleme" : "Preview"}
-            </p>
+          <div className={`
+            lg:col-span-5 flex flex-col items-center justify-start p-6 bg-muted/30 rounded-xl border border-dashed border-primary/20
+            sticky top-0 z-10 bg-background/95 backdrop-blur lg:bg-muted/30 lg:z-0 transition-all duration-300
+            ${showMobilePreview ? 'block' : 'hidden lg:flex'}
+          `}>
+             <div className="w-full flex justify-between items-center mb-4 lg:justify-center lg:relative">
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">
+                {lang === 'tr' ? "Önizleme" : "Preview"}
+              </p>
+              
+              {/* Close Preview Button (Mobile Only) */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="lg:hidden h-8 w-8 -mr-2"
+                onClick={() => setShowMobilePreview(false)}
+                title={lang === 'tr' ? "Önizlemeyi Gizle" : "Hide Preview"}
+              >
+                <X className="w-4 h-4" />
+                <span className="sr-only">Close Preview</span>
+              </Button>
+            </div>
+
             <div className="transform scale-100 origin-top">
               <PlayerCardV2 
                 player={player} 
@@ -320,6 +352,20 @@ export function CardEditor({ player, open, onOpenChange, onSave, lang }: CardEdi
                     {aiLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Sparkles className="w-4 h-4 mr-2" />}
                     {lang === 'tr' ? "Biyografi Oluştur" : "Auto-Write Bio"}
                   </Button>
+
+                  {(previewBio || player.funFact) && (
+                    <div className="space-y-2 animate-in fade-in slide-in-from-top-2">
+                       <Label className="text-xs font-semibold">
+                        {lang === 'tr' ? "Biyografini Düzenle" : "Edit Bio"}
+                      </Label>
+                      <Textarea 
+                        value={previewBio ?? player.funFact ?? ""}
+                        onChange={(e) => setPreviewBio(e.target.value)}
+                        placeholder={lang === 'tr' ? "Fun Fact..." : "Enter your fun fact..."}
+                        className="resize-none h-20 text-sm bg-background/50 border-purple-500/20 focus:border-purple-500/50"
+                      />
+                    </div>
+                  )}
                 </div>
 
                 {/* Avatar Studio Section */}
