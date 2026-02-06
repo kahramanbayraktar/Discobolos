@@ -132,6 +132,7 @@ export async function getPlayers(): Promise<Player[]> {
     isAdmin: row.is_admin,
     email: row.email || '',
     accessCode: row.access_code || '',
+    cardConfig: row.card_config,
   }));
 }
 
@@ -157,6 +158,7 @@ export async function getPlayerById(id: string): Promise<Player | null> {
     isAdmin: data.is_admin,
     email: data.email || '',
     accessCode: data.access_code || '',
+    cardConfig: data.card_config,
   };
 }
 

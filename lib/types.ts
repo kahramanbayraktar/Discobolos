@@ -1,3 +1,10 @@
+export interface PlayerCardConfig {
+  theme: 'classic' | 'neon' | 'gold' | 'minimal';
+  bgPattern: 'dots' | 'lines' | 'waves' | 'solid';
+  primaryColor: string;
+  secondaryColor?: string;
+}
+
 export interface Player {
   id: string;
   name: string;
@@ -11,6 +18,7 @@ export interface Player {
   isAdmin?: boolean;
   email?: string;
   accessCode?: string;
+  cardConfig?: PlayerCardConfig | null;
 }
 
 export interface Event {
