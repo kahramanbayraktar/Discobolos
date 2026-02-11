@@ -128,6 +128,23 @@
             "match": "Match",
             "social": "Social",
             "tournament": "Tournament"
+        },
+        "form": {
+            "title": "Event Title",
+            "description": "Description",
+            "image": "Event Image",
+            "image_hint": "Click or drag and drop",
+            "manual_url": "Or Manual URL",
+            "date": "Date",
+            "start_time": "Start Time",
+            "end_time": "End Time",
+            "type": "Event Type",
+            "opponent": "Opponent (if match)",
+            "location": "Location",
+            "location_url": "Google Maps URL",
+            "submit_create": "Create Event",
+            "submit_save": "Save Changes",
+            "loading": "Processing..."
         }
     },
     "attendance": {

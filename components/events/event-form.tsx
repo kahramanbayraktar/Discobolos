@@ -2,20 +2,21 @@
 
 import { Button } from "@/components/ui/button";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
 } from "@/components/ui/form";
+import { ImageUpload } from "@/components/ui/image-upload";
 import { Input } from "@/components/ui/input";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { createClient } from "@/lib/supabase/client";
@@ -37,20 +38,23 @@ const eventSchema = zod.object({
   locationUrl: zod.string().url("Invalid URL").optional().or(zod.literal("")),
   type: zod.enum(["practice", "match", "social", "tournament"]),
   opponent: zod.string().optional(),
+  image: zod.string().url("Invalid Image URL").optional().or(zod.literal("")),
 });
 
 type EventFormValues = zod.infer<typeof eventSchema>;
 
 interface EventFormProps {
   initialData?: Event;
+  dict: any;
 }
 
-export function EventForm({ initialData }: EventFormProps) {
+export function EventForm({ initialData, dict }: EventFormProps) {
   const router = useRouter();
   const params = useParams();
   const lang = params.lang as string;
   const [isLoading, setIsLoading] = useState(false);
   const supabase = createClient();
+  const t = dict.events_page.form;
 
   const form = useForm<EventFormValues>({
     resolver: zodResolver(eventSchema),
@@ -65,6 +69,7 @@ export function EventForm({ initialData }: EventFormProps) {
           location: initialData.location,
           locationUrl: initialData.locationUrl || "",
           opponent: initialData.opponent || "",
+          image: initialData.image || "",
         }
       : {
           title: "",
@@ -75,6 +80,7 @@ export function EventForm({ initialData }: EventFormProps) {
           location: "",
           locationUrl: "",
           opponent: "",
+          image: "",
         },
   });
 
@@ -90,7 +96,8 @@ export function EventForm({ initialData }: EventFormProps) {
         location: data.location,
         location_url: data.locationUrl || null,
         type: data.type,
-        opponent: data.opponent || null
+        opponent: data.opponent || null,
+        image_url: data.image || null,
       };
 
       if (initialData) {
@@ -99,13 +106,13 @@ export function EventForm({ initialData }: EventFormProps) {
           .update(dbData)
           .eq('id', initialData.id);
         if (error) throw error;
-        toast.success("Event updated successfully!");
+        toast.success(initialData ? t.save_success || "Event updated!" : t.create_success || "Event created!");
       } else {
         const { error } = await supabase
           .from('events')
           .insert([dbData]);
         if (error) throw error;
-        toast.success("Event created successfully!");
+        toast.success(t.submit_create_success || "Event created successfully!");
       }
 
       router.push(`/${lang}/events`); 
@@ -125,7 +132,7 @@ export function EventForm({ initialData }: EventFormProps) {
           name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Event Title</FormLabel>
+              <FormLabel>{t.title}</FormLabel>
               <FormControl>
                 <Input placeholder="Weekly Practice" {...field} />
               </FormControl>
@@ -139,7 +146,7 @@ export function EventForm({ initialData }: EventFormProps) {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>{t.description}</FormLabel>
               <FormControl>
                 <Textarea 
                   placeholder="Tell us about the event..." 
@@ -152,13 +159,45 @@ export function EventForm({ initialData }: EventFormProps) {
           )}
         />
 
+        <FormField
+          control={form.control}
+          name="image"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t.image}</FormLabel>
+              <FormControl>
+                <div className="space-y-4">
+                  <ImageUpload 
+                    value={field.value} 
+                    onChange={field.onChange}
+                    bucket="events"
+                    folder="covers"
+                    hint={t.image_hint}
+                  />
+                  <div className="flex items-center gap-2">
+                    <div className="h-px flex-1 bg-border" />
+                    <span className="text-[10px] uppercase font-bold text-muted-foreground">{t.manual_url}</span>
+                    <div className="h-px flex-1 bg-border" />
+                  </div>
+                  <Input 
+                    placeholder="https://example.com/image.jpg" 
+                    {...field} 
+                    className="h-8 text-xs bg-muted/30"
+                  />
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormField
             control={form.control}
             name="date"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Date (YYYY-MM-DD)</FormLabel>
+                <FormLabel>{t.date}</FormLabel>
                 <FormControl>
                   <Input type="date" {...field} />
                 </FormControl>
@@ -173,7 +212,7 @@ export function EventForm({ initialData }: EventFormProps) {
               name="time"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Start Time</FormLabel>
+                  <FormLabel>{t.start_time}</FormLabel>
                   <FormControl>
                     <Input type="time" {...field} />
                   </FormControl>
@@ -186,7 +225,7 @@ export function EventForm({ initialData }: EventFormProps) {
               name="endTime"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>End Time</FormLabel>
+                  <FormLabel>{t.end_time}</FormLabel>
                   <FormControl>
                     <Input type="time" {...field} />
                   </FormControl>
@@ -203,7 +242,7 @@ export function EventForm({ initialData }: EventFormProps) {
             name="type"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Event Type</FormLabel>
+                <FormLabel>{t.type}</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
@@ -227,7 +266,7 @@ export function EventForm({ initialData }: EventFormProps) {
             name="opponent"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Opponent (if match)</FormLabel>
+                <FormLabel>{t.opponent}</FormLabel>
                 <FormControl>
                   <Input placeholder="Bay Bombers" {...field} />
                 </FormControl>
@@ -243,7 +282,7 @@ export function EventForm({ initialData }: EventFormProps) {
             name="location"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Location</FormLabel>
+                <FormLabel>{t.location}</FormLabel>
                 <FormControl>
                   <Input placeholder="Golden Gate Park" {...field} />
                 </FormControl>
@@ -257,7 +296,7 @@ export function EventForm({ initialData }: EventFormProps) {
             name="locationUrl"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Google Maps URL</FormLabel>
+                <FormLabel>{t.location_url}</FormLabel>
                 <FormControl>
                   <Input placeholder="https://maps.google.com/..." {...field} />
                 </FormControl>
@@ -269,8 +308,8 @@ export function EventForm({ initialData }: EventFormProps) {
 
         <Button type="submit" className="w-full" disabled={isLoading}>
           {isLoading 
-            ? (initialData ? "Saving..." : "Creating...") 
-            : (initialData ? "Save Changes" : "Create Event")}
+            ? t.loading
+            : (initialData ? t.submit_save : t.submit_create)}
         </Button>
       </form>
     </Form>

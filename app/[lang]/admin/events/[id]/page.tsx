@@ -39,7 +39,7 @@ export default async function EditEventPage({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <EventForm initialData={event} />
+          <EventForm initialData={event} dict={dict} />
         </CardContent>
       </Card>
     </div>

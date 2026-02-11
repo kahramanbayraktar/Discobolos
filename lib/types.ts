@@ -32,6 +32,7 @@ export interface Event {
   locationUrl?: string;
   type: "practice" | "match" | "social" | "tournament";
   opponent?: string;
+  image?: string;
 }
 
 export interface NewsPost {

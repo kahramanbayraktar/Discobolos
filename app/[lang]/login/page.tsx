@@ -28,7 +28,22 @@ function LoginContent() {
     setIsLoading(true);
 
     try {
-      // Check if player exists with this email and access code
+      // 1. Try to sign in with Supabase Auth first (for Storage RLS)
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email: email.toLowerCase().trim(),
+        password: accessCode.trim(),
+      });
+
+      if (authError) {
+        console.error("Supabase Auth Error:", authError);
+        // Fallback: If auth fails (maybe user not in auth table yet), 
+        // we still check the players table manually for the old logic
+      }
+
+      // 2. Original Logic: Check 'players' table manually
+      // This is kept for backward compatibility or if you are not syncing auth users
+      // However, for Storage to work, we NEED the step 1 to succeed.
+      
       const { data: player, error } = await supabase
         .from("players")
         .select("id, name, is_captain")
@@ -44,9 +59,7 @@ function LoginContent() {
         return;
       }
 
-      // Set a cookie for the "session"
-      // In a real production app, this should be a JWT or similar signed token
-      // For this team app, we'll store the player ID as a simple token
+      // Set cookie for middleware/server-side checks
       document.cookie = `player_token=${player.id}; path=/; max-age=${60 * 60 * 24 * 30}; samesite=lax`;
 
       toast.success(`Hoş geldin, ${player.name}!`);

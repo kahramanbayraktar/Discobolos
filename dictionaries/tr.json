@@ -143,6 +143,23 @@
             "pizza_night": "Aylık takım kaynaşma etkinliği. İyi yemek, harika dostluk ve belki biraz disk golf!",
             "winter_classic": "California genelinden takımların katıldığı iki günlük turnuva. Sezonun en büyük etkinliği!",
             "friendly_match": "Körfezin diğer yakasındaki dostlarımızla hazırlık maçı."
+        },
+        "form": {
+            "title": "Etkinlik Başlığı",
+            "description": "Açıklama",
+            "image": "Etkinlik Görseli",
+            "image_hint": "Tıkla veya sürükle bırak",
+            "manual_url": "Veya Manuel URL",
+            "date": "Tarih",
+            "start_time": "Başlangıç Saati",
+            "end_time": "Bitiş Saati",
+            "type": "Etkinlik Türü",
+            "opponent": "Rakip (Maç ise)",
+            "location": "Konum",
+            "location_url": "Google Haritalar URL",
+            "submit_create": "Etkinlik Oluştur",
+            "submit_save": "Değişiklikleri Kaydet",
+            "loading": "İşleniyor..."
         }
     },
     "attendance": {

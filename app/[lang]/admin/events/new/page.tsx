@@ -33,7 +33,7 @@ export default async function AdminNewEventPage({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <EventForm />
+          <EventForm dict={dict} />
         </CardContent>
       </Card>
     </div>

@@ -8,6 +8,7 @@ import { getServerPlayer } from "@/lib/supabase/server";
 import { formatTime } from "@/lib/utils";
 import { Calendar, ChevronLeft, Clock, ExternalLink, MapPin } from "lucide-react";
 import { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -69,6 +70,21 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
 
         {/* Hero Section */}
         <div className="mb-12">
+          {/* Hero Image */}
+          {event.image && (
+            <div className="relative w-full h-[300px] md:h-[450px] lg:h-[500px] rounded-3xl overflow-hidden mb-12 shadow-2xl border border-primary/5">
+              <Image
+                src={event.image}
+                alt={event.title}
+                fill
+                sizes="100vw"
+                className="object-cover"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-80" />
+            </div>
+          )}
+
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <Badge variant="outline" className={`capitalize px-3 py-1 ${eventTypeColors[event.type]}`}>
               {dict.events_page.types[event.type]}
@@ -127,7 +143,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
           </div>
 
           <div className="prose prose-lg dark:prose-invert max-w-none">
-            <p className="text-xl text-muted-foreground leading-relaxed">
+            <p className="text-xl text-muted-foreground leading-relaxed whitespace-pre-wrap">
               {event.description}
             </p>
           </div>
@@ -148,3 +164,4 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
     </div>
   );
 }
+

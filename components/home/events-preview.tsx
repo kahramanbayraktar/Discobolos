@@ -5,6 +5,7 @@ import type { Locale } from "@/i18n-config";
 import type { Event } from "@/lib/types";
 import { formatTime } from "@/lib/utils";
 import { ArrowRight, Clock, MapPin } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 const eventTypeColors: Record<Event["type"], string> = {
@@ -50,7 +51,7 @@ export function EventsPreview({ dict, lang, events }: { dict: any, lang: Locale,
           </Button>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {upcomingEvents.length === 0 ? (
             <div className="col-span-full py-12 text-center bg-muted/30 rounded-2xl border-2 border-dashed border-muted">
               <p className="text-muted-foreground">{dict.empty}</p>
@@ -61,53 +62,78 @@ export function EventsPreview({ dict, lang, events }: { dict: any, lang: Locale,
               return (
                 <Card
                   key={event.id}
-                  className="group hover:shadow-lg transition-shadow overflow-hidden"
+                  className="group hover:shadow-xl transition-all duration-300 overflow-hidden border-none bg-card-gradient"
                 >
-                  <CardContent className="p-0">
-                    <div className="flex">
+                  <CardContent className="p-0 flex flex-col h-full">
+                    {/* Event Image */}
+                    {event.image && (
+                        <div className="relative w-full h-48 overflow-hidden">
+                          <Image
+                            src={event.image}
+                            alt={event.title}
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            className="object-cover group-hover:scale-110 transition-transform duration-500"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60" />
+                        
+                        <div className="absolute top-4 left-4">
+                          <Badge
+                            className={`capitalize ${eventTypeColors[event.type]} backdrop-blur-md border-none`}
+                          >
+                            {dict.types ? dict.types[event.type] : event.type}
+                          </Badge>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="flex flex-1">
                       {/* Date Block */}
                       <div className="flex flex-col items-center justify-center bg-primary px-4 py-6 text-primary-foreground min-w-[80px]">
-                        <span className="text-xs font-medium uppercase">
+                        <span className="text-xs font-medium uppercase opacity-80">
                           {date.month}
                         </span>
                         <span className="font-[family-name:var(--font-display)] text-3xl font-bold">
                           {date.day}
                         </span>
-                        <span className="text-xs">{date.weekday}</span>
+                        <span className="text-xs opacity-80">{date.weekday}</span>
                       </div>
 
                       {/* Content */}
-                      <div className="flex-1 p-4 space-y-3">
-                        <div className="flex items-start justify-between gap-2">
-                          <h3 className="font-semibold leading-tight group-hover:text-primary transition-colors">
+                      <div className="flex-1 p-5 space-y-4">
+                        <div className="space-y-2">
+                          {!event.image && (
+                            <Badge
+                              variant="outline"
+                              className={`mb-2 capitalize ${eventTypeColors[event.type]}`}
+                            >
+                              {dict.types ? dict.types[event.type] : event.type}
+                            </Badge>
+                          )}
+                          <h3 className="font-bold text-xl leading-tight group-hover:text-primary transition-colors line-clamp-2">
                             <Link href={`/${lang}/events/${event.id}`}>
                               {event.title}
                             </Link>
                           </h3>
-                          <Badge
-                            variant="outline"
-                            className={`shrink-0 capitalize ${eventTypeColors[event.type]}`}
-                          >
-                            {dict.types ? dict.types[event.type] : event.type}
-                          </Badge>
                         </div>
 
-                        <div className="space-y-1.5 text-sm text-muted-foreground">
+                        <div className="space-y-2 text-sm text-muted-foreground">
                           <div className="flex items-center gap-2">
-                            <Clock className="h-3.5 w-3.5" />
+                            <Clock className="h-4 w-4 text-primary" />
                             <span>
                               {formatTime(event.time)}
                               {event.endTime && ` - ${formatTime(event.endTime)}`}
                             </span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <MapPin className="h-3.5 w-3.5" />
+                            <MapPin className="h-4 w-4 text-primary" />
                             <span className="truncate">{event.location}</span>
                           </div>
                         </div>
 
                         {event.opponent && (
-                          <p className="text-sm font-medium text-accent">
+                          <p className="text-sm font-semibold text-accent flex items-center gap-2">
+                            <span className="h-1 w-1 rounded-full bg-accent" />
                             vs. {event.opponent}
                           </p>
                         )}
@@ -123,3 +149,4 @@ export function EventsPreview({ dict, lang, events }: { dict: any, lang: Locale,
     </section>
   );
 }
+

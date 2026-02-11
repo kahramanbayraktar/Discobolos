@@ -30,6 +30,7 @@ export async function getEvents(ascending = true): Promise<Event[]> {
     locationUrl: row.location_url || undefined,
     type: row.type,
     opponent: row.opponent || undefined,
+    image: row.image_url || undefined,
   }));
 }
 
@@ -53,6 +54,7 @@ export async function getEventById(id: string): Promise<Event | null> {
     locationUrl: data.location_url || undefined,
     type: data.type,
     opponent: data.opponent || undefined,
+    image: data.image_url || undefined,
   };
 }
 
@@ -68,7 +70,8 @@ export async function createEvent(event: Omit<Event, 'id'>) {
       location: event.location,
       location_url: event.locationUrl,
       type: event.type,
-      opponent: event.opponent
+      opponent: event.opponent,
+      image_url: event.image
     }])
     .select();
 
@@ -88,7 +91,8 @@ export async function updateEvent(id: string, event: Partial<Omit<Event, 'id'>>)
       location: event.location,
       location_url: event.locationUrl,
       type: event.type,
-      opponent: event.opponent
+      opponent: event.opponent,
+      image_url: event.image
     })
     .eq('id', id)
     .select();
