@@ -147,6 +147,28 @@
             "loading": "Processing..."
         }
     },
+    "roster_page": {
+        "badge": "Meet the Team",
+        "title": "Our Roster",
+        "description": "From seasoned veterans to rising stars, our roster is filled with talented athletes who share a passion for Ultimate and the Spirit of the Game.",
+        "legend": {
+            "handler": "Handler",
+            "handler_desc": "Primary throwers",
+            "cutter": "Cutter",
+            "cutter_desc": "Deep threats & receivers",
+            "hybrid": "Hybrid",
+            "hybrid_desc": "Versatile players"
+        },
+        "empty": "No players are currently listed in the roster.",
+        "captains": "Team Captains",
+        "full_roster": "Full Roster",
+        "stats": {
+            "active": "Active Players",
+            "handlers": "Handlers",
+            "cutters": "Cutters",
+            "hybrids": "Hybrids"
+        }
+    },
     "attendance": {
         "badge": "Stele of Honor",
         "title": "Discobolos Pantheon",
@@ -185,10 +207,10 @@
         },
         "info": {
             "scoring_title": "Scoring System",
-            "scoring_presence": "Attendance",
-            "scoring_early": "Early Arrival",
-            "scoring_on_time": "Punctuality",
-            "scoring_double_jersey": "Two Shirts",
+            "scoring_presence": "Attendance (5x = Hestia)",
+            "scoring_early": "Early Arrival (3x = Eos)",
+            "scoring_on_time": "Punctuality (3x = Kairos)",
+            "scoring_double_jersey": "Two Shirts (3x = Proteus)",
             "scoring_unit": "Points",
             "why_title": "Why it Matters?",
             "why_description": "Discipline and timing are the foundations of games won on the field. This table celebrates commitment to the team in a fun way. Surprise rewards might await those at the top by the end of the season!"

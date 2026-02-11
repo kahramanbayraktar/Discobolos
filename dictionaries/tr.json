@@ -162,6 +162,28 @@
             "loading": "İşleniyor..."
         }
     },
+    "roster_page": {
+        "badge": "Takımla Tanış",
+        "title": "Kadro",
+        "description": "Tecrübeli emektarlardan yükselen yıldızlara kadar kadromuz, Ultimate ve Oyunun Ruhu tutkusunu paylaşan yetenekli sporcularla dolu.",
+        "legend": {
+            "handler": "Handler",
+            "handler_desc": "Ana atıcılar",
+            "cutter": "Cutter",
+            "cutter_desc": "Derin koşucular ve karşılayıcılar",
+            "hybrid": "Hybrid",
+            "hybrid_desc": "Çok yönlü oyuncular"
+        },
+        "empty": "Şu anda kadroda listelenen oyuncu bulunmuyor.",
+        "captains": "Takım Kaptanları",
+        "full_roster": "Tüm Kadro",
+        "stats": {
+            "active": "Aktif Oyuncu",
+            "handlers": "Handlerlar",
+            "cutters": "Cutterlar",
+            "hybrids": "Hybridler"
+        }
+    },
     "attendance": {
         "badge": "Onur Kütüğü",
         "title": "Discobolos Pantheon",
@@ -200,10 +222,10 @@
         },
         "info": {
             "scoring_title": "Puanlama Sistemi",
-            "scoring_presence": "Katılım",
-            "scoring_early": "Erken Gelme",
-            "scoring_on_time": "Dakiklik",
-            "scoring_double_jersey": "Çift Tişört",
+            "scoring_presence": "Katılım (5x = Hestia)",
+            "scoring_early": "Erken Gelme (3x = Eos)",
+            "scoring_on_time": "Dakiklik (3x = Kairos)",
+            "scoring_double_jersey": "Çift Tişört (3x = Proteus)",
             "scoring_unit": "Puan",
             "why_title": "Neden Önemli?",
             "why_description": "Disiplin ve zamanlama, sahada kazanılan maçların temelleridir. Bu tablo, takıma olan bağlılığı eğlenceli bir şekilde kutlar. Sezon sonu zirvede olanları sürpriz ödüller bekliyor olabilir!"

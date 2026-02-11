@@ -10,11 +10,11 @@ interface BadgeShowcaseProps {
 export function BadgeShowcase({ dict }: BadgeShowcaseProps) {
   const t = dict.attendance;
   
-  const badgeDefinitions: { type: BadgeType; threshold: number }[] = [
-    { type: "early_bird", threshold: 3 },
-    { type: "reliable", threshold: 3 },
-    { type: "chameleon", threshold: 3 },
-    { type: "iron_man", threshold: 5 },
+  const badgeDefinitions: { type: BadgeType; threshold: number; labelKey: string }[] = [
+    { type: "early_bird", threshold: 3, labelKey: "early" },
+    { type: "reliable", threshold: 3, labelKey: "on_time" },
+    { type: "chameleon", threshold: 3, labelKey: "double_jersey" },
+    { type: "iron_man", threshold: 5, labelKey: "presence" },
   ];
 
   return (
@@ -25,18 +25,22 @@ export function BadgeShowcase({ dict }: BadgeShowcaseProps) {
                      badge.type === "iron_man" ? t.badges.iron_man :
                      t.badges.reliable;
 
+        const activityLabel = t.table[badge.labelKey];
+
         return (
-          <Card key={badge.type} className="p-6 bg-card/50 backdrop-blur-sm border-primary/10 hover:border-primary/20 transition-all group">
-            <div className="flex flex-col items-center text-center gap-4">
-              <AttendanceBadge 
-                type={badge.type} 
-                name={info.name} 
-                description={info.description}
-                className="w-[120px] h-[120px] group-hover:scale-110 transition-transform duration-500"
-                size={120}
-                showTooltip={false}
-              />
-              <div className="space-y-1">
+          <Card key={badge.type} className="p-6 bg-card/50 backdrop-blur-sm border-primary/10 hover:border-primary/20 transition-all group flex flex-col h-full">
+            <div className="flex flex-col items-center text-center h-full">
+              <div className="mb-4">
+                <AttendanceBadge 
+                  type={badge.type} 
+                  name={info.name} 
+                  description={info.description}
+                  className="w-[120px] h-[120px] group-hover:scale-110 transition-transform duration-500"
+                  size={120}
+                  showTooltip={false}
+                />
+              </div>
+              <div className="space-y-2 mb-6">
                 <h3 className="font-bold text-xl font-[family-name:var(--font-display)] tracking-tight">
                   {info.name}
                 </h3>
@@ -44,8 +48,10 @@ export function BadgeShowcase({ dict }: BadgeShowcaseProps) {
                   {info.description}
                 </p>
               </div>
-              <div className="mt-2 text-[10px] uppercase tracking-widest font-bold text-primary/60 bg-primary/5 py-1 px-3 rounded-full border border-primary/10">
-                {t.target}: {badge.threshold} {t.times}
+              <div className="mt-auto w-full flex justify-center pt-2">
+                <div className="text-[10px] uppercase tracking-[0.2em] font-black text-primary/40 bg-primary/5 py-1.5 px-4 rounded-full border border-primary/10 group-hover:text-primary/70 group-hover:bg-primary/10 transition-colors">
+                  {t.target}: {badge.threshold} {t.times} {activityLabel}
+                </div>
               </div>
             </div>
           </Card>

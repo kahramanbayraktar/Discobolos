@@ -109,7 +109,7 @@ export function AttendanceLeaderboard({ stats, dict }: AttendanceLeaderboardProp
                         />
                       ))
                     ) : (
-                      <span className="text-xs text-muted-foreground italic">No badges yet</span>
+                      <span className="text-xs text-muted-foreground italic">-</span>
                     )}
                   </div>
                 </TableCell>
