@@ -21,7 +21,7 @@ export default async function AdminEventsListPage({
   const player = await getServerPlayer();
   if (!player || !player.isAdmin) redirect(`/${lang}/login`);
 
-  const events = await getEvents();
+  const events = await getEvents(false);
 
   return (
     <>

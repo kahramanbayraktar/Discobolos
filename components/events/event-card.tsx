@@ -123,18 +123,17 @@ export function EventCard({ event, dict, lang, variant = "default" }: EventCardP
           </div>
 
           {/* Image (Visible on Desktop as a side panel, or top on Mobile) */}
-          {event.image && (
-            <div className="relative w-full md:w-48 lg:w-64 h-48 md:h-auto overflow-hidden">
-              <Image
-                src={event.image}
-                alt={title}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 256px, 192px"
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
-            </div>
-          )}
+          <div className="relative w-full md:w-48 lg:w-64 h-48 md:h-auto overflow-hidden bg-muted">
+            <Image
+              src={event.image || '/images/logo.png'}
+              alt={title}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 256px, 192px"
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              unoptimized={!!event.image}
+            />
+            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
+          </div>
 
           {/* Content */}
           <div className="flex-1 p-6 relative">

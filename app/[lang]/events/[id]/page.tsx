@@ -68,82 +68,99 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
           </Link>
         </Button>
 
-        {/* Hero Section */}
-        <div className="mb-12">
-          {/* Hero Image */}
-          {event.image && (
-            <div className="relative w-full h-[300px] md:h-[450px] lg:h-[500px] rounded-3xl overflow-hidden mb-12 shadow-2xl border border-primary/5">
-              <Image
-                src={event.image}
-                alt={event.title}
-                fill
-                sizes="100vw"
-                className="object-cover"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-80" />
-            </div>
-          )}
-
-          <div className="flex flex-wrap items-center gap-3 mb-4">
-            <Badge variant="outline" className={`capitalize px-3 py-1 ${eventTypeColors[event.type]}`}>
-              {dict.events_page.types[event.type]}
-            </Badge>
-            <span className="text-muted-foreground text-sm font-medium">
-              {formattedDate}
-            </span>
-          </div>
-          
-          <h1 className="font-[family-name:var(--font-display)] text-4xl md:text-6xl font-bold tracking-tight mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
-            {event.title}
-          </h1>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="flex items-center gap-4 bg-muted/50 p-4 rounded-xl border border-primary/5">
-              <div className="p-3 bg-primary/10 rounded-lg text-primary">
-                <Calendar className="w-6 h-6" />
+        {/* Header Section with Poster */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-12">
+          {/* Left Column: Poster Image */}
+          <div className="lg:col-span-5 xl:col-span-4">
+            {event.image ? (
+              <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl border border-primary/10 bg-muted/30">
+                <Image
+                  src={event.image}
+                  alt={event.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 33vw"
+                  className="object-cover transition-transform hover:scale-[1.02] duration-500"
+                  priority
+                />
               </div>
-              <div>
-                <p className="text-xs uppercase font-bold text-muted-foreground tracking-wider mb-1">Tarih</p>
-                <p className="font-medium">{formattedDate}</p>
+            ) : (
+              <div className="w-full aspect-[3/4] rounded-2xl bg-muted/30 border border-primary/10 flex items-center justify-center">
+                 <div className="text-center p-6 text-muted-foreground">
+                    <span className="block text-4xl mb-4">🎨</span>
+                    No Poster Available
+                 </div>
               </div>
-            </div>
-
-            <div className="flex items-center gap-4 bg-muted/50 p-4 rounded-xl border border-primary/5">
-              <div className="p-3 bg-primary/10 rounded-lg text-primary">
-                <Clock className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="text-xs uppercase font-bold text-muted-foreground tracking-wider mb-1">Saat</p>
-                <p className="font-medium">{formatTime(event.time)} {event.endTime ? `- ${formatTime(event.endTime)}` : ''}</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 bg-muted/50 p-4 rounded-xl border border-primary/5">
-              <div className="p-3 bg-primary/10 rounded-lg text-primary">
-                <MapPin className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="text-xs uppercase font-bold text-muted-foreground tracking-wider mb-1">Konum</p>
-                {event.locationUrl ? (
-                  <a 
-                    href={event.locationUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="font-medium underline decoration-primary/30 underline-offset-4 hover:text-primary transition-colors flex items-center gap-1"
-                  >
-                    {event.location}
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                ) : (
-                  <p className="font-medium">{event.location}</p>
-                )}
-              </div>
-            </div>
+            )}
           </div>
 
+          {/* Right Column: Event Info */}
+          <div className="lg:col-span-7 xl:col-span-8 flex flex-col">
+             <div className="flex flex-wrap items-center gap-3 mb-6">
+              <Badge variant="outline" className={`capitalize px-3 py-1 text-sm ${eventTypeColors[event.type]}`}>
+                {dict.events_page.types[event.type]}
+              </Badge>
+              <span className="text-muted-foreground font-medium">
+                {formattedDate}
+              </span>
+            </div>
+
+            <h1 className="font-[family-name:var(--font-display)] text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-8 leading-tight">
+              {event.title}
+            </h1>
+
+            <div className="grid gap-4 mb-8">
+              <div className="flex items-start gap-4 p-4 rounded-xl bg-muted/50 border border-primary/5 hover:bg-muted/70 transition-colors">
+                <div className="p-2.5 bg-background rounded-lg text-primary shadow-sm mt-0.5">
+                  <Calendar className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-xs uppercase font-bold text-muted-foreground tracking-wider mb-0.5">Tarih</p>
+                  <p className="font-medium text-lg">{formattedDate}</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4 p-4 rounded-xl bg-muted/50 border border-primary/5 hover:bg-muted/70 transition-colors">
+                <div className="p-2.5 bg-background rounded-lg text-primary shadow-sm mt-0.5">
+                  <Clock className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-xs uppercase font-bold text-muted-foreground tracking-wider mb-0.5">Saat</p>
+                  <p className="font-medium text-lg">
+                    {formatTime(event.time)} {event.endTime ? `- ${formatTime(event.endTime)}` : ''}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4 p-4 rounded-xl bg-muted/50 border border-primary/5 hover:bg-muted/70 transition-colors">
+                <div className="p-2.5 bg-background rounded-lg text-primary shadow-sm mt-0.5">
+                  <MapPin className="w-5 h-5" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-xs uppercase font-bold text-muted-foreground tracking-wider mb-0.5">Konum</p>
+                  {event.locationUrl ? (
+                    <a 
+                      href={event.locationUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="font-medium text-lg underline decoration-primary/30 underline-offset-4 hover:text-primary transition-colors inline-flex items-center gap-1.5"
+                    >
+                      {event.location}
+                      <ExternalLink className="w-4 h-4 text-muted-foreground" />
+                    </a>
+                  ) : (
+                    <p className="font-medium text-lg">{event.location}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Description Section */}
+        <div className="max-w-4xl mx-auto">
           <div className="prose prose-lg dark:prose-invert max-w-none">
-            <p className="text-xl text-muted-foreground leading-relaxed whitespace-pre-wrap">
+             <h3 className="font-[family-name:var(--font-display)] text-2xl font-bold mb-4">Etkinlik Detayları</h3>
+            <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
               {event.description}
             </p>
           </div>

@@ -65,27 +65,25 @@ export function EventsPreview({ dict, lang, events }: { dict: any, lang: Locale,
                   className="group hover:shadow-xl transition-all duration-300 overflow-hidden border-none bg-card-gradient"
                 >
                   <CardContent className="p-0 flex flex-col h-full">
-                    {/* Event Image */}
-                    {event.image && (
-                        <div className="relative w-full h-48 overflow-hidden">
-                          <Image
-                            src={event.image}
-                            alt={event.title}
-                            fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            className="object-cover group-hover:scale-110 transition-transform duration-500"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60" />
-                        
-                        <div className="absolute top-4 left-4">
-                          <Badge
-                            className={`capitalize ${eventTypeColors[event.type]} backdrop-blur-md border-none`}
-                          >
-                            {dict.types ? dict.types[event.type] : event.type}
-                          </Badge>
-                        </div>
+                    <div className="relative w-full h-48 overflow-hidden bg-muted">
+                      <Image
+                        src={event.image || '/images/logo.png'}
+                        alt={event.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                        unoptimized={!!event.image}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60" />
+                      
+                      <div className="absolute top-4 left-4">
+                        <Badge
+                          className={`capitalize ${eventTypeColors[event.type]} backdrop-blur-md border-none`}
+                        >
+                          {dict.types ? dict.types[event.type] : event.type}
+                        </Badge>
                       </div>
-                    )}
+                    </div>
 
                     <div className="flex flex-1">
                       {/* Date Block */}
@@ -102,14 +100,6 @@ export function EventsPreview({ dict, lang, events }: { dict: any, lang: Locale,
                       {/* Content */}
                       <div className="flex-1 p-5 space-y-4">
                         <div className="space-y-2">
-                          {!event.image && (
-                            <Badge
-                              variant="outline"
-                              className={`mb-2 capitalize ${eventTypeColors[event.type]}`}
-                            >
-                              {dict.types ? dict.types[event.type] : event.type}
-                            </Badge>
-                          )}
                           <h3 className="font-bold text-xl leading-tight group-hover:text-primary transition-colors line-clamp-2">
                             <Link href={`/${lang}/events/${event.id}`}>
                               {event.title}
