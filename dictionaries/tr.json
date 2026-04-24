@@ -6,6 +6,7 @@
         "news": "Haberler",
         "rules": "Kurallar & Ruh",
         "gallery": "Galeri",
+        "resources": "Kaynaklar",
         "join": "Bize Katıl",
         "profile": "Profil",
         "logout": "Çıkış Yap"
@@ -377,6 +378,11 @@
         "team": "Takım",
         "resources": "Kaynaklar",
         "get_in_touch": "İletişime Geç",
+        "links": {
+            "rules": "Ultimate Kuralları",
+            "spirit": "Oyunun Ruhu",
+            "join": "Takımımıza Katıl"
+        },
         "address": {
             "complex": "",
             "street": "",
@@ -385,5 +391,127 @@
         "all_rights_reserved": "Tüm hakları saklıdır.",
         "tagline": "Sert oyna. Adil oyna. Ruhunla oyna.",
         "faq": "SSS"
+    },
+    "rules_page": {
+        "meta": {
+            "title": "Kurallar & Oyunun Ruhu",
+            "description": "Ultimate Frisbee'nin temel kurallarını öğrenin ve sporumuzu eşsiz kılan Oyunun Ruhu felsefesini anlayın."
+        },
+        "header": {
+            "badge": "Oyunu Öğren",
+            "title": "Kurallar & Oyunun Ruhu",
+            "description": "Ultimate Frisbee, atletizmi dürüstlükle birleştiren, hakemsiz bir spordur. Hem kuralları hem de Ruhu anlamak oynamak için esastır."
+        },
+        "intro": {
+            "badge": "Giriş",
+            "title": "Ultimate Frisbee Nedir?",
+            "p1": "Ultimate, uçan bir diskle oynanan hızlı, temassız bir takım sporudur. Futbol, Amerikan futbolu ve basketbol unsurlarını birleştirerek hız, çeviklik ve hassas atış becerileri gerektirir.",
+            "p2": "Ultimate'i gerçekten eşsiz yapan şey hakemsiz olmasıdır. Oyuncular kendi faul ve çizgi kararlarından sorumludur. \"Oyunun Ruhu\" olarak bilinen bu onur sistemi, sporumuzun temelidir.",
+            "callout_title": "Hakemsiz",
+            "callout_desc": "Hakem yok. Sadece saygı."
+        },
+        "basic_rules": {
+            "title": "Temel Kurallar",
+            "subtitle": "Oynamak için bilmeniz gereken temel bilgiler",
+            "rules": {
+                "field": {
+                    "title": "Saha",
+                    "description": "Ultimate, her iki ucunda gol bölgeleri (end zone) bulunan dikdörtgen bir sahada oynanır. Boyut olarak futbol sahasına benzer, ancak gol bölgeleri yaklaşık 23 metre (25 yard) uzunluğundadır."
+                },
+                "teams": {
+                    "title": "Takımlar",
+                    "description": "Her takım 7 oyuncudan oluşur. Sayı sonrasında veya sakatlık molasında oyuncu değişikliği yapılabilir."
+                },
+                "movement": {
+                    "title": "Hareket",
+                    "description": "Disk sadece paslaşılarak herhangi bir yöne hareket ettirilebilir. Oyuncular ellerinde diskle koşamazlar - durup bir pivot ayağı belirlemeleri gerekir."
+                },
+                "stall": {
+                    "title": "Sayım (The Stall)",
+                    "description": "Diski tutan oyuncunun atış yapmak için 10 saniyesi vardır. Onu savunan oyuncu sayımı yüksek sesle yapar."
+                },
+                "scoring": {
+                    "title": "Sayı Alma",
+                    "description": "Bir oyuncu, saldırdığı gol bölgesinde diski yakaladığında sayı olur. Her gol bir puan değerindedir."
+                },
+                "turnovers": {
+                    "title": "Top Kaybı (Turnover)",
+                    "description": "Bir pas tamamlanmadığında, yere düştüğünde, saha dışına çıktığında veya rakip tarafından kesildiğinde (engellendiğinde), disk rakip takıma geçer."
+                }
+            }
+        },
+        "spirit": {
+            "badge": "Temel Felsefe",
+            "title": "Oyunun Ruhu",
+            "subtitle": "Oyunun Ruhu, adil oyun sorumluluğunu her oyuncuya yükler. Ultimate'i diğer sporlardan ayıran şey budur.",
+            "quote": "\"Ultimate, adil oyun sorumluluğunu her oyuncuya yükleyen Oyunun Ruhu'na dayanır. Yüksek rekabet teşvik edilir, ancak karşılıklı saygıdan, kurallara bağlılıktan veya oynama sevincinden asla ödün verilmemelidir.\"",
+            "quote_author": "— Dünya Uçan Disk Federasyonu (WFDF)",
+            "principles": {
+                "know_rules": {
+                    "title": "Kuralları Bil",
+                    "description": "Yetkin bir oyuncu kuralları bilmekten ve uygulamaktan sorumludur. Hakem yoktur - oyuncular kendi kararlarını verirler."
+                },
+                "no_contact": {
+                    "title": "Temastan Kaçın",
+                    "description": "Ultimate temassız bir spordur. Fiziksel temastan her zaman kaçınılmalıdır."
+                },
+                "fair_minded": {
+                    "title": "Adil Ol",
+                    "description": "Oyuncular doğruyu söylemeli ve kendi takımlarının dezavantajına olsa bile kurallara uymalıdır."
+                },
+                "respectful": {
+                    "title": "Saygılı Ol",
+                    "description": "Rakiplere, takım arkadaşlarına, seyircilere ve yetkililere saygılı davranın. Asla başkalarıyla alay etmeyin, korkutmayın veya aşağılamayın."
+                },
+                "grace_dignity": {
+                    "title": "Zarafetle Kazan, Onurla Kaybet",
+                    "description": "Başarıyı alçakgönüllülükle kutlayın ve yenilgiyi zarafetle kabul edin. Oyunun Ruhu, herhangi bir skor tabelasından daha önemlidir."
+                }
+            }
+        },
+        "cta": {
+            "title": "Oynamaya Hazır mısın?",
+            "description": "Halikarnassos Discobolos'a katılın ve Oyunun Ruhu'nu ilk elden deneyimleyin. Her beceri seviyesinden oyuncuyu bekliyoruz!",
+            "button": "Antrenmana Kayıt Ol"
+        }
+    },
+    "resources_page": {
+        "meta": {
+            "title": "Bilgi Bankası",
+            "description": "Stratejik sunumlar, kurallar ve takım kaynaklarından oluşan özenle seçilmiş koleksiyonumuza erişin."
+        },
+        "header": {
+            "title": "Bilgi Bankası",
+            "description": "Stratejik sunumlar, kurallar ve takım kaynaklarından oluşan özenle seçilmiş koleksiyonumuza erişin."
+        },
+        "search_placeholder": "Kaynaklarda ara...",
+        "types": {
+            "pdf": "PDF Belgesi",
+            "slides": "Sunum"
+        },
+        "view": "Görüntüle",
+        "items": [
+            {
+                "id": 1,
+                "title": "Hücum Sistemlerine Genel Bakış",
+                "description": "Hücum kalıpları, perdelemeler ve ikili oyun (pick-and-roll) dinamiklerinin detaylı analizi.",
+                "date": "10 Mar 2026",
+                "readTime": "15 dk okuma"
+            },
+            {
+                "id": 2,
+                "title": "Savunma Prensipleri ve Rotasyonlar",
+                "description": "Yardım tarafı ve adam değişme kuralları da dahil olmak üzere savunma dilimize dair eksiksiz rehber.",
+                "date": "05 Mar 2026",
+                "readTime": "20 dk okuma"
+            },
+            {
+                "id": 3,
+                "title": "Kuvvet ve Kondisyon Protokolü",
+                "description": "Haftalık antrenman programını ve sakatlık önleme rutinlerini özetleyen temel sunum.",
+                "date": "28 Şub 2026",
+                "readTime": "10 dk okuma"
+            }
+        ]
     }
 }

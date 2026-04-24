@@ -33,9 +33,10 @@ export function Footer({ dict, lang }: { dict: any; lang: string }) {
       { href: `/${lang}/gallery`, label: dict.nav.gallery },
     ],
     resources: [
-      { href: `/${lang}/rules`, label: dict.footer.resources },
-      { href: `/${lang}/rules#spirit`, label: dict.nav.rules },
-      { href: `/${lang}/contact`, label: dict.nav.join },
+      { href: `/${lang}/resources`, label: dict.nav.resources },
+      { href: `/${lang}/rules`, label: dict.footer.links.rules },
+      { href: `/${lang}/rules#spirit`, label: dict.footer.links.spirit },
+      { href: `/${lang}/contact`, label: dict.footer.links.join },
       { href: `/${lang}/contact#faq`, label: dict.footer.faq },
     ],
   };

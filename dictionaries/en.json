@@ -6,6 +6,7 @@
         "news": "News",
         "rules": "Rules & Spirit",
         "gallery": "Gallery",
+        "resources": "Resources",
         "join": "Join Us",
         "profile": "Profile",
         "logout": "Logout"
@@ -362,6 +363,11 @@
         "team": "Team",
         "resources": "Resources",
         "get_in_touch": "Get in Touch",
+        "links": {
+            "rules": "Rules of Ultimate",
+            "spirit": "Spirit of the Game",
+            "join": "Join Our Team"
+        },
         "address": {
             "complex": "",
             "street": "",
@@ -370,5 +376,127 @@
         "all_rights_reserved": "All rights reserved.",
         "tagline": "Play hard. Play fair. Play with spirit.",
         "faq": "FAQ"
+    },
+    "rules_page": {
+        "meta": {
+            "title": "Rules & Spirit of the Game",
+            "description": "Learn the basic rules of Ultimate Frisbee and understand the Spirit of the Game philosophy that makes our sport unique."
+        },
+        "header": {
+            "badge": "Learn the Game",
+            "title": "Rules & Spirit of the Game",
+            "description": "Ultimate Frisbee is a self-refereed sport that combines athleticism with integrity. Understanding both the rules and the Spirit is essential to playing."
+        },
+        "intro": {
+            "badge": "Introduction",
+            "title": "What is Ultimate Frisbee?",
+            "p1": "Ultimate is a fast-paced, non-contact team sport played with a flying disc. It combines elements of soccer, football, and basketball, requiring speed, agility, and precise throwing skills.",
+            "p2": "What makes Ultimate truly unique is that it's self-officiated. Players are responsible for their own foul calls and line calls. This honor system, known as \"Spirit of the Game,\" is the foundation of our sport.",
+            "callout_title": "Self-Refereed",
+            "callout_desc": "No referees. Just respect."
+        },
+        "basic_rules": {
+            "title": "Basic Rules",
+            "subtitle": "The fundamentals you need to know to play",
+            "rules": {
+                "field": {
+                    "title": "The Field",
+                    "description": "Ultimate is played on a rectangular field with end zones at each end. Similar in size to a football field, but with 25-yard end zones."
+                },
+                "teams": {
+                    "title": "The Teams",
+                    "description": "Two teams of 7 players each. Substitutions can be made between points or during an injury timeout."
+                },
+                "movement": {
+                    "title": "Movement",
+                    "description": "The disc may be moved in any direction by passing. Players cannot run while holding the disc - they must stop and establish a pivot foot."
+                },
+                "stall": {
+                    "title": "The Stall",
+                    "description": "The player with the disc has 10 seconds to throw. The defender guarding them counts the stall out loud."
+                },
+                "scoring": {
+                    "title": "Scoring",
+                    "description": "A goal is scored when a player catches the disc in the end zone they are attacking. Each goal is worth one point."
+                },
+                "turnovers": {
+                    "title": "Turnovers",
+                    "description": "When a pass is incomplete, intercepted, knocked down, or caught out of bounds, the other team takes possession."
+                }
+            }
+        },
+        "spirit": {
+            "badge": "Core Philosophy",
+            "title": "Spirit of the Game",
+            "subtitle": "The Spirit of the Game places the responsibility for fair play on every player. It's what sets Ultimate apart from other sports.",
+            "quote": "\"Ultimate relies upon a Spirit of the Game that places the responsibility for fair play on every player. Highly competitive play is encouraged, but should never sacrifice mutual respect, adherence to the rules, or the joy of play.\"",
+            "quote_author": "— World Flying Disc Federation (WFDF)",
+            "principles": {
+                "know_rules": {
+                    "title": "Know the Rules",
+                    "description": "A competent player is responsible for knowing and following the rules. There are no referees - players make their own calls."
+                },
+                "no_contact": {
+                    "title": "Avoid Body Contact",
+                    "description": "Ultimate is a non-contact sport. Physical contact should be avoided at all times."
+                },
+                "fair_minded": {
+                    "title": "Be Fair-Minded",
+                    "description": "Players should be truthful and abide by the rules even when doing so disadvantages their team."
+                },
+                "respectful": {
+                    "title": "Be Respectful",
+                    "description": "Treat opponents, teammates, spectators, and officials with respect. Never taunt, intimidate, or demean others."
+                },
+                "grace_dignity": {
+                    "title": "Win with Grace, Lose with Dignity",
+                    "description": "Celebrate success humbly and accept defeat graciously. The Spirit of the Game is more important than any scoreboard."
+                }
+            }
+        },
+        "cta": {
+            "title": "Ready to Play?",
+            "description": "Join Halikarnassos Discobolos and experience the Spirit of the Game firsthand. We welcome players of all skill levels!",
+            "button": "Sign up for a practice"
+        }
+    },
+    "resources_page": {
+        "meta": {
+            "title": "Knowledge Base",
+            "description": "Access our curated collection of strategic presentations, rules, and team resources."
+        },
+        "header": {
+            "title": "Knowledge Base",
+            "description": "Access our curated collection of strategic presentations, rules, and team resources."
+        },
+        "search_placeholder": "Search resources...",
+        "types": {
+            "pdf": "PDF Form",
+            "slides": "Slides"
+        },
+        "view": "View",
+        "items": [
+            {
+                "id": 1,
+                "title": "Offense Systems Overview",
+                "description": "Detailed analysis of offensive patterns, screens, and pick-and-roll dynamics.",
+                "date": "Mar 10, 2026",
+                "readTime": "15 min read"
+            },
+            {
+                "id": 2,
+                "title": "Defense Principles & Rotations",
+                "description": "The complete guide to our defensive language, including help side and switching rules.",
+                "date": "Mar 05, 2026",
+                "readTime": "20 min read"
+            },
+            {
+                "id": 3,
+                "title": "Strength & Conditioning Protocol",
+                "description": "Essential presentation outlining the weekly workout schedule and injury prevention routines.",
+                "date": "Feb 28, 2026",
+                "readTime": "10 min read"
+            }
+        ]
     }
 }

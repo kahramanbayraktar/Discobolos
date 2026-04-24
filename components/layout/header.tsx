@@ -87,6 +87,7 @@ export function Header({ dict, lang }: { dict: any, lang: Locale }) {
     // { href: `/${lang}/news`, label: dict.nav.news },
     { href: `/${lang}/rules`, label: dict.nav.rules },
     { href: `/${lang}/gallery`, label: dict.nav.gallery },
+    { href: `/${lang}/resources`, label: dict.nav.resources },
   ];
 
   const redirectedPathName = (locale: string) => {
