@@ -1,4 +1,4 @@
-import { Footer } from "@/components/layout/footer";
+﻿import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { Toaster } from "@/components/ui/sonner";
 import { getDictionary } from "@/get-dictionary";
@@ -7,6 +7,7 @@ import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import React from "react";
+import KahramanBadge from "@/components/KahramanBadge";
 import "../globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -87,6 +88,7 @@ export default async function RootLayout({
         <Header dict={dict} lang={lang} />
         <main className="flex-1">{children}</main>
         <Footer dict={dict} lang={lang} />
+        <KahramanBadge />
         <Toaster />
         <Analytics />
       </body>
