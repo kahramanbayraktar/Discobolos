@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:17.9-alpine
+    container_name: db
+    restart: always
+    environment:
+      POSTGRES_USER: discobolosuser
+      POSTGRES_PASSWORD: discobolos123
+      POSTGRES_DB: discobolos
+    ports:
+      - "5405:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

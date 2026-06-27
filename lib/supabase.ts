@@ -5,7 +5,11 @@ import { getCookie } from './utils';
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+export const supabase = createClient(supabaseUrl, supabaseKey, {
+  db: {
+    schema: 'discobolos',
+  },
+});
 
 export async function getEvents(ascending = true): Promise<Event[]> {
   const { data, error } = await supabase
