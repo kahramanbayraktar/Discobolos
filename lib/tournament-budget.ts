@@ -1,5 +1,5 @@
 export type RouteTier = 'economic' | 'fast';
-export type AccommodationTier = 'economic' | 'comfort';
+export type AccommodationTier = 'free' | 'economic' | 'comfort';
 export type FoodTier = 'economic' | 'comfort';
 export type FuelType = 'gasoline' | 'diesel';
 
@@ -151,9 +151,11 @@ export function calculateBudget(config: BudgetConfig): CostBreakdown {
   const transportPerPerson = (transportPerCar * cars) / participants;
 
   const nightlyRate =
-    config.accommodationTier === 'economic'
-      ? config.accommodationEconomicPerNight
-      : config.accommodationComfortPerNight;
+    config.accommodationTier === 'free'
+      ? 0
+      : config.accommodationTier === 'economic'
+        ? config.accommodationEconomicPerNight
+        : config.accommodationComfortPerNight;
   const accommodationPerPerson = nightlyRate * config.nights;
 
   const dailyFoodRate =

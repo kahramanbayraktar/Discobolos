@@ -15,6 +15,7 @@ import {
   TrendingDown,
   MapPin,
   SlidersHorizontal,
+  PieChart,
 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -113,9 +114,11 @@ export function TournamentBudgetCalculator() {
         ? "Ekonomik (Feribot + Devlet Yolu)"
         : "Hızlı (Köprü + Otoyol)";
     const accLabel =
-      config.accommodationTier === "economic"
-        ? "Ekonomik (Apart / Pansiyon / Yurt)"
-        : "Konforlu (Otel)";
+      config.accommodationTier === "free"
+        ? "Arabada / Çadırda (0 TL)"
+        : config.accommodationTier === "economic"
+          ? "Ekonomik (Apart / Pansiyon / Yurt)"
+          : "Konforlu (Otel)";
     const foodLabel =
       config.foodTier === "economic"
         ? "Ekonomik (Market / Sandviç)"
@@ -154,28 +157,50 @@ export function TournamentBudgetCalculator() {
 
   const breakdownBars = [
     {
-      label: "Ulaşım",
+      label: "Yol / Ulaşım",
       value: active.transportPerPerson,
-      color: "bg-primary",
+      color: "bg-amber-500",
+      stroke: "#f59e0b",
     },
     {
       label: "Konaklama",
       value: active.accommodationPerPerson,
-      color: "bg-secondary",
+      color: "bg-blue-500",
+      stroke: "#3b82f6",
     },
     {
-      label: "Yeme-İçme",
+      label: "Yiyecek",
       value: active.foodPerPerson,
-      color: "bg-accent",
+      color: "bg-rose-500",
+      stroke: "#f43f5e",
     },
     {
-      label: "Turnuva",
+      label: "Maç / Turnuva Ücreti",
       value: active.tournamentPerPerson,
       color: "bg-emerald-500",
+      stroke: "#10b981",
     },
   ];
 
   const totalForBar = Math.max(1, active.totalPerPerson);
+  const maxItemValue = Math.max(...breakdownBars.map((b) => b.value));
+
+  // SVG Donut Chart geometry
+  const radius = 64;
+  const circumference = 2 * Math.PI * radius;
+  let cumulativePercent = 0;
+  const donutSegments = breakdownBars.map((item) => {
+    const percent = item.value / totalForBar;
+    const strokeLength = percent * circumference;
+    const dashOffset = -cumulativePercent * circumference;
+    cumulativePercent += percent;
+    return {
+      ...item,
+      percent: Math.round(percent * 100),
+      strokeDasharray: `${strokeLength} ${circumference}`,
+      strokeDashoffset: dashOffset,
+    };
+  });
 
   return (
     <div className="space-y-8">
@@ -311,6 +336,107 @@ export function TournamentBudgetCalculator() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Pie / Donut Chart Breakdown Card */}
+      <Card>
+        <CardHeader className="pb-3">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <PieChart className="h-5 w-5 text-primary" />
+              Harcama Nereye Gidiyor? (Kişi Başı Dağılım)
+            </CardTitle>
+            <Badge variant="outline" className="whitespace-nowrap">
+              Toplam: {formatTRY(active.totalPerPerson)} / kişi
+            </Badge>
+          </div>
+          <CardDescription>
+            Hangi kalemin bütçeyi en çok etkilediğini görüp kısabileceğiniz alanları test edin.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-between">
+            {/* SVG Donut Chart */}
+            <div className="relative flex h-48 w-48 shrink-0 items-center justify-center">
+              <svg viewBox="0 0 180 180" className="h-full w-full -rotate-90">
+                <circle
+                  cx="90"
+                  cy="90"
+                  r={radius}
+                  fill="transparent"
+                  stroke="currentColor"
+                  strokeWidth="26"
+                  className="text-muted/40"
+                />
+                {donutSegments.map((seg) =>
+                  seg.value > 0 ? (
+                    <circle
+                      key={seg.label}
+                      cx="90"
+                      cy="90"
+                      r={radius}
+                      fill="transparent"
+                      stroke={seg.stroke}
+                      strokeWidth="26"
+                      strokeDasharray={seg.strokeDasharray}
+                      strokeDashoffset={seg.strokeDashoffset}
+                      className="transition-all duration-300"
+                    />
+                  ) : null
+                )}
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-3">
+                <span className="text-[11px] font-medium text-muted-foreground">
+                  Kişi Başı
+                </span>
+                <span className="text-xl font-bold tracking-tight">
+                  {formatTRY(active.totalPerPerson)}
+                </span>
+              </div>
+            </div>
+
+            {/* Breakdown Legend & Percentages */}
+            <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
+              {donutSegments.map((seg) => {
+                const isLargest = seg.value === maxItemValue && seg.value > 0;
+                return (
+                  <div
+                    key={seg.label}
+                    className={`flex items-center justify-between gap-3 rounded-lg border p-3 ${
+                      isLargest ? "border-amber-500/40 bg-amber-500/5" : "bg-card"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span
+                        className="h-3.5 w-3.5 shrink-0 rounded-full"
+                        style={{ backgroundColor: seg.stroke }}
+                      />
+                      <div className="min-w-0">
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          <p className="text-sm font-semibold truncate">{seg.label}</p>
+                          {isLargest ? (
+                            <Badge
+                              variant="outline"
+                              className="border-amber-500/50 text-amber-700 dark:text-amber-400 text-[10px] px-1.5 py-0 whitespace-nowrap"
+                            >
+                              En Büyük Kalem
+                            </Badge>
+                          ) : null}
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          Bütçenin %{seg.percent}&apos;i
+                        </p>
+                      </div>
+                    </div>
+                    <span className="text-sm font-bold whitespace-nowrap">
+                      {formatTRY(seg.value)}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Main Controls Grid */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
@@ -532,18 +658,31 @@ export function TournamentBudgetCalculator() {
                   Seçili: <strong className="text-foreground">{formatTRY(active.accommodationPerPerson)}</strong> / kişi
                 </span>
               </div>
-              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                <div
+                  onClick={() => setConfig((prev) => ({ ...prev, accommodationTier: "free" }))}
+                  className={`cursor-pointer rounded-lg border p-3 transition-colors ${
+                    config.accommodationTier === "free"
+                      ? "border-primary bg-primary/10 ring-1 ring-primary/30"
+                      : "border-border hover:bg-muted/50"
+                  }`}
+                >
+                  <p className="text-sm font-semibold">Arabada / Çadırda</p>
+                  <p className="mt-2 text-sm font-bold text-emerald-700 dark:text-emerald-400">
+                    0 TL / gece
+                  </p>
+                </div>
                 {(
                   [
                     {
                       id: "economic" as AccommodationTier,
-                      title: "Ekonomik (Apart / Pansiyon / Yurt)",
+                      title: "Ekonomik (Paylaşımlı Apart)",
                       price: config.accommodationEconomicPerNight,
                       field: "accommodationEconomicPerNight" as const,
                     },
                     {
                       id: "comfort" as AccommodationTier,
-                      title: "Konforlu (Otel)",
+                      title: "Konforlu (Merkez Otel)",
                       price: config.accommodationComfortPerNight,
                       field: "accommodationComfortPerNight" as const,
                     },
@@ -575,9 +714,9 @@ export function TournamentBudgetCalculator() {
                               [opt.field]: Math.max(0, Number(e.target.value) || 0),
                             }))
                           }
-                          className="h-8 w-28 text-sm"
+                          className="h-8 w-24 text-sm"
                         />
-                        <span className="text-xs text-muted-foreground">TL / gece</span>
+                        <span className="text-xs text-muted-foreground">TL/gece</span>
                       </div>
                     </div>
                   );
