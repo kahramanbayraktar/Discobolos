@@ -1,6 +1,12 @@
 export type RouteTier = 'economic' | 'fast';
 export type AccommodationTier = 'economic' | 'comfort';
 export type FoodTier = 'economic' | 'comfort';
+export type FuelType = 'gasoline' | 'diesel';
+
+export const FUEL_PRICES_TRY: Record<FuelType, number> = {
+  gasoline: 72,
+  diesel: 90,
+};
 
 export interface TournamentPreset {
   id: string;
@@ -68,14 +74,14 @@ export const KIRKLARELI_PRESET: TournamentPreset = {
   days: 2,
   oneWayKmEconomic: 825,
   oneWayKmFast: 840,
-  tollRoundTripEconomic: 1000, // Feribot + minimum otoyol (gidiş-dönüş)
-  tollRoundTripFast: 2400, // Köprü + otoyollar (gidiş-dönüş)
+  tollRoundTripEconomic: 1450, // GESTAŞ Feribot gidiş-dönüş (2 x 725 TL)
+  tollRoundTripFast: 2960, // 1915 Çanakkale Köprüsü + Malkara Otoyolu (2 x ~1.480 TL)
   defaultFuelConsumption: 6.5,
-  defaultFuelPrice: 44,
-  accommodationEconomicPerNight: 600,
-  accommodationComfortPerNight: 1500,
-  foodEconomicPerDay: 300,
-  foodComfortPerDay: 700,
+  defaultFuelPrice: FUEL_PRICES_TRY.gasoline,
+  accommodationEconomicPerNight: 750, // Paylaşımlı 1+1 / 2+1 daire (~1.500-2.500 TL/daire)
+  accommodationComfortPerNight: 2200, // Merkez otel (2.100-3.000 TL/oda)
+  foodEconomicPerDay: 450,
+  foodComfortPerDay: 1100,
   defaultPlayerFee: 600,
   defaultTeamFee: 0,
 };

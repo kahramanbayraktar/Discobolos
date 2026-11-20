@@ -26,6 +26,7 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import {
   KIRKLARELI_PRESET,
+  FUEL_PRICES_TRY,
   createInitialBudgetConfig,
   calculateBudget,
   calculateMinMaxRange,
@@ -35,6 +36,7 @@ import {
   type RouteTier,
   type AccommodationTier,
   type FoodTier,
+  type FuelType,
 } from "@/lib/tournament-budget";
 
 const SCENARIO_PARTICIPANTS = [8, 10, 12, 14, 16, 18];
@@ -45,6 +47,7 @@ export function TournamentBudgetCalculator() {
   );
   const [autoCars, setAutoCars] = useState<boolean>(true);
   const [targetSeatsPerCar, setTargetSeatsPerCar] = useState<number>(4);
+  const [fuelType, setFuelType] = useState<FuelType>("gasoline");
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
 
@@ -83,7 +86,16 @@ export function TournamentBudgetCalculator() {
   const handleReset = () => {
     setAutoCars(true);
     setTargetSeatsPerCar(4);
+    setFuelType("gasoline");
     setConfig(createInitialBudgetConfig(KIRKLARELI_PRESET));
+  };
+
+  const handleFuelTypeChange = (nextFuel: FuelType) => {
+    setFuelType(nextFuel);
+    setConfig((prev) => ({
+      ...prev,
+      fuelPricePerLiter: FUEL_PRICES_TRY[nextFuel],
+    }));
   };
 
   const handleApplyMinimum = () => {
@@ -408,6 +420,33 @@ export function TournamentBudgetCalculator() {
                     }}
                   >
                     +
+                  </Button>
+                </div>
+              </div>
+
+              {/* Fuel Type Quick Toggle */}
+              <div className="space-y-2">
+                <Label className="text-xs text-muted-foreground">
+                  Yakıt Türü (20 Kasım 2026 Ortalaması)
+                </Label>
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant={fuelType === "gasoline" ? "default" : "outline"}
+                    onClick={() => handleFuelTypeChange("gasoline")}
+                    className="flex-1 whitespace-nowrap"
+                  >
+                    Benzin (~{FUEL_PRICES_TRY.gasoline} TL/L)
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant={fuelType === "diesel" ? "default" : "outline"}
+                    onClick={() => handleFuelTypeChange("diesel")}
+                    className="flex-1 whitespace-nowrap"
+                  >
+                    Motorin (~{FUEL_PRICES_TRY.diesel} TL/L)
                   </Button>
                 </div>
               </div>
