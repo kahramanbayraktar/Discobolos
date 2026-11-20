@@ -36,7 +36,7 @@ export async function updateSession(request: NextRequest) {
   const lang = segments[1] || 'en'
 
   // Define public paths
-  const publicSegments = ['login', 'unauthorized', 'roster', 'events', 'news', 'rules', 'gallery', 'contact']
+  const publicSegments = ['login', 'unauthorized', 'roster', 'events', 'news', 'rules', 'gallery', 'contact', 'tournament']
   const isPublicPath = 
     pathname === `/${lang}` || 
     segments.length <= 2 ||
