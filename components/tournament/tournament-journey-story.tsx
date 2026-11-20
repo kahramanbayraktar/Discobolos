@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Play, Pause, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { AccommodationTier } from "@/lib/tournament-budget";
@@ -41,6 +41,8 @@ export function TournamentJourneyStory({
 }: TournamentJourneyStoryProps) {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
+  const stepsContainerRef = useRef<HTMLDivElement | null>(null);
+  const stepButtonRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   const steps: StoryStep[] = [
     {
@@ -105,6 +107,19 @@ export function TournamentJourneyStory({
     return () => clearInterval(timer);
   }, [isPlaying, steps.length]);
 
+  useEffect(() => {
+    const container = stepsContainerRef.current;
+    const activeBtn = stepButtonRefs.current[activeIndex];
+    if (!container || !activeBtn) return;
+
+    const targetLeft =
+      activeBtn.offsetLeft - container.clientWidth / 2 + activeBtn.clientWidth / 2;
+    container.scrollTo({
+      left: Math.max(0, targetLeft),
+      behavior: "smooth",
+    });
+  }, [activeIndex]);
+
   const current = steps[activeIndex];
 
   const handleSelect = (idx: number) => {
@@ -113,9 +128,9 @@ export function TournamentJourneyStory({
   };
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-border/80 bg-card shadow-sm">
-      {/* Cinematic SVG Stage */}
-      <div className="relative h-60 w-full overflow-hidden sm:h-68">
+    <div className="overflow-hidden rounded-2xl border border-border/80 bg-card shadow-sm">
+      {/* Pure Cinematic SVG Stage (zero text/button overlay) */}
+      <div className="relative h-44 w-full overflow-hidden sm:h-60">
         <svg
           viewBox="0 0 900 260"
           preserveAspectRatio="xMidYMid slice"
@@ -209,8 +224,16 @@ export function TournamentJourneyStory({
               <rect x="0" y="156" width="900" height="104" fill="#1e293b" />
               <rect x="0" y="156" width="900" height="4" fill="#475569" />
 
-              {/* Animated Road Dashes */}
-              <g className="animate-journey-road">
+              {/* Animated Road Dashes (native SVG SMIL for guaranteed smooth loop) */}
+              <g>
+                <animateTransform
+                  attributeName="transform"
+                  type="translate"
+                  from="0 0"
+                  to="-48 0"
+                  dur="0.55s"
+                  repeatCount="indefinite"
+                />
                 {Array.from({ length: 24 }).map((_, i) => (
                   <rect
                     key={i}
@@ -230,10 +253,15 @@ export function TournamentJourneyStory({
                 const isLeadCar = idx === CONVOY_POSITIONS.length - 1;
                 return (
                   <g key={car.x} transform={`translate(${car.x}, 116)`}>
-                    <g
-                      className="animate-journey-car"
-                      style={{ animationDelay: car.delay }}
-                    >
+                    <g>
+                      <animateTransform
+                        attributeName="transform"
+                        type="translate"
+                        values="0 0; 3 -4; -2 0; 0 0"
+                        dur="0.7s"
+                        begin={car.delay}
+                        repeatCount="indefinite"
+                      />
                       {/* Shadow */}
                       <ellipse
                         cx="68"
@@ -463,7 +491,14 @@ export function TournamentJourneyStory({
 
               {/* Flying Ultimate Disc */}
               <g transform="translate(425, 82)">
-                <g className="animate-journey-frisbee">
+                <g>
+                  <animateTransform
+                    attributeName="transform"
+                    type="translate"
+                    values="-110 14; 0 -18; 115 6; 0 -18; -110 14"
+                    dur="2.4s"
+                    repeatCount="indefinite"
+                  />
                   <path
                     d="M-36 10 Q-16 14 0 12"
                     stroke="#ffffff"
@@ -701,7 +736,14 @@ export function TournamentJourneyStory({
 
               {/* Golden Trophy */}
               <g transform="translate(410, 46)">
-                <g className="animate-journey-trophy">
+                <g>
+                  <animateTransform
+                    attributeName="transform"
+                    type="translate"
+                    values="0 6; 0 -12; 0 6"
+                    dur="1.5s"
+                    repeatCount="indefinite"
+                  />
                   <path
                     d="M12 22 C-8 22 -8 56 16 58"
                     fill="none"
@@ -731,72 +773,78 @@ export function TournamentJourneyStory({
             </g>
           )}
         </svg>
+      </div>
 
-        {/* Bottom Overlay Copy */}
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/50 to-transparent px-4 py-3 sm:px-5 sm:py-4 text-white">
-          <div className="flex items-end justify-between gap-3">
-            <div className="space-y-0.5 min-w-0">
-              <p className="text-[11px] font-semibold uppercase tracking-wider text-amber-300">
-                {current.eyebrow}
-              </p>
-              <h3 className="text-base font-bold tracking-tight sm:text-lg">
-                {current.title}
-              </h3>
-              <p className="text-xs text-white/85">{current.caption}</p>
-            </div>
-            <div className="flex items-center gap-1 shrink-0">
-              <Button
-                type="button"
-                variant="secondary"
-                size="icon"
-                className="h-8 w-8 bg-white/15 text-white hover:bg-white/25 border-0"
-                onClick={() =>
-                  handleSelect((activeIndex - 1 + steps.length) % steps.length)
-                }
-                aria-label="Önceki sahne"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </Button>
-              <Button
-                type="button"
-                variant="secondary"
-                size="icon"
-                className="h-8 w-8 bg-white/15 text-white hover:bg-white/25 border-0"
-                onClick={() => setIsPlaying((v) => !v)}
-                aria-label={isPlaying ? "Duraklat" : "Oynat"}
-              >
-                {isPlaying ? (
-                  <Pause className="h-3.5 w-3.5" />
-                ) : (
-                  <Play className="h-3.5 w-3.5" />
-                )}
-              </Button>
-              <Button
-                type="button"
-                variant="secondary"
-                size="icon"
-                className="h-8 w-8 bg-white/15 text-white hover:bg-white/25 border-0"
-                onClick={() => handleSelect((activeIndex + 1) % steps.length)}
-                aria-label="Sonraki sahne"
-              >
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
+      {/* Caption & Controls Bar (cleanly below the SVG stage) */}
+      <div className="flex flex-col gap-3 border-t bg-card px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5">
+        <div className="space-y-0.5 min-w-0">
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-primary">
+            {current.eyebrow}
+          </p>
+          <h3 className="text-base font-bold tracking-tight sm:text-lg">
+            {current.title}
+          </h3>
+          <p className="text-xs text-muted-foreground sm:text-sm">
+            {current.caption}
+          </p>
+        </div>
+        <div className="flex items-center gap-1.5 self-end sm:self-center shrink-0">
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className="h-8 w-8"
+            onClick={() =>
+              handleSelect((activeIndex - 1 + steps.length) % steps.length)
+            }
+            aria-label="Önceki sahne"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className="h-8 w-8"
+            onClick={() => setIsPlaying((v) => !v)}
+            aria-label={isPlaying ? "Duraklat" : "Oynat"}
+          >
+            {isPlaying ? (
+              <Pause className="h-3.5 w-3.5" />
+            ) : (
+              <Play className="h-3.5 w-3.5" />
+            )}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className="h-8 w-8"
+            onClick={() => handleSelect((activeIndex + 1) % steps.length)}
+            aria-label="Sonraki sahne"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
         </div>
       </div>
 
-      {/* Sleek Step Progress Bar */}
-      <div className="grid grid-cols-2 gap-1 bg-muted/40 p-2 sm:grid-cols-4 lg:grid-cols-7">
+      {/* Sleek Step Progress Bar (horizontal scroll on mobile, 7-col grid on desktop) */}
+      <div
+        ref={stepsContainerRef}
+        className="flex gap-1.5 overflow-x-auto border-t bg-muted/40 p-2 lg:grid lg:grid-cols-7"
+      >
         {steps.map((step, idx) => {
           const isCurrent = idx === activeIndex;
           const isPast = idx < activeIndex;
           return (
             <button
               key={step.id}
+              ref={(el) => {
+                stepButtonRefs.current[idx] = el;
+              }}
               type="button"
               onClick={() => handleSelect(idx)}
-              className={`group flex flex-col gap-1 rounded-md px-2 py-1.5 text-left transition-colors ${
+              className={`group flex min-w-[104px] shrink-0 flex-col gap-1 rounded-md px-2.5 py-1.5 text-left transition-colors lg:min-w-0 ${
                 isCurrent ? "bg-background shadow-xs" : "hover:bg-background/60"
               }`}
             >
@@ -812,7 +860,7 @@ export function TournamentJourneyStory({
                 />
               </div>
               <span
-                className={`line-clamp-2 text-[11px] leading-tight font-medium ${
+                className={`whitespace-nowrap text-[11px] font-medium ${
                   isCurrent ? "text-foreground" : "text-muted-foreground"
                 }`}
               >

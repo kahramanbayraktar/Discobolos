@@ -205,31 +205,33 @@ export function TournamentBudgetCalculator() {
   });
 
   return (
-    <div className="space-y-8">
-      {/* Top Action Bar */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between rounded-xl border bg-card p-4">
-        <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-          <Badge variant="secondary" className="gap-1.5 whitespace-nowrap">
-            <MapPin className="h-3.5 w-3.5" />
-            {KIRKLARELI_PRESET.origin} ↔ {KIRKLARELI_PRESET.location}
-          </Badge>
-          <Badge variant="outline" className="whitespace-nowrap">
+    <div className="space-y-6">
+      {/* Journey Storyboard (Cleanly at the top without clutter above it) */}
+      <TournamentJourneyStory
+        accommodationTier={config.accommodationTier}
+        participants={config.participants}
+        cars={config.cars}
+      />
+
+      {/* Compact Action & Info Bar below Storyboard */}
+      <div className="flex flex-col gap-3 rounded-xl border bg-card/60 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+          <MapPin className="h-3.5 w-3.5 shrink-0 text-primary" />
+          <span>
+            {KIRKLARELI_PRESET.origin} ↔ {KIRKLARELI_PRESET.location} •{" "}
             {KIRKLARELI_PRESET.durationLabel}
-          </Badge>
-          <Badge variant="outline" className="border-amber-500/40 text-amber-600 dark:text-amber-400 whitespace-nowrap">
-            Turnuva ücreti tahmini
-          </Badge>
+          </span>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center">
           <Button
             type="button"
             variant="outline"
             size="sm"
             onClick={handleApplyMinimum}
-            className="gap-1.5 whitespace-nowrap"
+            className="w-full justify-center gap-1.5 whitespace-nowrap sm:w-auto"
           >
-            <TrendingDown className="h-4 w-4" />
+            <TrendingDown className="h-3.5 w-3.5" />
             Minimuma Çek
           </Button>
           <Button
@@ -237,29 +239,22 @@ export function TournamentBudgetCalculator() {
             variant="outline"
             size="sm"
             onClick={handleReset}
-            className="gap-1.5 whitespace-nowrap"
+            className="w-full justify-center gap-1.5 whitespace-nowrap sm:w-auto"
           >
-            <RotateCcw className="h-4 w-4" />
+            <RotateCcw className="h-3.5 w-3.5" />
             Sıfırla
           </Button>
           <Button
             type="button"
             size="sm"
             onClick={handleCopySummary}
-            className="gap-1.5 whitespace-nowrap"
+            className="col-span-2 w-full justify-center gap-1.5 whitespace-nowrap sm:col-span-1 sm:w-auto"
           >
-            {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+            {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
             {copied ? "Kopyalandı!" : "WhatsApp Özeti Kopyala"}
           </Button>
         </div>
       </div>
-
-      {/* Journey Storyboard */}
-      <TournamentJourneyStory
-        accommodationTier={config.accommodationTier}
-        participants={config.participants}
-        cars={config.cars}
-      />
 
       {/* Hero Summary Cards */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -433,7 +428,7 @@ export function TournamentBudgetCalculator() {
                           ) : null}
                         </div>
                         <p className="text-xs text-muted-foreground">
-                          Bütçenin %{seg.percent}&apos;i
+                          Bütçe Payı: %{seg.percent}
                         </p>
                       </div>
                     </div>
