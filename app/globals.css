@@ -151,3 +151,110 @@
 .animate-spin-reverse {
   animation: spin-reverse linear infinite;
 }
+
+/* Tournament Journey Storyboard Animations */
+@keyframes journey-car-bounce {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes journey-road-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-48px);
+  }
+}
+
+@keyframes journey-float-zzz {
+  0% {
+    opacity: 0;
+    transform: translate(0, 4px) scale(0.7);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(10px, -18px) scale(1.15);
+  }
+}
+
+@keyframes journey-steam {
+  0% {
+    opacity: 0;
+    transform: translateY(4px) scaleX(0.9);
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-16px) scaleX(1.15);
+  }
+}
+
+@keyframes journey-frisbee-fly {
+  0%, 100% {
+    transform: translate(0px, 0px) rotate(-8deg);
+  }
+  50% {
+    transform: translate(22px, -8px) rotate(12deg);
+  }
+}
+
+@keyframes journey-trophy-lift {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  40% {
+    transform: translateY(-8px) scale(1.08);
+  }
+  60% {
+    transform: translateY(-6px) scale(1.06);
+  }
+}
+
+@keyframes journey-sparkle {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(0.75) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2) rotate(20deg);
+  }
+}
+
+.animate-journey-car {
+  animation: journey-car-bounce 0.65s ease-in-out infinite;
+}
+
+.animate-journey-road {
+  animation: journey-road-scroll 0.9s linear infinite;
+}
+
+.animate-journey-zzz {
+  animation: journey-float-zzz 2.2s ease-out infinite;
+}
+
+.animate-journey-steam {
+  animation: journey-steam 1.8s ease-out infinite;
+}
+
+.animate-journey-frisbee {
+  animation: journey-frisbee-fly 2s ease-in-out infinite;
+}
+
+.animate-journey-trophy {
+  animation: journey-trophy-lift 1.6s ease-in-out infinite;
+}
+
+.animate-journey-sparkle {
+  animation: journey-sparkle 1.4s ease-in-out infinite;
+}

@@ -16,6 +16,7 @@ import {
   MapPin,
   SlidersHorizontal,
   PieChart,
+  Disc,
 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,7 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
+import { TournamentJourneyStory } from "@/components/tournament/tournament-journey-story";
 import {
   KIRKLARELI_PRESET,
   FUEL_PRICES_TRY,
@@ -252,6 +254,13 @@ export function TournamentBudgetCalculator() {
         </div>
       </div>
 
+      {/* Journey Storyboard */}
+      <TournamentJourneyStory
+        accommodationTier={config.accommodationTier}
+        participants={config.participants}
+        cars={config.cars}
+      />
+
       {/* Hero Summary Cards */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <Card className="border-emerald-500/30 bg-emerald-500/5">
@@ -344,6 +353,7 @@ export function TournamentBudgetCalculator() {
             <CardTitle className="flex items-center gap-2 text-lg">
               <PieChart className="h-5 w-5 text-primary" />
               Harcama Nereye Gidiyor? (Kişi Başı Dağılım)
+              <Disc className="animate-journey-frisbee h-4 w-4 text-amber-500/80 ml-1" />
             </CardTitle>
             <Badge variant="outline" className="whitespace-nowrap">
               Toplam: {formatTRY(active.totalPerPerson)} / kişi
@@ -510,7 +520,7 @@ export function TournamentBudgetCalculator() {
 
               <div className="flex items-center justify-between gap-3 rounded-lg border bg-muted/40 p-3">
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <Car className="h-5 w-5 shrink-0 text-primary" />
+                  <Car className="animate-journey-car h-5 w-5 shrink-0 text-primary" />
                   <div className="min-w-0">
                     <p className="text-sm font-semibold">
                       {config.cars} Araç
@@ -651,7 +661,12 @@ export function TournamentBudgetCalculator() {
             <div className="space-y-2">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <Label className="text-sm font-medium flex items-center gap-1.5">
-                  <BedDouble className="h-4 w-4 text-muted-foreground" />
+                  <span className="relative inline-flex items-center">
+                    <BedDouble className="h-4 w-4 text-blue-500" />
+                    <span className="animate-journey-zzz absolute -top-2.5 -right-3 text-[9px] font-bold text-indigo-500">
+                      z
+                    </span>
+                  </span>
                   Konaklama ({config.nights} Gece)
                 </Label>
                 <span className="text-xs text-muted-foreground">
@@ -728,7 +743,10 @@ export function TournamentBudgetCalculator() {
             <div className="space-y-2">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <Label className="text-sm font-medium flex items-center gap-1.5">
-                  <Utensils className="h-4 w-4 text-muted-foreground" />
+                  <span className="relative inline-flex items-center">
+                    <Utensils className="h-4 w-4 text-rose-500" />
+                    <span className="animate-journey-steam absolute -top-2.5 left-1 h-2 w-0.5 rounded-full bg-rose-400" />
+                  </span>
                   Yeme - İçme ({config.days} Gün)
                 </Label>
                 <span className="text-xs text-muted-foreground">
@@ -792,7 +810,10 @@ export function TournamentBudgetCalculator() {
             <div className="space-y-3">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <Label className="text-sm font-medium flex items-center gap-1.5">
-                  <Trophy className="h-4 w-4 text-primary" />
+                  <span className="relative inline-flex items-center">
+                    <Trophy className="animate-journey-trophy h-4 w-4 text-amber-500" />
+                    <Sparkles className="animate-journey-sparkle -ml-1 -mt-2.5 h-2.5 w-2.5 text-amber-400" />
+                  </span>
                   Turnuva Ücreti (Şimdilik Tahmini)
                 </Label>
                 <Button
